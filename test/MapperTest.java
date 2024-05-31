@@ -1,7 +1,9 @@
 package test;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.sql.Connection;
@@ -14,10 +16,39 @@ import java.util.ArrayList;
 
 public class MapperTest {
 
-    @Test
-    public void connectionTest(){
-    	//TODO
+	Connection c;
+	DriverManager dm;
+	
+	@BeforeEach
+	public void init() {
+		//TODO Begin connectie voor de database
+    	c = null;
     	
-    	Connection c;
+	}
+	
+	/**
+	 * Connectie met fdb database is succesvol
+	 */
+    @Test
+    public void connectionTest(){    	    	
+    	try {
+			assertTrue(c.isValid(1000));
+		} catch (SQLException e) {
+			fail("connectionfout:" + e.getErrorCode());
+		}
+    }
+    
+    /**
+     * Connectie met fdb database succesvol afgesloten
+     */
+    @Test
+    public void connectionClose() {
+    	try {
+			c.close();
+			assertTrue(c.isClosed());
+		} catch (SQLException e) {
+			fail("connectionfout:" + e.getErrorCode());
+			e.printStackTrace();
+		}
     }
 }
