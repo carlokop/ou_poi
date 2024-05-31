@@ -1,5 +1,9 @@
 package Domein;
 
-public class Bedrijf {
+import java.util.Collection;
+import ObserverPatroon.Subject;
+
+public class Bedrijf extends Subject{
+	Collection<Vestiging> vestigingen;
 	
 }

@@ -31,7 +31,7 @@ public class Mapper {
 		try {
 			// DriverManager.setLogWriter(new PrintWriter(System.out));
 			Class.forName(DBConst.DRIVERNAAM);
-			con = DriverManager.getConnection(DBConst.URL, DBConst.GEBRUIKERSNAAM, DBConst.WACHTWOORD);
+			con = DriverManager.getConnection(DBConst.URL, DBConst.GEBRUIKERSNAAM, DBConst.WACHTWOORD); // TODO aanpassen, zie dbconst
 		} catch (ClassNotFoundException e) {
 			throw new DBException("Driver niet geladen.");
 		} catch (SQLException e) {

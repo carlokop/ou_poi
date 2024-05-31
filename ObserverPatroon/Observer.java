@@ -1,5 +1,7 @@
 package ObserverPatroon;
 
-public class Observer {
-    
+public interface Observer {
+	
+	void update();
+
 }
