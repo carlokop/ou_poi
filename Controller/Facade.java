@@ -2,8 +2,10 @@ package Controller;
 
 public class Facade {
 	
-	public Facade(){
-		
+	Model m;
+	
+	public Facade(Model m){
+		this.m = m;
 	}
 	
 }
