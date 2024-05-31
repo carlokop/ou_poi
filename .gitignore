@@ -1,4 +1,5 @@
-Main.class
-
 # fdb folder hoeft niet meegenomen te worden, het fdb bestand moet lokaal aanwezig zijn.
 fdb/
+
+# uitsluiting van class bestanden
+**/*.class

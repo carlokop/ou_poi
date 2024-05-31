@@ -35,6 +35,7 @@ public class MapperTest {
 			assertTrue(c.isValid(1000));
 		} catch (SQLException e) {
 			fail("connectionfout:" + e.getErrorCode());
+			e.printStackTrace();
 		}
     }
     
