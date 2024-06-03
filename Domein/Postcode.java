@@ -34,7 +34,7 @@ public class Postcode {
    *    @requires postcode voldoet niet aan regex ^\d{4}[a-zA-Z]{2}$ (4 cijfers gevolgd door 2 letters)
    *    @signals IllegalArgumentException("Ongeldig formaat voor postcode")
    */
-  Postcode(String postcode, String plaats, double lat, double len) {
+  Postcode(String postcode, String plaats, double lat, double len) throws IllegalArgumentException {
     //test null postcode
     if(postcode == null) {
       throw new IllegalArgumentException("Postcode mag niet null zijn");
@@ -81,6 +81,38 @@ public class Postcode {
   private boolean valideerPostcode(String postcode) {
     String postcodeRegex = "\\b\\d{4}[A-Za-z]{2}\\b"; 
     return postcode.matches(postcodeRegex);
+  }
+  
+  /**
+   * Geeft de postcode
+   * @return de postcode
+   */
+  public String getPostcode() {
+    return postcode;
+  }
+  
+  /**
+   * Geeft de plaatsnaam
+   * @return de plaats
+   */
+  public String getPlaats() {
+    return plaats;
+  }
+  
+  /**
+   * Geeft de latitude
+   * @return de lat
+   */
+  public double getLat() {
+    return lat;
+  }
+  
+  /**
+   * Geeft de longtitude
+   * @return de lem
+   */
+  public double getLen() {
+    return len;
   }
   
   
