@@ -4,6 +4,10 @@ import java.util.Collection;
 
 public class Vestiging {
 
-	Collection<Klant> klanten;
-	Postcode postcodeInfo;
+	private Collection<Klant> klanten;
+	private Postcode postcodeInfo;
+	
+	public Collection<Klant> getKlanten(){
+		return this.klanten;
+	}
 }

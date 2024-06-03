@@ -1,5 +1,6 @@
 package Controller;
 
-// Markeer interface voor de controller/facade
-public interface Model {
-}
+/**
+ * Markeer interface voor de controller/facade
+ */
+public interface Model {}

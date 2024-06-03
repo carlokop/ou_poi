@@ -1,6 +1,5 @@
 package Data;
 
-
 /**
  * Queries voor de database
  */
