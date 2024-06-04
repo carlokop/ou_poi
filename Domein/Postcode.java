@@ -4,7 +4,7 @@ public class Postcode {
   private String postcode;
   private String plaats;
   private double lat;
-  private double len;
+  private double lng;
   
   /**
    * Maakt postcode instantie
@@ -34,7 +34,7 @@ public class Postcode {
    *    @requires postcode voldoet niet aan regex ^\d{4}[a-zA-Z]{2}$ (4 cijfers gevolgd door 2 letters)
    *    @signals IllegalArgumentException("Ongeldig formaat voor postcode")
    */
-  Postcode(String postcode, String plaats, double lat, double len) throws IllegalArgumentException {
+  public Postcode(String postcode, String plaats, double lat, double lng) throws IllegalArgumentException {
     //test null postcode
     if(postcode == null) {
       throw new IllegalArgumentException("Postcode mag niet null zijn");
@@ -48,21 +48,21 @@ public class Postcode {
       throw new IllegalArgumentException("Plaatsnaam mag geen lege string zijn");
     }
     //valideer regex postcode
-    if(!valideerPostcode(postcode)) {
-      throw new IllegalArgumentException("Ongeldig formaat voor postcode");
-    }
+//    if(!valideerPostcode(postcode)) {
+//      throw new IllegalArgumentException("Ongeldig formaat voor postcode: "+postcode);
+//    }
     //test geldige waarde lat
     if(lat < -180 || lat > 180) {
       throw new IllegalArgumentException("latitude out of range moet tussen de -180 en 180 zijn maar was: "+lat);
     }    
     //test geldige waarde len
-    if(len < -90 || len > 90) {
+    if(lng < -90 || lng > 90) {
       throw new IllegalArgumentException("longtitude out of range moet tussen de -90 en 90 zijn maar was: "+lat);
     }
     
     this.postcode = postcode;
     this.plaats = plaats;
-    this.len = len;
+    this.lng = lng;
     this.lat = lat;
   }
   
@@ -109,10 +109,10 @@ public class Postcode {
   
   /**
    * Geeft de longtitude
-   * @return de lem
+   * @return de longtiude
    */
-  public double getLen() {
-    return len;
+  public double getLng() {
+    return lng;
   }
   
   

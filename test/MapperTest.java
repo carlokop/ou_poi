@@ -1,5 +1,6 @@
 package test;
 
+import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -7,27 +8,32 @@ import static org.junit.jupiter.api.Assertions.fail;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import Data.DBException;
+import Data.Mapper;
 import Domein.Klant;
 import Domein.Vestiging;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Collection;
 
 
 public class MapperTest {
 
-	Connection c;
-	DriverManager dm;
+	private Connection c;
+	//private DriverManager dm;
+	private Mapper m;
+	
+	MapperTest() throws DBException {
+	  m = new Mapper();
+	}
+	
+	
 	
 	@BeforeEach
 	public void init() {
 		//TODO Begin connectie voor de database
-    	c = null;
+    	c = m.getConnection();
     	
 	}
 	
@@ -35,7 +41,7 @@ public class MapperTest {
 	 * Test connectie met de fdb database
 	 */
     @Test
-    public void connectionTest(){    	    	
+    public void connectionTest(){ 
     	try {
 			assertTrue(c.isValid(1000));
 		} catch (SQLException e) {
@@ -46,6 +52,8 @@ public class MapperTest {
     
     /**
      * Test correct ophalen van de vestigingen
+     * @throws DBException 
+     * @throws IllegalArgumentException 
      */
     /*
      @	@contract ophalenVestigingen
@@ -54,26 +62,82 @@ public class MapperTest {
      @
      */
     @Test
-    public void getVestigingen(){
+    public void getVestigingen() throws DBException {
     	//TODO
-    	Collection<Vestiging> vestigingen = null;
+    	Collection<Vestiging> vestigingen = m.getVestigingen();
     	assertEquals(vestigingen.size(), 12); 
+    	
+    	//alle vestigingen bevatten klanten
+    	for(Vestiging v: vestigingen) {
+    	  Collection<Klant> klanten = v.getKlanten();
+    	  assertTrue(klanten.size() > 0);
+    	}
+    	
+    	//klant 1089 zit maar 1x in vestiging veendam te zitten ipv 2x
+    	Vestiging veendam = null;
+    	for(Vestiging v: vestigingen) {
+          if("Veendam".equals(v.getPlaats())) {
+            veendam = v;
+          }
+        }
+    	assertNotNull(veendam);
+    	int i = 0;
+    	for(Klant k: veendam.getKlanten()) {
+    	  if(k.getKlantnr() == 1089) {
+    	    i++;
+    	  }
+    	}
+    	assertEquals(i,1);
+    	
+    	//klant 794 zit in zowel vestiging groningen als zuidhorn
+    	//test of dit dezelfde instantie is
+    	Vestiging groningen = null;
+    	Vestiging zuidhorn = null;
+    	for(Vestiging v: vestigingen) {
+          if("Groningen".equals(v.getPlaats())) {
+            groningen = v;
+          } else if("Zuidhorn".equals(v.getPlaats())) {
+            zuidhorn = v;
+          }
+        }
+    	assertNotNull(groningen);
+    	assertNotNull(zuidhorn);
+    	
+    	Klant kGron = null;
+    	Klant kZuidh = null;
+    	for(Klant k: groningen.getKlanten()) {
+    	  if(k.getKlantnr() == 794) {
+    	    kGron = k;
+    	  }
+    	}
+    	for(Klant k: zuidhorn.getKlanten()) {
+          if(k.getKlantnr() == 794) {
+            kZuidh = k;
+          }
+        }
+    	assertNotNull(kGron);
+    	assertNotNull(kZuidh);
+    	assertEquals(kGron,kZuidh);
+    	
+    	
+    	//hoe testen we de DBException?
+    	
     }
     
     /**
      * Test vereist tabel bezoek
      */
-    public void getVestigingenKlanten() {
-    	//TODO
-    	Collection<Vestiging> vestigingen = null;
-    	Collection<Klant> klanten = null;
-    	
-    	assertEquals(vestigingen.size(), 12); 
-    	for(Vestiging vk:vestigingen) {
-    		klanten = vk.getKlanten();
-    		// test op klant heeft bezoek en vestiging klopt, vereist tabel bezoek
-    	}
-    }
+//    public void getVestigingenKlanten() {
+//    	//TODO
+//    	Collection<Vestiging> vestigingen = null;
+//    	Collection<Klant> klanten = null;
+//    	
+//    	assertEquals(vestigingen.size(), 12); 
+//    	for(Vestiging vk:vestigingen) {
+//    		klanten = vk.getKlanten();
+//    		// test op klant heeft bezoek en vestiging klopt, vereist tabel bezoek
+//    	}
+//    }
     
     /**
      * Test sluiten van connectie met de fdb database
