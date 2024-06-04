@@ -17,7 +17,11 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Collection;
 
-
+/**
+ * Test de Mapper classe
+ * @author John Chen
+ *
+ */
 public class MapperTest {
 
 	private Connection c;
@@ -54,6 +58,7 @@ public class MapperTest {
      * Test correct ophalen van de vestigingen
      * @throws DBException 
      * @throws IllegalArgumentException 
+     * @author carlo
      */
     /*
      @	@contract ophalenVestigingen
@@ -65,7 +70,7 @@ public class MapperTest {
     public void getVestigingen() throws DBException {
     	//TODO
     	Collection<Vestiging> vestigingen = m.getVestigingen();
-    	assertEquals(vestigingen.size(), 12); 
+    	assertEquals(12,vestigingen.size()); 
     	
     	//alle vestigingen bevatten klanten
     	for(Vestiging v: vestigingen) {
@@ -87,7 +92,7 @@ public class MapperTest {
     	    i++;
     	  }
     	}
-    	assertEquals(i,1);
+    	assertEquals(1,i);
     	
     	//klant 794 zit in zowel vestiging groningen als zuidhorn
     	//test of dit dezelfde instantie is

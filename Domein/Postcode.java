@@ -14,50 +14,58 @@ public class Postcode {
    * @param len         longtitude
    * @throws IllegalArgumentException bij ongeldige invoer
    * 
-   *  @contract happy
+   *  @contract happy {
    *   @requires postcode != null && postcode.length == 6 bestaande uit eerst 4 cijfers dan 2 letters
    *   @requires plaats is not null en trim(plaats) != ""
-   *   @requires -180 > lat > 180 
-   *   @requires -90 > len > 90
+   *   @requires -90 > lat > 90 
+   *   @requires -180 > len > 180
    *   @ensures /result
-   *  @contract null waarden
+   *  }
+   *  @contract null waarden {
    *    @requires postcode == null of plaats == null
-   *    @signals IllegalArgumentException("Postcode kan niet null zijn")
-   *  @contract lege str plaatsnaam
+   *    @signals IllegalArgumentException("Postcode mag niet leeg zijn")
+   *  }
+   *  @contract lege str plaatsnaam {
    *    @requires plaatsnaam is een lege string
-   *    @signals IllegalArgumentException("Plaatsnaam mag geen lege string zijn")
-   *  @contract lat of len out of range
-   *    @requires lat < -180 || lat > 180 
-   *    @requires len < -90 || lat > 90 
+   *    @signals IllegalArgumentException("Plaatsnaam mag niet leeg zijn")
+   *  }
+   *  @contract lat of len out of range {
+   *    @requires lat < -90 || lat > 90 
+   *    @requires len < -180 || lat > 180 
    *    @signals IllegalArgumentException("latitude out of range moet tussen de -180 en 180 zijn maar was: ...")
-   *  @contract ongeldige postcode
+   *  }
+   *  @contract ongeldige postcode {
    *    @requires postcode voldoet niet aan regex ^\d{4}[a-zA-Z]{2}$ (4 cijfers gevolgd door 2 letters)
    *    @signals IllegalArgumentException("Ongeldig formaat voor postcode")
+   *  }
    */
   public Postcode(String postcode, String plaats, double lat, double lng) throws IllegalArgumentException {
     //test null postcode
     if(postcode == null) {
       throw new IllegalArgumentException("Postcode mag niet null zijn");
     }
+    if(postcode.isBlank() || postcode.isEmpty()) {
+      throw new IllegalArgumentException("Postcode mag niet leeg zijn");
+    }
     //test null plaats
     if(plaats == null) {
       throw new IllegalArgumentException("Plaatsnaam mag niet null zijn");
     }
     //test lege string plaatsnaam
-    if("".trim().equals(plaats)) {
-      throw new IllegalArgumentException("Plaatsnaam mag geen lege string zijn");
+    if(plaats.isBlank() || plaats.isEmpty()) {
+      throw new IllegalArgumentException("Plaatsnaam mag niet leeg zijn");
     }
     //valideer regex postcode
 //    if(!valideerPostcode(postcode)) {
 //      throw new IllegalArgumentException("Ongeldig formaat voor postcode: "+postcode);
 //    }
     //test geldige waarde lat
-    if(lat < -180 || lat > 180) {
-      throw new IllegalArgumentException("latitude out of range moet tussen de -180 en 180 zijn maar was: "+lat);
+    if(lat < -90 || lat > 90) {
+      throw new IllegalArgumentException("latitude out of range moet tussen de -90 en 90 zijn maar was: "+lat);
     }    
     //test geldige waarde len
-    if(lng < -90 || lng > 90) {
-      throw new IllegalArgumentException("longtitude out of range moet tussen de -90 en 90 zijn maar was: "+lat);
+    if(lng < -180 || lng > 180) {
+      throw new IllegalArgumentException("longtitude out of range moet tussen de -180 en 180 zijn maar was: "+lat);
     }
     
     this.postcode = postcode;

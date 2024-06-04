@@ -14,7 +14,6 @@ public class Klant  {
 	 *  @requires klantnr > 0
 	 *  @requires postcodeinfo != null
 	 *  @ensures /result is een nieuwe klant
-	 *  @signals IllegalArgumentException als klantnr of postcodeinfo ongeldig zijn
 	 * }
 	 * @contract postcode null {
 	 *   @requires postcode == null
@@ -48,6 +47,14 @@ public class Klant  {
 	public int getKlantnr() {
 	  return klantnr;
 	}
+	
+	/**
+     * Geeft het postcodeinstantie
+     * @return postcode
+     */
+    public Postcode getPostcode() {
+      return postcode;
+    }
 	
 //	@Override
 //	public Klant clone(Object klant) throws CloneNotSupportedException {
