@@ -1,4 +1,4 @@
-package Data;
+package Exceptions;
 
 /**
  * Database exception

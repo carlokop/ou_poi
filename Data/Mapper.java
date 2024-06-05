@@ -7,6 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import Exceptions.DBException;
+
 public class Mapper {
 
 //  private PreparedStatement pselectvestigingen = null;
@@ -28,15 +30,15 @@ public class Mapper {
 	 *                     maken mislukt (bv. door een fout in de padnaam).
 	 */
 	private void maakVerbinding() throws DBException {
-		try {
+//		try {
 			// DriverManager.setLogWriter(new PrintWriter(System.out));
-			Class.forName(DBConst.DRIVERNAAM);
-			con = DriverManager.getConnection(DBConst.URL, DBConst.GEBRUIKERSNAAM, DBConst.WACHTWOORD); // TODO aanpassen, zie dbconst
-		} catch (ClassNotFoundException e) {
-			throw new DBException("Driver niet geladen.");
-		} catch (SQLException e) {
-			throw new DBException("Verbinding maken is mislukt.");
-		}
+//			Class.forName(DBConst.DRIVERNAAM);
+//			con = DriverManager.getConnection(DBConst.URL, DBConst.GEBRUIKERSNAAM, DBConst.WACHTWOORD); // TODO aanpassen, zie dbconst
+//		} catch (ClassNotFoundException e) {
+//			throw new DBException("Driver niet geladen.");
+//		} catch (SQLException e) {
+//			throw new DBException("Verbinding maken is mislukt.");
+//		}
 	}
 
 	/**
@@ -53,8 +55,7 @@ public class Mapper {
 	}
 
 	/**
-	 * Initialiseert twee PreparedStatements voor de SQL-opdrachten om - alle cd's
-	 * in te lezen uit tabel CD - alle tracks in te lezen bij een gegeven CD
+	 * TODO specificatie
 	 * 
 	 * @throws DBException als de SQL-opdracht een fout bevat of niet gecompileerd
 	 *                     kan worden.
