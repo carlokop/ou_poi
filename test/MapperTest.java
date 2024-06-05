@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import Data.DBException;
+import Exceptions.DBException;
 import Data.Mapper;
 import Domein.Klant;
 import Domein.Vestiging;

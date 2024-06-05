@@ -1,5 +1,7 @@
 package test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.Collection;
 
 import org.junit.jupiter.api.BeforeEach;
