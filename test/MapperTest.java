@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import Exceptions.DBException;
+import Exceptions.MapperException;
 import Data.Mapper;
 import Domein.Klant;
 import Domein.Vestiging;
@@ -28,7 +28,7 @@ public class MapperTest {
 	//private DriverManager dm;
 	private Mapper m;
 	
-	MapperTest() throws DBException {
+	MapperTest() throws MapperException {
 	  m = new Mapper();
 	}
 	
@@ -56,7 +56,7 @@ public class MapperTest {
     
     /**
      * Test correct ophalen van de vestigingen
-     * @throws DBException 
+     * @throws MapperException 
      * @throws IllegalArgumentException 
      * @author carlo
      */
@@ -67,7 +67,7 @@ public class MapperTest {
      @	}
      */
     @Test
-    public void getVestigingen() throws DBException {
+    public void getVestigingen() throws MapperException {
     	//TODO
     	Collection<Vestiging> vestigingen = m.getVestigingen();
     	assertEquals(12,vestigingen.size()); 

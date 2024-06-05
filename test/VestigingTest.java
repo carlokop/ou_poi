@@ -8,18 +8,18 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import Domein.Klant;
-import Domein.Postcode;
+import Domein.PostcodeInfo;
 import Domein.Vestiging;
 
 class VestigingTest {
   
   private Vestiging vestiging = null;
-  private Postcode postcode = null;
+  private PostcodeInfo postcode = null;
   private ArrayList<Klant> klantenlijst = null;
   
   @BeforeEach
   void setup() {
-    postcode = new Postcode("8701GH", "Bolsward", 53.0673994187339, 5.5274963648489);
+    postcode = new PostcodeInfo("8701GH", "Bolsward", 53.0673994187339, 5.5274963648489);
     klantenlijst = new ArrayList<>();
     klantenlijst.add(new Klant(123, postcode));
     klantenlijst.add(new Klant(124, postcode));

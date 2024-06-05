@@ -10,7 +10,7 @@ import java.util.Collection;
 public class Vestiging {
 
 	private Collection<Klant> klanten;
-	private Postcode postcodeInfo;
+	private PostcodeInfo postcodeInfo;
 	private String plaats;
 	
 	
@@ -45,7 +45,7 @@ public class Vestiging {
      * }
 	 *   
 	 */
-	public Vestiging(String  plaats, Postcode postcode, Collection<Klant> klanten) throws IllegalArgumentException {
+	public Vestiging(String  plaats, PostcodeInfo postcode, Collection<Klant> klanten) throws IllegalArgumentException {
 	  //test plaats is niet null
 	  if(plaats == null) {
 	    throw new IllegalArgumentException("Plaats mag niet null zijn");
@@ -79,7 +79,7 @@ public class Vestiging {
 	/**
 	 * Geeft de postcode instantie
 	 */
-	public Postcode getPostcode() {
+	public PostcodeInfo getPostcode() {
 	  return postcodeInfo;
 	}
 	

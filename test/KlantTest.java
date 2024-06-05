@@ -7,7 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import Domein.Klant;
-import Domein.Postcode;
+import Domein.PostcodeInfo;
 
 /**
  * Test de Klant classe
@@ -17,12 +17,12 @@ import Domein.Postcode;
 class KlantTest {
   
   private Klant klant = null;
-  private Postcode postcode = null;
+  private PostcodeInfo postcode = null;
   
   
     @BeforeEach
     void setup() {
-      postcode = new Postcode("8701GH", "Bolsward", 53.0673994187339, 5.5274963648489);
+      postcode = new PostcodeInfo("8701GH", "Bolsward", 53.0673994187339, 5.5274963648489);
     }
     
     @Test

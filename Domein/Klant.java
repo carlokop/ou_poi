@@ -1,7 +1,7 @@
 package Domein;
 
 public class Klant  {
-	private Postcode postcode;
+	private PostcodeInfo postcode;
 	private int klantnr;
 	
 	/**
@@ -24,7 +24,7 @@ public class Klant  {
 	 *   @signals IllegalArgumentException("Klantknummer moet een positief getal zijn")
 	 * } 
 	 */
-	public Klant(int klantnr, Postcode postcode) throws IllegalArgumentException {
+	public Klant(int klantnr, PostcodeInfo postcode) throws IllegalArgumentException {
 	  //test klantnummer positief > 0
 	  if(klantnr <= 0) {
 	    throw new IllegalArgumentException("Klantknummer moet een positief getal zijn");
@@ -52,11 +52,11 @@ public class Klant  {
      * Geeft het postcodeinstantie
      * @return postcode
      */
-    public Postcode getPostcode() {
+    public PostcodeInfo getPostcode() {
       return postcode;
     }
 	
-	public Postcode getPostcode(){
+	public PostcodeInfo getPostcode(){
 		return this.postcode;
 	}
 //	@Override

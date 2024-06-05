@@ -1,5 +1,6 @@
 package Data;
 
+import java.io.PrintWriter;
 import java.sql.Connection;
 
 import java.sql.DriverManager;
@@ -8,22 +9,23 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import Exceptions.MapperException;
+import Exceptions.MapperExceptionCode;
+
 public class Mapper {
   
-    private static final String PADNAAM = "fdb/Prik2Go_res.fdb";
-    //    "fdb/Prik2Go_res_v3.fdb"  //ik kreeg foutmeldingen bij gebruik v3 niet ondersteund door de aangeleverde drivers Jaybird 3.05
-          
-    private static final String DRIVERNAAM = "org.firebirdsql.jdbc.FBDriver";
-    private static final String URL = "jdbc:firebirdsql://localhost/" + getAbsolutePath(PADNAAM) + "?lc_ctype=UTF8";
-    private static final String GEBRUIKERSNAAM = "SYSDBA";
-    private static final String WACHTWOORD = "masterkey";
-
+	private class DBConst {
+    	private static final String DRIVERNAAM = "org.firebirdsql.jdbc.FBDriver";
+    	private static final String URL = "jdbc:firebird://localhost:3050/C:/POI_DB/Prik2Go_res_v3.fdb";
+    	private static final String GEBRUIKERSNAAM = "SYSDBA";
+    	private static final String WACHTWOORD = "masterkey";
+	}
+	
     private PreparedStatement pselectvestigingen = null;
-    //private PreparedStatement pselectklanten = null;
 	private Connection con = null; // verbinding met gegevensbank
 
-	public Mapper() throws DBException {
-		maakVerbinding();
+	public Mapper() throws MapperException {
+		connect();
 		initialiseerPrepStatements();	
 	}
 	
@@ -36,54 +38,49 @@ public class Mapper {
 	}
 	
 	/**
-	 * Deze methode lost een probleem op met absoluut path voor de database
-	 * @param relativePath
-	 * @return het absolute pad
-	 */
-	private static String getAbsolutePath(String relativePath) {
-      File file = new File(relativePath);
-      return file.getAbsolutePath();
-  }
-	
-	/**
 	 * Maakt verbinding met de database. Eerst wordt de JDBC-driver geregistreerd
 	 * door het laden van de juiste implementatie van Driver; 
 	 * 
-	 * @throws DBException als de driver niet geladen kan worden of het verbinding
+	 * @throws MapperException als de driver niet geladen kan worden of het verbinding
 	 *                     maken mislukt (bv. door een fout in de padnaam).
 	 */
-	private void maakVerbinding() throws DBException {
+	private void connect() throws MapperException {
 		try {
-			// DriverManager.setLogWriter(new PrintWriter(System.out));
-			Class.forName(DBConst.DRIVERNAAM);
-			con = DriverManager.getConnection(DBConst.URL, DBConst.GEBRUIKERSNAAM, DBConst.WACHTWOORD); // TODO aanpassen, zie dbconst
-		} catch (ClassNotFoundException e) {
-			throw new DBException("Driver niet geladen.");
-		} catch (SQLException e) {
-			throw new DBException("Verbinding maken is mislukt.");
+			Class.forName(DBConst.DRIVERNAAM); // 1. zoek naar de te laden driver klasse
+			DriverManager.setLogWriter(new PrintWriter(System.out)); // 2. print driver output naar console
+			con = DriverManager.getConnection(DBConst.URL, DBConst.GEBRUIKERSNAAM, DBConst.WACHTWOORD); // 3. start de verbinding
+		} catch (ClassNotFoundException cnfe) {// <- 1
+			throw new MapperException(MapperExceptionCode.JAYBIRD_JDBC_NOT_FOUND, cnfe.getMessage());
+		} catch (SecurityException se) {// <- 2
+			throw new MapperException(MapperExceptionCode.LOGWRITER_PERMISSION_DENIED, se.getMessage());
+		} catch (SQLException e) { // <- 3
+			throw new MapperException(MapperExceptionCode.CONNECTION_ESTABLISH_ERR,e.getMessage());
 		}
 	}
 
 	/**
 	 * Sluit de verbinding met de database.
+	 * @throws MapperException 
 	 */
-	public void sluitVerbinding() {
+	public void disconnect() throws MapperException {
 		if(con != null) {
 			try {
 				con.close();
-				System.out.println("Verbinding gesloten.");
 			} catch (SQLException e) {
+				throw new MapperException(MapperExceptionCode.CONNECTION_SHUTDOWN_ERR, e.getMessage());
 			}
 		}
 	}
 
+	/* TODO hieronder */
+	
 	/**
 	 * Initialiseert twee PreparedStatements voor de SQL-opdrachten om - alle cd's
 	 * in te lezen uit tabel CD - alle tracks in te lezen bij een gegeven CD
 	 * 
-	 * @throws DBException als de SQL-opdracht een fout bevat of niet gecompileerd
+	 * @throws MapperException als de SQL-opdracht een fout bevat of niet gecompileerd
 	 */
-	private void initialiseerPrepStatements() throws DBException {
+	private void initialiseerPrepStatements() throws MapperException {
       try {
         pselectvestigingen = con.prepareStatement(
             "WITH vest_postcode AS (\r\n"
@@ -101,16 +98,16 @@ public class Mapper {
             + "ORDER BY vestiging;\r\n");
       }
       catch (SQLException e) {
-        //als er nu een fout optreedt, moet de verbinding eerst gesloten worden!
-        sluitVerbinding();
-        throw new DBException("Fout bij het formuleren van een sql-opdracht.");
+        //als er nu een fout optreedt, moet de verbinding eerst gesloten worden! TODO: Waarom?
+    	  disconnect();
+//        throw new MapperException();
       }
 	}
 
 	/**
 	 * Leest alle vestigingen en alle onderliggende associaties uit en maakt domeinobjecten
 	 * @return lijst met vestigingen inclusief alle onderliggende associaties
-	 * @throws DBException
+	 * @throws MapperException
 	 * @contract happy {
 	 *   @requires con != null
 	 *   @requires pselectvestigingen != null
@@ -126,7 +123,7 @@ public class Mapper {
      *   @signals DBException("Fout bij het maken van domeinobjecten")
      * }
 	 */
-	public Collection<Vestiging> getVestigingen() throws DBException {
+	public Collection<Vestiging> getVestigingen() throws MapperException {
 	  
 	    Collection<Vestiging> vestigingenlijst = new ArrayList<>();
 	    //Collection<Klant> klanten = new ArrayList<>();
@@ -157,12 +154,12 @@ public class Mapper {
              * heb ik dit stukje code met hulp van ChatGPT refactored
              */
             Klant klant = klantenMap.computeIfAbsent(klantnr, k -> {
-              Postcode pKlant = new Postcode(klant_postcode, klant_plaats, klant_lat, klant_lng);
+              PostcodeInfo pKlant = new PostcodeInfo(klant_postcode, klant_plaats, klant_lat, klant_lng);
               return new Klant(klantnr, pKlant);
             });
             
             Vestiging vestiging = vestigingenMap.computeIfAbsent(vestiging_plaats, v -> {
-              Postcode pVestiging = new Postcode(vestiging_postcode, vestiging_plaats, vestiging_lat, vestiging_lng);
+              PostcodeInfo pVestiging = new PostcodeInfo(vestiging_postcode, vestiging_plaats, vestiging_lat, vestiging_lng);
               Vestiging newVestiging = new Vestiging(vestiging_plaats, pVestiging, new ArrayList<>());
               vestigingenlijst.add(newVestiging);
               return newVestiging;
@@ -213,27 +210,15 @@ public class Mapper {
 
 	    }
 	    catch (SQLException e) {
-	      throw new DBException("Fout bij het inlezen van de Vestigingen");
+	      throw new MapperException("Fout bij het inlezen van de Vestigingen");
 	      
 	    } catch(IllegalArgumentException e) {
 	      //we maken hier een dbexceptie van
-	      throw new DBException("Fout bij het maken van domeinobjecten");
+	      throw new MapperException("Fout bij het maken van domeinobjecten");
 	    }
 	    
 	    return vestigingenlijst;
 	    
 	    
 	  }
-	
-
-
-	
-	
-//	public static void main(String[] args) throws DBException {
-//	  Mapper m = new Mapper();
-//	  m.getVestigingen();
-//	}
-	
-	
-
 }

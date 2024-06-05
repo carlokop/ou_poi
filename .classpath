@@ -7,5 +7,6 @@
 	</classpathentry>
 	<classpathentry kind="src" path=""/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
+	<classpathentry kind="lib" path="C:/POI_DB/jaybird-5.0.4.java11/jaybird-5.0.4.java11.jar"/>
 	<classpathentry kind="output" path=""/>
 </classpath>
