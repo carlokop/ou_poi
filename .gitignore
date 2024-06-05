@@ -1,6 +1,5 @@
-# fdb folder hoeft niet meegenomen te worden, het fdb bestand moet lokaal aanwezig zijn.
-fdb/
-Jaybird-3.0.5-JDK_1.8/
+
+/.classpath
 
 # uitsluiting van class bestanden
 **/*.class

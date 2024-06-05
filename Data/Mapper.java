@@ -15,7 +15,7 @@ import Exceptions.MapperExceptionCode;
 public class Mapper {
   
 	private class DBConst {
-    	private static final String DRIVERNAAM = "org.firebirdsql.jdbc.FBDriver";
+    	private static final String DRIVERNAAM = "org.firebirdsql.jdbc.FBDriver"; //jaybird-5.0.4.java11
     	private static final String URL = "jdbc:firebird://localhost:3050/C:/POI_DB/Prik2Go_res_v3.fdb";
     	private static final String GEBRUIKERSNAAM = "SYSDBA";
     	private static final String WACHTWOORD = "masterkey";
@@ -44,7 +44,7 @@ public class Mapper {
 	 * @throws MapperException als de driver niet geladen kan worden of het verbinding
 	 *                     maken mislukt (bv. door een fout in de padnaam).
 	 */
-	private void connect() throws MapperException {
+	public void connect() throws MapperException {
 		try {
 			Class.forName(DBConst.DRIVERNAAM); // 1. zoek naar de te laden driver klasse
 			DriverManager.setLogWriter(new PrintWriter(System.out)); // 2. print driver output naar console
