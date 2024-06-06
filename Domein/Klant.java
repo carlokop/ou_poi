@@ -1,5 +1,7 @@
 package Domein;
 
+import java.util.Objects;
+
 public class Klant  {
 	private PostcodeInfo postcode;
 	private int klantnr;
@@ -56,10 +58,17 @@ public class Klant  {
       return postcode;
     }
 	
-//	@Override
-//	public Klant clone(Object klant) throws CloneNotSupportedException {
-//	  
-//	  
-//	}
-	
+    @Override 
+    public boolean equals(Object obj) {
+    	if(!(obj instanceof Klant)) {
+    		return false;
+    	}
+    	Klant k = (Klant) obj;
+    	return k.getKlantnr() == klantnr;
+    }
+    
+    @Override public int hashCode() {
+    	return Objects.hash(klantnr);
+    }
+    
 }

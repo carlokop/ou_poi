@@ -8,6 +8,8 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+
 import org.firebirdsql.jdbc.FBResultSet;
 
 import Domein.Klant;
@@ -120,25 +122,33 @@ public class Mapper {
 	 */
 	public Collection<Vestiging> getVestigingen() throws MapperException {
 	  Collection<Vestiging> vestigingen = new ArrayList<>();
-	  
 	  try {
-	 
 		Vestiging vestigingCache;
 		Collection<Klant> klantCache;
 		PostcodeInfo pciCache;
 		FBResultSet result;
 		result = (FBResultSet) getVestigingen.executeQuery();
 		while (result.next()) {
-			pciCache = new PostcodeInfo(result.getString("POSTCODE"), result.getString("PLAATS"),
-					result.getDouble("LAT"), result.getDouble("LNG"));
-			vestigingen.add(new Vestiging(result.getString("PLAATS"), pciCache, new ArrayList<>()));
+			pciCache = new PostcodeInfo(
+					result.getString("POSTCODE"), 
+					result.getString("PLAATS"),
+					result.getDouble("LAT"), 
+					result.getDouble("LNG"));
+			vestigingen.add(new Vestiging(
+					result.getString("PLAATS"), 
+					pciCache, 
+					new HashSet<>()
+			));
 		}
 
 		result = (FBResultSet) getKlantenV.executeQuery();
 		while (result.next()) {
 			vestigingCache = selectVestiging(vestigingen, result.getString("VESTIGINGPLAATS"));
-			pciCache = new PostcodeInfo(result.getString("KLANTPOSTCODE"), result.getString("KLANTPLAATS"),
-					result.getDouble("KLANTLAT"), result.getDouble("KLANTLNG"));
+			pciCache = new PostcodeInfo(
+					result.getString("KLANTPOSTCODE"), 
+					result.getString("KLANTPLAATS"),
+					result.getDouble("KLANTLAT"), 
+					result.getDouble("KLANTLNG"));
 			klantCache = vestigingCache.getKlanten();
 			klantCache.add(new Klant(result.getInt("KLANTNR"), pciCache));
 		}
@@ -148,7 +158,6 @@ public class Mapper {
 	  } catch(PostcodeException e) {
 	    throw new MapperException(MapperExceptionCode.MAPPER_DATA_BUILD_ERR,e.getMessage());
       }
-
 		return vestigingen;
 	}
 
@@ -159,7 +168,7 @@ public class Mapper {
 	 * @return gevonden vestiging
 	 * @throws MapperException Als de vestiging niet in de verzameling zit
 	 */
-	public Vestiging selectVestiging(Collection<Vestiging> vestigingen, String vSelect) throws MapperException {
+	private Vestiging selectVestiging(Collection<Vestiging> vestigingen, String vSelect) throws MapperException {
 		for (Vestiging vi : vestigingen) {
 			if (vi.getPlaats().equalsIgnoreCase(vSelect)) {
 				return vi;
