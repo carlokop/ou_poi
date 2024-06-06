@@ -2,11 +2,13 @@
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Collection;
 
 import org.firebirdsql.jdbc.FBResultSet;
 
 import Data.Mapper;
 import Data.Queries;
+import Domein.Vestiging;
 import Exceptions.MapperException;
 
 // Test stukjes code hier
@@ -17,14 +19,20 @@ public class Kladblok {
 	private PreparedStatement ps0, ps1;
 	private FBResultSet result;
 	
+	public void connect() {
+	  try {
+        m = new Mapper();
+        m.connect();
+        //System.out.println(m.getConnection().isClosed());
+        con = m.getConnection();
+      } catch (MapperException e) {
+          e.printStackTrace();
+      }
+	}
+	
 	public void blad() {
 		try {
-			m = new Mapper();
-			m.connect();
-			System.out.println(m.getConnection().isClosed());
-			con = m.getConnection();
-
-			ps0 = con.prepareStatement(Queries.GET_VESTIGINGEN);
+		    ps0 = con.prepareStatement(Queries.GET_VESTIGINGEN);
 			result = (FBResultSet) ps0.executeQuery();
 			System.out.println("-");
 			System.out.println(result);
@@ -56,8 +64,25 @@ public class Kladblok {
 			e.printStackTrace();
 		}
 	}
+	
+	public void printVestigingen() {
+	  try {
+	    Collection<Vestiging> vestigingen = m.getVestigingen();
+	    
+	    for(Vestiging v: vestigingen) {
+	      System.out.println(v.toString());
+	    }
+	    
+	  } catch(Exception e) {
+	    System.out.println(e.getMessage());
+	  }
+	  
+	}
 
 	public static void main(String[] args) {
-		new Kladblok().blad();
+		Kladblok k = new Kladblok();
+		k.connect();
+		//k.blad();
+		//k.printVestigingen();
 	  }
 }
