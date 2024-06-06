@@ -2,11 +2,6 @@ package Domein;
 
 import java.util.Collection;
 
-/**
- * 
- * @author carlo
- *
- */
 public class Vestiging {
 
 	private Collection<Klant> klanten;
@@ -45,7 +40,7 @@ public class Vestiging {
      * }
 	 *   
 	 */
-	public Vestiging(String  plaats, PostcodeInfo postcode, Collection<Klant> klanten) throws IllegalArgumentException {
+	public Vestiging(String plaats, PostcodeInfo postcode, Collection<Klant> klanten) throws IllegalArgumentException {
 	  //test plaats is niet null
 	  if(plaats == null) {
 	    throw new IllegalArgumentException("Plaats mag niet null zijn");

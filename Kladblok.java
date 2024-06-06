@@ -24,8 +24,7 @@ public class Kladblok {
 			System.out.println(m.getConnection().isClosed());
 			con = m.getConnection();
 
-			ps0 = con.prepareStatement(Queries.GET_VESTIGING);
-			
+			ps0 = con.prepareStatement(Queries.GET_VESTIGINGEN);
 			result = (FBResultSet) ps0.executeQuery();
 			System.out.println("-");
 			System.out.println(result);

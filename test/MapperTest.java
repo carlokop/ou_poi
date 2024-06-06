@@ -17,11 +17,6 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Collection;
 
-/**
- * Test de Mapper classe
- * @author John Chen
- *
- */
 public class MapperTest {
 
 	private Connection c;
