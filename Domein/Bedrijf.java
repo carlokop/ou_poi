@@ -31,8 +31,8 @@ public class Bedrijf extends Subject implements Model{
 	 * @param plaats ookwel vestiginglocatie
 	 * @return lijst van id's als string
 	 */
-	public Collection<String> getVestigingKlanten(String plaats){
-		Collection<String> vestigingKlantenData = new ArrayList<>();
+	public Collection<Integer> getVestigingKlanten(String plaats){
+		Collection<Integer> vestigingKlantenData = new ArrayList<>();
 		Vestiging vestigingSelectie = null;
 		Collection<Klant> klantCache = null;
 		
@@ -44,7 +44,7 @@ public class Bedrijf extends Subject implements Model{
 		
 		klantCache = vestigingSelectie.getKlanten();
 		for(Klant k: klantCache) {
-			vestigingKlantenData.add(String.valueOf(k.getKlantnr()));
+			vestigingKlantenData.add(k.getKlantnr());
 		}
 		return vestigingKlantenData;
 	}

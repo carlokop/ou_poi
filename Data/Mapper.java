@@ -121,16 +121,26 @@ public class Mapper {
 		FBResultSet result;
 		result = (FBResultSet) getVestigingen.executeQuery();
 		while (result.next()) {
-			pciCache = new PostcodeInfo(result.getString("POSTCODE"), result.getString("PLAATS"),
-					result.getDouble("LAT"), result.getDouble("LNG"));
-			vestigingen.add(new Vestiging(result.getString("PLAATS"), pciCache, new ArrayList<>()));
+			pciCache = new PostcodeInfo(
+					result.getString("POSTCODE"), 
+					result.getString("PLAATS"),
+					result.getDouble("LAT"), 
+					result.getDouble("LNG"));
+			vestigingen.add(new Vestiging(
+					result.getString("PLAATS"), 
+					pciCache, 
+					new ArrayList<>()
+			));
 		}
 
 		result = (FBResultSet) getKlantenV.executeQuery();
 		while (result.next()) {
 			vestigingCache = selectVestiging(vestigingen, result.getString("VESTIGINGPLAATS"));
-			pciCache = new PostcodeInfo(result.getString("KLANTPOSTCODE"), result.getString("KLANTPLAATS"),
-					result.getDouble("KLANTLAT"), result.getDouble("KLANTLNG"));
+			pciCache = new PostcodeInfo(
+					result.getString("KLANTPOSTCODE"), 
+					result.getString("KLANTPLAATS"),
+					result.getDouble("KLANTLAT"), 
+					result.getDouble("KLANTLNG"));
 			klantCache = vestigingCache.getKlanten();
 			klantCache.add(new Klant(result.getInt("KLANTNR"), pciCache));
 		}
@@ -145,7 +155,7 @@ public class Mapper {
 	 * @return gevonden vestiging
 	 * @throws MapperException Als de vestiging niet in de verzameling zit
 	 */
-	public Vestiging selectVestiging(Collection<Vestiging> vestigingen, String vSelect) throws MapperException {
+	private Vestiging selectVestiging(Collection<Vestiging> vestigingen, String vSelect) throws MapperException {
 		for (Vestiging vi : vestigingen) {
 			if (vi.getPlaats().equalsIgnoreCase(vSelect)) {
 				return vi;
