@@ -27,6 +27,7 @@ public class MapperTest {
 	private Connection c;
 	//private DriverManager dm;
 	private Mapper m;
+	MapperException me;
 	
 	MapperTest() throws MapperException {
 	  m = new Mapper();

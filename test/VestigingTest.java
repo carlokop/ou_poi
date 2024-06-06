@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import Domein.Klant;
 import Domein.PostcodeInfo;
 import Domein.Vestiging;
+import Exceptions.PostcodeException;
 
 class VestigingTest {
   
@@ -18,7 +19,7 @@ class VestigingTest {
   private ArrayList<Klant> klantenlijst = null;
   
   @BeforeEach
-  void setup() {
+  void setup() throws PostcodeException {
     postcode = new PostcodeInfo("8701GH", "Bolsward", 53.0673994187339, 5.5274963648489);
     klantenlijst = new ArrayList<>();
     klantenlijst.add(new Klant(123, postcode));

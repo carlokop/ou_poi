@@ -56,9 +56,6 @@ public class Klant  {
       return postcode;
     }
 	
-	public PostcodeInfo getPostcode(){
-		return this.postcode;
-	}
 //	@Override
 //	public Klant clone(Object klant) throws CloneNotSupportedException {
 //	  

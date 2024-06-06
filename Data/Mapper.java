@@ -72,7 +72,7 @@ public class Mapper {
 		}
 	}
 
-	/* TODO hieronder */
+	/* - 	-	-	-	-	-	-	-	-	-	-	-	- TODO hieronder -	-	-	-	-	-	-	-	-	-	-	-	-	-	-*/
 	
 	/**
 	 * Initialiseert twee PreparedStatements voor de SQL-opdrachten om - alle cd's

@@ -139,25 +139,25 @@ public class PostcodeTest {
 			new PostcodeInfo("5555AB", null, 52.377778951201, 4.9055895401203);
 		});
 		assertEquals(pce.getErrCode(), PostcodeExceptionCode.PLAATSNAAM_NULL);
-		
+
 		// plaatsnaam legestring, length = 0
 		pce = assertThrows(PostcodeException.class, () -> {
 			new PostcodeInfo("5555AB", "", 52.377778951201, 4.9055895401203);
 		});
 		assertEquals(pce.getErrCode(), PostcodeExceptionCode.PLAATSNAAM_LEEG);
-		
+
 		// plaatsnaam bestaat uit alleen spaties
 		pce = assertThrows(PostcodeException.class, () -> {
 			new PostcodeInfo("5555AB", "   ", 52.377778951201, 4.9055895401203);
 		});
 		assertEquals(pce.getErrCode(), PostcodeExceptionCode.PLAATSNAAM_ALLEEN_SPATIES);
-		
+
 		// plaatsnaam met ander symbool dan letter, spatie of apostrof
 		pce = assertThrows(PostcodeException.class, () -> {
 			new PostcodeInfo("5555AB", "naam@at", 52.377778951201, 4.9055895401203);
 		});
 		assertEquals(pce.getErrCode(), PostcodeExceptionCode.PLAATSNAAM_ILLEGAL_CHAR);
-		
+
 		// plaatsnaam langer dan 30 karakters
 		pce = assertThrows(PostcodeException.class, () -> {
 			new PostcodeInfo("5555AB", "Langeplaatsnaamdielangerdandertigis", 52.377778951201, 4.9055895401203);
@@ -185,14 +185,13 @@ public class PostcodeTest {
 			new PostcodeInfo("5555AA", "Fictiefistan", 91, 4.9055895401203);
 		});
 		assertEquals(pce.getErrCode(), PostcodeExceptionCode.GGCOORDS_LAT_OVERSCHRIJDING);
-		
 
 		// latitude < -180
 		pce = assertThrows(PostcodeException.class, () -> {
 			new PostcodeInfo("5555AA", "Fictiefistan", 45, -181);
 		});
 		assertEquals(pce.getErrCode(), PostcodeExceptionCode.GGCOORDS_LNG_OVERSCHRIJDING);
-		
+
 		// latitude > 180
 		pce = assertThrows(PostcodeException.class, () -> {
 			new PostcodeInfo("5555AA", "Fictiefistan", 45, 181);

@@ -1,10 +1,5 @@
 package Exceptions;
 
-/**
- * Ongeldige situaties:
- * 	1. Ongeldige lengte
- * 	2. Ongeldige velden
- */
 public class PostcodeException extends Exception {
 	private static final long serialVersionUID = 1L;
 	PostcodeExceptionCode pec;

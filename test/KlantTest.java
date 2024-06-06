@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import Domein.Klant;
 import Domein.PostcodeInfo;
+import Exceptions.PostcodeException;
 
 /**
  * Test de Klant classe
@@ -21,7 +22,7 @@ class KlantTest {
   
   
     @BeforeEach
-    void setup() {
+    void setup() throws PostcodeException {
       postcode = new PostcodeInfo("8701GH", "Bolsward", 53.0673994187339, 5.5274963648489);
     }
     
