@@ -8,6 +8,8 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+
 import org.firebirdsql.jdbc.FBResultSet;
 
 import Domein.Klant;
@@ -120,9 +122,7 @@ public class Mapper {
 	 */
 	public Collection<Vestiging> getVestigingen() throws MapperException {
 	  Collection<Vestiging> vestigingen = new ArrayList<>();
-	  
 	  try {
-	 
 		Vestiging vestigingCache;
 		Collection<Klant> klantCache;
 		PostcodeInfo pciCache;
@@ -137,7 +137,7 @@ public class Mapper {
 			vestigingen.add(new Vestiging(
 					result.getString("PLAATS"), 
 					pciCache, 
-					new ArrayList<>()
+					new HashSet<>()
 			));
 		}
 
@@ -158,7 +158,6 @@ public class Mapper {
 	  } catch(PostcodeException e) {
 	    throw new MapperException(MapperExceptionCode.MAPPER_DATA_BUILD_ERR,e.getMessage());
       }
-
 		return vestigingen;
 	}
 
