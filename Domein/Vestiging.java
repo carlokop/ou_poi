@@ -111,7 +111,7 @@ public class Vestiging {
      *   @ensures \result false; niet toegevoegd
      * }
 	 */
-	public boolean voegKlantToe(Klant klant) {
+	public boolean voegKlantToe(Klant klant) { // <-- ?? navragen
 	  if(klanten.contains(klant) || klant == null) {
 	    return false;
 	  }

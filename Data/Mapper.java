@@ -82,7 +82,7 @@ public class Mapper {
 	 */
 	private void initialiseerPrepStatements() throws MapperException {
       try {
-        pselectvestigingen = con.prepareStatement(
+        pselectvestigingen = con.prepareStatement( // <-- ?? Carlo navragen
             "WITH vest_postcode AS (\r\n"
             + "  SELECT v.plaats, v.postcode AS vest_postcode, p.lat AS vest_lat, p.lng AS vest_lng FROM vestiging v\r\n"
             + "  JOIN postcodeinfo p ON v.postcode = p.postcode\r\n"
@@ -96,6 +96,7 @@ public class Mapper {
             + "JOIN vest_postcode v ON b.vestiging = v.plaats\r\n"
             + "JOIN klant_postcode k ON b.klant = klantnr\r\n"
             + "ORDER BY vestiging;\r\n");
+        
       }
       catch (SQLException e) {
         //als er nu een fout optreedt, moet de verbinding eerst gesloten worden! TODO: Waarom?

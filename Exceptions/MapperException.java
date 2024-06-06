@@ -1,10 +1,5 @@
 package Exceptions;
 
-/**
- * Database exception
- * @author carlo
- *
- */
 public class MapperException extends Exception {
   
   private static final long serialVersionUID = 1L;

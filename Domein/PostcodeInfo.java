@@ -4,6 +4,7 @@ import Exceptions.PostcodeException;
 import Exceptions.PostcodeExceptionCode;
 
 // deze verwerken in diagrammen, postcode of postcodeInfo?
+// postcodeInfo is leiden, we kunnen een dev param gebruiken om de validatie te omzeilen
 // TODO: Documentation aan het einde
 public class PostcodeInfo {
 	private String postcode;

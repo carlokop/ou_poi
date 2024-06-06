@@ -86,7 +86,7 @@ public class MapperTest {
             veendam = v;
           }
         }
-    	assertNotNull(veendam);
+    	assertNotNull(veendam);// TODO: <-- ?? Carlo navragen
     	int i = 0;
     	for(Klant k: veendam.getKlanten()) {
     	  if(k.getKlantnr() == 1089) {
