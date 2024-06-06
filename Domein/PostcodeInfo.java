@@ -45,7 +45,7 @@ public class PostcodeInfo {
 	 * @signals IllegalArgumentException("Ongeldig formaat voor postcode") }
 	 */
 	public PostcodeInfo(String postcode, String plaatsnaam, double lat, double lng) throws PostcodeException {
-		validatePostcode(postcode);
+		//validatePostcode(postcode);
 		validatePlaatsnaam(plaatsnaam);
 		validateGeographicCoords(lat, lng);
 		this.postcode = postcode;

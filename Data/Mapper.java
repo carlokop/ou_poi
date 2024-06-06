@@ -17,6 +17,11 @@ import Exceptions.MapperException;
 import Exceptions.MapperExceptionCode;
 import Exceptions.PostcodeException;
 
+/**
+ * Mapper
+ * @author carlo
+ *
+ */
 public class Mapper {
 
 	private class DBConst {
@@ -65,7 +70,7 @@ public class Mapper {
 			throw new MapperException(MapperExceptionCode.CONNECTION_ESTABLISH_ERR, e.getMessage());
 		}
 	}
-
+ 
 	/**
 	 * Sluit de verbinding met de database.
 	 * @throws MapperException
@@ -113,8 +118,11 @@ public class Mapper {
 	 * @requires klant bevat ongeldige parameters
 	 * @signals DBException("Fout bij het maken van domeinobjecten") }
 	 */
-	public Collection<Vestiging> getVestigingen() throws PostcodeException, SQLException, MapperException {
-		Collection<Vestiging> vestigingen = new ArrayList<>();
+	public Collection<Vestiging> getVestigingen() throws MapperException {
+	  Collection<Vestiging> vestigingen = new ArrayList<>();
+	  
+	  try {
+	 
 		Vestiging vestigingCache;
 		Collection<Klant> klantCache;
 		PostcodeInfo pciCache;
@@ -134,6 +142,12 @@ public class Mapper {
 			klantCache = vestigingCache.getKlanten();
 			klantCache.add(new Klant(result.getInt("KLANTNR"), pciCache));
 		}
+		
+	  } catch(SQLException e) {
+	    throw new MapperException(MapperExceptionCode.MAPPER_DATA_BUILD_ERR,e.getMessage());
+	  } catch(PostcodeException e) {
+	    throw new MapperException(MapperExceptionCode.MAPPER_DATA_BUILD_ERR,e.getMessage());
+      }
 
 		return vestigingen;
 	}
@@ -153,4 +167,8 @@ public class Mapper {
 		}
 		throw new MapperException(MapperExceptionCode.MAPPER_DATA_BUILD_ERR, "Vestiging niet gevonden");
 	}
+	
+	
+	
+	
 }

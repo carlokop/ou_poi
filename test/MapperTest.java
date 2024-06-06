@@ -9,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import Exceptions.MapperException;
+import Exceptions.PostcodeException;
 import Data.Mapper;
 import Domein.Klant;
 import Domein.Vestiging;
@@ -55,6 +56,8 @@ public class MapperTest {
      * @throws MapperException 
      * @throws IllegalArgumentException 
      * @author carlo
+     * @throws SQLException 
+     * @throws PostcodeException 
      */
     /*
      @	@contract ophalenVestigingen {
@@ -124,6 +127,9 @@ public class MapperTest {
     	//hoe testen we de DBException?
     	
     }
+    
+
+
     
     /**
      * Test vereist tabel bezoek

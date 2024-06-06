@@ -113,10 +113,10 @@ public class Vestiging {
 	  return klanten.add(klant);
 	}
 	
-//	@Override
-//	public String toString() {
-//	  return "" + plaats + " : " + klanten.size();
-//	}
+	@Override
+	public String toString() {
+	  return "" + plaats + " : " + klanten.size();
+	}
 	
 	
 	
