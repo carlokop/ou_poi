@@ -138,6 +138,13 @@ public class Mapper {
 		return vestigingen;
 	}
 
+	/**
+	 * Zoekt vestiging op met plaatsnaam
+	 * @param vestigingen 	Verzameling waarin gezocht wordt
+	 * @param vSelect		selectiecriteria
+	 * @return gevonden vestiging
+	 * @throws MapperException Als de vestiging niet in de verzameling zit
+	 */
 	public Vestiging selectVestiging(Collection<Vestiging> vestigingen, String vSelect) throws MapperException {
 		for (Vestiging vi : vestigingen) {
 			if (vi.getPlaats().equalsIgnoreCase(vSelect)) {
