@@ -21,9 +21,20 @@ public abstract class Subject {
 		}
 	}
 
+	//nog nergerns in gebruik
 	public void notifyObservers() {
 		for (Observer o : observers) {
 			o.update();
 		}
 	}
+	
+	/*
+	 * 
+	 */
+	public void notifyObservers(String args) {
+      for (Observer o : observers) {
+          o.update(args);
+      }
+  }
+	
 }

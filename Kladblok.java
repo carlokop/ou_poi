@@ -83,6 +83,6 @@ public class Kladblok {
 		Kladblok k = new Kladblok();
 		k.connect();
 		//k.blad();
-		//k.printVestigingen();
+		k.printVestigingen();
 	  }
 }
