@@ -2,6 +2,7 @@ package gui;
 
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -24,6 +25,7 @@ public class VestigingKlanten extends JPanel implements Observer {
   private JPanel col_links = null;
   private JPanel col_rechts = null;
   private JComboBox<String> dropdown;
+  private static String DROPDOWNPLACEHOLDER = "---";
   
   private static final long serialVersionUID = 1L;
   private Facade fc = null;
@@ -46,17 +48,21 @@ public class VestigingKlanten extends JPanel implements Observer {
     col_links = new JPanel();
     col_rechts = new JPanel();
     
+    col_links.setLayout(new FlowLayout(FlowLayout.LEFT));
+    col_rechts.setLayout(new FlowLayout(FlowLayout.LEFT));
+    
     this.add(col_links, BorderLayout.WEST);
-    this.add(col_rechts, BorderLayout.EAST);
+    this.add(col_rechts, BorderLayout.CENTER);
   }
   
   /**
-   * Toont veld met keus om een vestiging te selecteren
+   * Maakt layout elementen voor het maken van het rapport van klanten per vestiging
+   * Maakt een dropdown, haalt alle vestigingen op en vult deze met alle namen van vestiginginen 
+   * en roept een eventlistener aan bij na het selecteren van een vestiging
    */
-  private void toonVestigingenKeuze() {
+  private void startInzageVestiging() {
     
     //links tekst uitleg en een dropdown met vestigingen
-    col_links.setLayout(new FlowLayout(FlowLayout.LEFT));
     JLabel titel = new JLabel("Selecteer een vestiging");
     
     //get data en vull dropdown
@@ -67,7 +73,7 @@ public class VestigingKlanten extends JPanel implements Observer {
      * Voer transformatie uit en voeg gelijk default waarde toe op positie 0
      */
     String[] vestigingen_lijst = new String[vestigingen.size()+1];
-    vestigingen_lijst[0] = "---";
+    vestigingen_lijst[0] = DROPDOWNPLACEHOLDER;
     int i = 1;
     for(String v:vestigingen) {
       vestigingen_lijst[i++] = v;
@@ -82,6 +88,20 @@ public class VestigingKlanten extends JPanel implements Observer {
     
   }
    
+  /**
+   * Maakt het rapport van klanten voor de opgegeven vestiging
+   * Dit rapport wordt in de col_rechts geplaatst
+   * @param plaats  plaatsnaam van de vestiging
+   */
+  private void toonVestigingKlanten(String plaats) {
+    if(!DROPDOWNPLACEHOLDER.equals(plaats)) {
+      //haal klanten ids op van geselecteerde vestiging
+      Collection<Integer> klantids = fc.getVestigingKlanten(plaats);
+      
+      JLabel label = new JLabel("Aantal klanten voor vestiging "+plaats + " :"+ klantids.size());
+      col_rechts.add(label);  
+    }
+  }
 
   @Override
   public void update() {
@@ -90,9 +110,9 @@ public class VestigingKlanten extends JPanel implements Observer {
   }
 
   @Override
-  public void update(String args) {
-    if("klantenVestiging".equals(args)) {
-      toonVestigingenKeuze();
+  public void update(View view) {
+    if(View.VESTIGINGKLANTEN.equals(view)) {
+      startInzageVestiging();
       revalidate();
     }
   }
@@ -107,15 +127,14 @@ public class VestigingKlanten extends JPanel implements Observer {
    @Override
    public void actionPerformed(ActionEvent e) {
      /**
-      * Doe iets
+      * De plaatsnaam van het geselecteerde item wordt opgehaald en doorgegeven aan 
+      * de methode die het rapport maakt voor het aantal klanten van de gegeven vestiging
       */
      String plaatsnaam = (String) dropdown.getSelectedItem();
-     
-     /**
-      * Hier moet een aanroep naar een nieuwe functie komen die de klanten van de vestiging toont en het aan aantal berekend
-      */
-     
-     System.out.println(plaatsnaam);  
+     col_rechts.removeAll();
+     toonVestigingKlanten(plaatsnaam);
+     revalidate();
+     repaint();
    }
  }
   

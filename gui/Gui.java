@@ -8,10 +8,12 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import Controller.Facade;
@@ -33,15 +35,14 @@ public class Gui extends JFrame implements Observer {
 	public void init() {
 	  setVisible(true);
       setDefaultCloseOperation(EXIT_ON_CLOSE);
-	  setSize(1000, 500);
+	  setSize(800, 300);
       setTitle("Practicum Ontwerpen en implementeren");
       pane.setBackground(new Color(246,246,246));
       pane.setLayout(new BorderLayout());
       hoofdmenu();
-      registerViews();
+      footer();
 	}
-
-	
+		
 	/**
 	 * Voegt hoofdmenu toe aan de contentpane
 	 */
@@ -71,25 +72,37 @@ public class Gui extends JFrame implements Observer {
 
       pane.add(hoofdmenu,BorderLayout.NORTH);
 	}
-	
-	
-	public void registerViews() {
-      VestigingKlanten vk_view = new VestigingKlanten(fc);
-      pane.add(vk_view,BorderLayout.CENTER);
-    }
+		
+	/**
+	 * Voegt een footer toe aan de content pane met een sluit button
+	 */
+	private void footer() {
+	  JPanel footer = new JPanel();
+	  footer.setLayout(new FlowLayout(FlowLayout.RIGHT));
+	  
+	  JButton sluitbtn = new JButton("Rapport Sluiten");
+	  sluitbtn.setBackground(Color.RED);
+	  sluitbtn.setForeground(Color.WHITE);
+	  sluitbtn.setBorder(new EmptyBorder(5, 10, 5, 10));
+	  sluitbtn.setFocusPainted(false);
+	  sluitbtn.setCursor(pointer);
+	  sluitbtn.addActionListener(new sluitRapportLuisteraar());
+	  
+	  footer.add(sluitbtn);
+	  pane.add(footer,BorderLayout.SOUTH);
+	}
 	
 	/**
-	 * Handler voor tonen van kiesvestiging
+	 * Handler voor tonen van kiesvestiging taak 
 	 * @author carlo
 	 *
 	 */
 	class KlantenVestegingLuisteraar implements ActionListener {
 	  @Override
       public void actionPerformed(ActionEvent e) {
-        /**
-         * Doe iets
-         */
-	    fc.toonVestigingOverzicht("klantenVestiging");	    
+	    VestigingKlanten vk_view = new VestigingKlanten(fc);
+	    pane.add(vk_view,BorderLayout.CENTER);
+	    fc.toonView(View.VESTIGINGKLANTEN);	    
       }
 	}
 	
@@ -102,18 +115,36 @@ public class Gui extends JFrame implements Observer {
       @Override
       public void actionPerformed(ActionEvent e) {
         /**
-         * Doe iets
+         * Doe iets voor taak 5
          */
-        System.out.println("Toon overzicht met vraag welke vestiging sluiten");
+        System.out.println("Toon overzicht met vraag welke vestiging sluiten Taak 5");
         
+      }
+    }
+	
+	/**
+	 * Handler voor de sluit rapport knop
+	 * @author carlo
+	 *
+	 */
+	class sluitRapportLuisteraar implements ActionListener {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        fc.toonView(View.DEFAULT);     
       }
     }
 	
 	
 	@Override
-	public void update(String args) {
-		// TODO Auto-generated method stub
-		
+	public void update(View view) {
+	  if(View.DEFAULT.equals(view)) {
+	    //sluit het actuele rapport in de content pane en herinitialiseert het startscherm
+	    pane.removeAll();
+	    hoofdmenu();
+	    footer();
+	    revalidate();
+	    repaint();
+	  }
 	}
 
     @Override

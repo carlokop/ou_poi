@@ -3,6 +3,7 @@ package Controller;
 import java.util.Collection;
 
 import ObserverPatroon.Observer;
+import gui.View;
 
 public class Facade {
 	
@@ -16,7 +17,7 @@ public class Facade {
 	 * Regelt welke view getoond moet worden
 	 * @param view
 	 */
-	public void toonVestigingOverzicht(String view) {
+	public void toonView(View view) {
 	  m.toonView(view);
 	}
 	
@@ -36,5 +37,15 @@ public class Facade {
 	  return m.getVestigingPlaatsen();
 	}
 	
+	/**
+	 * Haalt een lijst op met alle klant id's die in de opgegeven vestiging zitten
+	 * @param plaats
+	 * @return lijst met klant id's
+	 */
+	public Collection<Integer> getVestigingKlanten(String plaats) {
+	  return m.getVestigingKlanten(plaats);
+	}
+	
+		
 	
 }

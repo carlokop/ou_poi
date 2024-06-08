@@ -3,6 +3,7 @@ package ObserverPatroon;
 import java.util.ArrayList;
 import java.util.List;
 import ObserverPatroon.Observer;
+import gui.View;
 
 public abstract class Subject {
 
@@ -31,9 +32,9 @@ public abstract class Subject {
 	/*
 	 * 
 	 */
-	public void notifyObservers(String args) {
+	public void notifyObservers(View view) {
       for (Observer o : observers) {
-          o.update(args);
+          o.update(view);
       }
   }
 	
