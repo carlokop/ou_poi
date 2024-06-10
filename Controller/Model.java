@@ -22,4 +22,9 @@ public interface Model {
    */
   public Collection<Integer> getVestigingKlanten(String plaats);
 
+  /**
+   * Sluit de applicatie af
+   */
+  public void sluitAf();
+
 }

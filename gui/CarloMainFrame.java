@@ -50,6 +50,13 @@ public class CarloMainFrame extends JFrame implements Observer {
       pane.add(main);
       //init footer
       footer();
+      
+      //sluit af
+      this.addWindowListener(new java.awt.event.WindowAdapter() {
+        public void windowClosing(java.awt.event.WindowEvent e) {
+          closeWindow();
+        }
+      });
     }
         
     /**
@@ -95,6 +102,14 @@ public class CarloMainFrame extends JFrame implements Observer {
       
       footer.add(sluitbtn);
       pane.add(footer,BorderLayout.SOUTH);
+    }
+    
+    
+    /**
+     * Geeft afsluitsignaal als schem wordt afgesloten
+     */
+    private void closeWindow() {
+      fc.sluitAf();
     }
     
     /**

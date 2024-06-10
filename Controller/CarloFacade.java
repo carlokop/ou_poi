@@ -27,5 +27,12 @@ public class CarloFacade {
   public Collection<Integer> getVestigingKlanten(String plaats) {
     return m.getVestigingKlanten(plaats);
   }
+  
+  /**
+   * Geeft afsluitsignaal die de verbinding verbreekt
+   */
+  public void sluitAf() {
+    m.sluitAf();
+  }
 
 }

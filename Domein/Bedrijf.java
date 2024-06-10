@@ -55,4 +55,19 @@ public class Bedrijf extends Subject implements Model{
 		}
 		return vestigingKlantenData;
 	}
+	
+	/**
+	 * verbreekt de verbinding en sluit de applicatie af
+	 */
+	public void sluitAf() {
+	  try {
+	    m.disconnect();
+	    System.exit(0);
+	  } catch(MapperException ignore) {
+	    
+	  }
+	  
+	}
+	
+	
 }
