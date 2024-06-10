@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import Domein.Klant;
 import Domein.PostcodeInfo;
 import Domein.Vestiging;
+import Exceptions.IllegalArgumentExceptionCode;
 import Exceptions.PostcodeException;
 
 class VestigingTest {
@@ -17,14 +18,20 @@ class VestigingTest {
   private Vestiging vestiging = null;
   private PostcodeInfo postcode = null;
   private ArrayList<Klant> klantenlijst = null;
+  private IllegalArgumentException iae;
   
   @BeforeEach
-  void setup() throws PostcodeException {
-    postcode = new PostcodeInfo("8701GH", "Bolsward", 53.0673994187339, 5.5274963648489);
-    klantenlijst = new ArrayList<>();
-    klantenlijst.add(new Klant(123, postcode));
-    klantenlijst.add(new Klant(124, postcode));
-    klantenlijst.add(new Klant(125, postcode));
+  void setup()  {
+    try {
+      postcode = new PostcodeInfo("8701GH", "Bolsward", 53.0673994187339, 5.5274963648489);
+      klantenlijst = new ArrayList<>();
+      klantenlijst.add(new Klant(123, postcode));
+      klantenlijst.add(new Klant(124, postcode));
+      klantenlijst.add(new Klant(125, postcode));
+    } catch(PostcodeException pce) {
+      pce.printStackTrace();
+      fail();
+    }
   }
 
   @Test
@@ -61,19 +68,34 @@ class VestigingTest {
   @Test 
   void foutiveInvoer() {
     //plaats null
-    assertThrows(IllegalArgumentException.class, () -> { new Vestiging(null, postcode, klantenlijst); });
+    iae = assertThrows(IllegalArgumentException.class, () -> { 
+      new Vestiging(null, postcode, klantenlijst); 
+    });
+    assertEquals(iae.getMessage(), IllegalArgumentExceptionCode.PLAATS_NULL.getErrMessage());
     
     //plaats lege string
-    assertThrows(IllegalArgumentException.class, () -> { new Vestiging("", postcode, klantenlijst); });
+    iae = assertThrows(IllegalArgumentException.class, () -> { 
+      new Vestiging("", postcode, klantenlijst); 
+    });
+    assertEquals(iae.getMessage(), IllegalArgumentExceptionCode.PLAATS_LEEG.getErrMessage());
     
     //plaats string met spaties
-    assertThrows(IllegalArgumentException.class, () -> { new Vestiging(" ", postcode, klantenlijst); });
+    iae = assertThrows(IllegalArgumentException.class, () -> { 
+      new Vestiging(" ", postcode, klantenlijst); 
+    });
+    assertEquals(iae.getMessage(), IllegalArgumentExceptionCode.PLAATS_LEEG.getErrMessage());
     
     //postcode = null
-    assertThrows(IllegalArgumentException.class, () -> { new Vestiging("Bolsward", null, klantenlijst); });
+    iae = assertThrows(IllegalArgumentException.class, () -> { 
+      new Vestiging("Bolsward", null, klantenlijst); 
+    });
+    assertEquals(iae.getMessage(), IllegalArgumentExceptionCode.POSTCODE_NULL.getErrMessage());
     
     //klantenlijst is null
-    assertThrows(IllegalArgumentException.class, () -> { new Vestiging("Bolsward", postcode, null); });
+    iae = assertThrows(IllegalArgumentException.class, () -> { 
+      new Vestiging("Bolsward", postcode, null); 
+    });
+    assertEquals(iae.getMessage(), IllegalArgumentExceptionCode.KLANTENLIJST_NULL.getErrMessage());
     
     
   }

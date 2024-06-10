@@ -9,7 +9,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import Exceptions.MapperException;
-import Exceptions.PostcodeException;
 import Data.Mapper;
 import Domein.Klant;
 import Domein.Vestiging;
@@ -52,10 +51,7 @@ public class MapperTest {
     /**
      * Test correct ophalen van de vestigingen
      * @throws MapperException 
-     * @throws IllegalArgumentException 
      * @author carlo
-     * @throws SQLException 
-     * @throws PostcodeException 
      */
     /*
      @	@contract ophalenVestigingen {
@@ -123,23 +119,6 @@ public class MapperTest {
     	assertEquals(kGron,kZuidh);    	
     }
     
-
-
-    
-    /**
-     * Test vereist tabel bezoek
-     */
-//    public void getVestigingenKlanten() {
-//    	//TODO
-//    	Collection<Vestiging> vestigingen = null;
-//    	Collection<Klant> klanten = null;
-//    	
-//    	assertEquals(vestigingen.size(), 12); 
-//    	for(Vestiging vk:vestigingen) {
-//    		klanten = vk.getKlanten();
-//    		// test op klant heeft bezoek en vestiging klopt, vereist tabel bezoek
-//    	}
-//    }
     
     /**
      * Test sluiten van connectie met de fdb database
