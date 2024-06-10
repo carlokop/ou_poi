@@ -1,8 +1,7 @@
-package Gui;
+package gui;
 
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,7 +11,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import Controller.Facade;
+import Controller.CarloFacade;
 import ObserverPatroon.Observer;
 
 /**
@@ -25,12 +24,12 @@ public class VestigingKlanten extends JPanel implements Observer {
   private JPanel col_links = null;
   private JPanel col_rechts = null;
   private JComboBox<String> dropdown;
-  private static String DROPDOWNPLACEHOLDER = "---";
+  private static String DROPDOWNPLACEHOLDER = "Selecteer een vestiging";
   
   private static final long serialVersionUID = 1L;
-  private Facade fc = null;
+  private CarloFacade fc = null;
 
-  public VestigingKlanten(Facade fc) {
+  public VestigingKlanten(CarloFacade fc) {
     super();
     this.fc = fc;
     init();
@@ -52,8 +51,11 @@ public class VestigingKlanten extends JPanel implements Observer {
     
     this.add(col_links, BorderLayout.WEST);
     this.add(col_rechts, BorderLayout.CENTER);
+    
+    startInzageVestiging();
   }
   
+ 
   /**
    * Maakt layout elementen voor het maken van het rapport van klanten per vestiging
    * Maakt een dropdown, haalt alle vestigingen op en vult deze met alle namen van vestiginginen 
@@ -61,32 +63,23 @@ public class VestigingKlanten extends JPanel implements Observer {
    */
   private void startInzageVestiging() {
     
-    //links tekst uitleg en een dropdown met vestigingen
-    JLabel titel = new JLabel("Selecteer een vestiging");
-    
-    //get data en vull dropdown
-    Collection<String> vestigingen = fc.getVestigingPlaatsen();
-    
+    //links dropdown met keuze vestigingen
+    Collection<String> vestigingen = fc.getVestigingPlaatsen();      
     /*
      * JCombobox accepteert geen arraylist met strings
-     * Voer transformatie uit en voeg gelijk default waarde toe op positie 0
+     * Voer transformatie uit en voeg gelijk placeholder toe op positie 0
      */
     String[] vestigingen_lijst = new String[vestigingen.size()+1];
     vestigingen_lijst[0] = DROPDOWNPLACEHOLDER;
     int i = 1;
     for(String v:vestigingen) {
-    	System.out.println(vestigingen_lijst[i]);
       vestigingen_lijst[i++] = v;
     }
-    
-    System.out.println(vestigingen_lijst);
+  
     dropdown = new JComboBox<>(vestigingen_lijst);
-    
-    col_links.add(titel);
     col_links.add(dropdown);
-    
     dropdown.addActionListener(new DropdownVestegingLuisteraar());
-    
+ 
   }
    
   /**

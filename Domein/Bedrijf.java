@@ -2,12 +2,9 @@ package Domein;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.TreeMap;
-
 import Controller.Model;
 import Data.Mapper;
 import Exceptions.MapperException;
-import Gui.ViewSelection;
 import ObserverPatroon.Subject;
 
 public class Bedrijf extends Subject implements Model{

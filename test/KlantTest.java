@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import Domein.Klant;
 import Domein.PostcodeInfo;
+import Exceptions.IllegalArgumentExceptionCode;
 import Exceptions.PostcodeException;
 
 /**
@@ -19,30 +20,52 @@ class KlantTest {
   
   private Klant klant = null;
   private PostcodeInfo postcode = null;
+  private IllegalArgumentException iae;
   
   
     @BeforeEach
-    void setup() throws PostcodeException {
-      postcode = new PostcodeInfo("8701GH", "Bolsward", 53.0673994187339, 5.5274963648489);
+    void setup() {
+      try {
+        postcode = new PostcodeInfo("8701GH", "Bolsward", 53.0673994187339, 5.5274963648489);
+      } catch (PostcodeException pce) {
+        pce.printStackTrace();
+        fail();
+      }
     }
     
     @Test
     void happyTest() {
-      klant = new Klant(123, postcode);
-      assertEquals(123,klant.getKlantnr());
-      assertEquals("8701GH",klant.getPostcode().getPostcode()); 
+      try {
+        klant = new Klant(123, postcode);
+        assertEquals(123,klant.getKlantnr());
+        assertEquals("8701GH",klant.getPostcode().getPostcode()); 
+      } catch(IllegalArgumentException iae) {
+        iae.printStackTrace();
+        fail();
+      }
+      
     }
     
     @Test 
     void foutieveInvoerTest() {
       //negatief klant nr
-      assertThrows(IllegalArgumentException.class, () -> { new Klant(-1, postcode); });
+      iae = assertThrows(IllegalArgumentException.class, () -> { 
+        new Klant(-1, postcode); 
+      });
+      assertEquals(iae.getMessage(), IllegalArgumentExceptionCode.KLANTNUMMER_NIET_POSITIEF.getErrMessage());
       
-      //klantnr = 0
-      assertThrows(IllegalArgumentException.class, () -> { new Klant(0, postcode); });
+      
+      //klantnr == 0
+      iae = assertThrows(IllegalArgumentException.class, () -> { 
+        new Klant(0, postcode); 
+      });
+      assertEquals(iae.getMessage(), IllegalArgumentExceptionCode.KLANTNUMMER_NIET_POSITIEF.getErrMessage());
       
       //postcode == null
-      assertThrows(IllegalArgumentException.class, () -> { new Klant(123, null); });
+      iae = assertThrows(IllegalArgumentException.class, () -> { 
+        new Klant(123, null); 
+      });
+      assertEquals(iae.getMessage(), IllegalArgumentExceptionCode.POSTCODE_NULL.getErrMessage());
       
     }
 

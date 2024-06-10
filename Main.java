@@ -1,9 +1,8 @@
 import javax.swing.SwingUtilities;
 
-import Controller.Facade;
+import Controller.CarloFacade;
 import Domein.Bedrijf;
-import Gui.Gui;
-import Gui.PoiFrame;
+import gui.CarloMainFrame;
 
 public class Main {
 
@@ -18,8 +17,8 @@ public class Main {
 			@Override
 			public void run() {
 				Bedrijf bedrijf = new Bedrijf();
-				Facade facade = new Facade(bedrijf);
-				PoiFrame gui = new PoiFrame(facade);
+				CarloFacade facade = new CarloFacade(bedrijf);
+				CarloMainFrame gui = new CarloMainFrame(facade);
 				bedrijf.attach(gui);
 			}
 		});
