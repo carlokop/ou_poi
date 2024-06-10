@@ -3,7 +3,6 @@ package Gui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
-import java.awt.Cursor;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,32 +16,41 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import Controller.Facade;
+import Gui.Gui.VestSluitenLuisteraar;
+import Gui.Gui.sluitRapportLuisteraar;
 import ObserverPatroon.Observer;
 
-public class Gui extends JFrame implements Observer {
-	private static final long serialVersionUID = 1L;
-
-	private Facade fc = null;
-	private Container pane = getContentPane();
-	private Cursor pointer = Cursor.getPredefinedCursor(Cursor.HAND_CURSOR);
+public class PoiFrame extends JFrame implements Observer {
 	
-	public Gui (Facade fc){
+	private static final long serialVersionUID = 1L;
+	private Facade fc;
+	Container pane;
+
+	
+	public PoiFrame(Facade fc){
 		super();
 		this.fc = fc;
+		pane = getContentPane();
 		init();
 	}
 	
 	public void init() {
-	  setVisible(true);
-      setDefaultCloseOperation(EXIT_ON_CLOSE);
-	  setSize(800, 300);
-      setTitle("Practicum Ontwerpen en implementeren");
-      pane.setBackground(new Color(246,246,246));
-      pane.setLayout(new BorderLayout());
-      hoofdmenu();
-      footer();
+		entry();
+		hoofdmenu();
+	    footer();
+		// maakt alle andere subviews aan aan  
+
 	}
-		
+
+	public void entry(){
+		setVisible(true);
+	    setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setSize(800, 300);
+	    setTitle("Practicum Ontwerpen en implementeren");
+	    pane.setBackground(new Color(246,246,246));
+	    pane.setLayout(new BorderLayout());
+	}
+	
 	/**
 	 * Voegt hoofdmenu toe aan de contentpane
 	 */
@@ -61,12 +69,13 @@ public class Gui extends JFrame implements Observer {
       rapporten.add(item_klant_vest);
       rapporten.add(item_vest_sluiten);
       
-      item_klant_vest.addActionListener(new KlantenVestegingLuisteraar());
+      item_klant_vest.addActionListener(new KlantenVestigingLuisteraar());
       item_vest_sluiten.addActionListener(new VestSluitenLuisteraar());
 
       hoofdmenu.add(rapporten);
 
       pane.add(hoofdmenu,BorderLayout.NORTH);
+      
 	}
 		
 	/**
@@ -81,13 +90,13 @@ public class Gui extends JFrame implements Observer {
 	  sluitbtn.setForeground(Color.WHITE);
 	  sluitbtn.setBorder(new EmptyBorder(5, 10, 5, 10));
 	  sluitbtn.setFocusPainted(false);
-	  sluitbtn.setCursor(pointer);
 	  sluitbtn.addActionListener(new sluitRapportLuisteraar());
 	  
 	  footer.add(sluitbtn);
 	  pane.add(footer,BorderLayout.SOUTH);
 	}
 	
+
 	/**
 	 * Handler voor tonen van kiesvestiging taak 
 	 *
@@ -95,8 +104,7 @@ public class Gui extends JFrame implements Observer {
 	class KlantenVestigingLuisteraar implements ActionListener {
 	  @Override
       public void actionPerformed(ActionEvent e) {
-	        System.out.println("Toon overzicht klanten");
-
+	    System.out.println("Toon overzicht klanten");
 	    VestigingKlanten vk_view = new VestigingKlanten(fc);
 	    pane.add(vk_view,BorderLayout.CENTER);
       }
@@ -114,7 +122,6 @@ public class Gui extends JFrame implements Observer {
          * Doe iets voor taak 5
          */
         System.out.println("Toon overzicht met vraag welke vestiging sluiten Taak 5");
-        
       }
     }
 	
@@ -129,12 +136,9 @@ public class Gui extends JFrame implements Observer {
       }
     }
 	
-    @Override
-    public void update() {
-      // TODO Auto-generated method stub
-      
-    }
-	
-	
-
+	@Override
+	public void update() {
+		// TODO Auto-generated method stub
+		
+	}
 }

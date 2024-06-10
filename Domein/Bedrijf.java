@@ -5,13 +5,22 @@ import java.util.Collection;
 import java.util.TreeMap;
 
 import Controller.Model;
+import Data.Mapper;
+import Exceptions.MapperException;
+import Gui.ViewSelection;
 import ObserverPatroon.Subject;
 
 public class Bedrijf extends Subject implements Model{
 	Collection<Vestiging> vestigingen;
+	Mapper m;
 	
 	public Bedrijf() {
-		vestigingen = new ArrayList<>();
+		try {
+			m = new Mapper();
+			vestigingen = m.getVestigingen();
+		} catch (MapperException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/**
@@ -39,6 +48,7 @@ public class Bedrijf extends Subject implements Model{
 		for(Vestiging v: vestigingen) {
 			if(v.getPlaats() == plaats) {
 				vestigingSelectie = v;
+				break;
 			}
 		}
 		

@@ -23,11 +23,10 @@ class BedrijfTest {
   void happy() {
     Collection<String> plaatsnamen = b.getVestigingPlaatsen();
     //test of er 12 plaatsnamen zijn
-    assertEquals(12,plaatsnamen.size());
+    assertEquals(12, plaatsnamen.size());
     
     for(String plaats: plaatsnamen) {
       assertNotEquals("",plaats);
-      assertNull(plaats);
     }
     
   }

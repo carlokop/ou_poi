@@ -1,4 +1,4 @@
-package gui;
+package Gui;
 
 
 import java.awt.BorderLayout;
@@ -33,7 +33,6 @@ public class VestigingKlanten extends JPanel implements Observer {
   public VestigingKlanten(Facade fc) {
     super();
     this.fc = fc;
-    fc.attach(this);
     init();
   }
   
@@ -76,9 +75,11 @@ public class VestigingKlanten extends JPanel implements Observer {
     vestigingen_lijst[0] = DROPDOWNPLACEHOLDER;
     int i = 1;
     for(String v:vestigingen) {
+    	System.out.println(vestigingen_lijst[i]);
       vestigingen_lijst[i++] = v;
     }
     
+    System.out.println(vestigingen_lijst);
     dropdown = new JComboBox<>(vestigingen_lijst);
     
     col_links.add(titel);
@@ -108,15 +109,6 @@ public class VestigingKlanten extends JPanel implements Observer {
     // TODO Auto-generated method stub
     System.out.println("Update in VestigingKlanten");
   }
-
-  @Override
-  public void update(View view) {
-    if(View.VESTIGINGKLANTEN.equals(view)) {
-      startInzageVestiging();
-      revalidate();
-    }
-  }
-  
   
   /**
   * Handler die na het selecteren van een vestiging toonVestigingKlanten aanroept

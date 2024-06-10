@@ -34,8 +34,8 @@ class KlantTest {
     }
     
     @Test 
-    void fouteveInvoerTest() {
-      //negatief klanr nr
+    void foutieveInvoerTest() {
+      //negatief klant nr
       assertThrows(IllegalArgumentException.class, () -> { new Klant(-1, postcode); });
       
       //klantnr = 0

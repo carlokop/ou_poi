@@ -2,33 +2,17 @@ package Controller;
 
 import java.util.Collection;
 
-import ObserverPatroon.Observer;
-import gui.View;
+import Gui.ViewSelection;
 
 public class Facade {
 	
 	Model m;
+	ViewSelection vs;
 	
 	public Facade(Model m){
 		this.m = m;
 	}
-	
-	/**
-	 * Regelt welke view getoond moet worden
-	 * @param view
-	 */
-	public void toonView(View view) {
-	  m.toonView(view);
-	}
-	
-	/**
-	 * Voegt observer toe
-	 * @param observer
-	 */
-	public void attach(Observer observer) {
-	  m.attach(observer);
-	}
-	
+
 	/**
 	 * Haalt alle plaatsnamen van vestigingen op
 	 * @return lijst met plaatsnamen
@@ -45,7 +29,5 @@ public class Facade {
 	public Collection<Integer> getVestigingKlanten(String plaats) {
 	  return m.getVestigingKlanten(plaats);
 	}
-	
 		
-	
 }

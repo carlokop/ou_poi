@@ -21,21 +21,19 @@ import java.util.Collection;
 public class MapperTest {
 
 	private Connection c;
-	//private DriverManager dm;
 	private Mapper m;
 	MapperException me;
 	
-	MapperTest() throws MapperException {
-	  m = new Mapper();
-	}
-	
-	
-	
 	@BeforeEach
 	public void init() {
-		//TODO Begin connectie voor de database
-    	c = m.getConnection();
     	
+    	try {
+			m = new Mapper();
+    		c = m.getConnection();
+		} catch (MapperException e) {
+			fail("Test kan niet gestart worden");
+			e.printStackTrace();
+		}
 	}
 	
 	/**
@@ -84,7 +82,8 @@ public class MapperTest {
             veendam = v;
           }
         }
-    	assertNotNull(veendam);// TODO: <-- ?? Carlo navragen
+    	assertNotNull(veendam);
+    	
     	int i = 0;
     	for(Klant k: veendam.getKlanten()) {
     	  if(k.getKlantnr() == 1089) {
@@ -94,7 +93,7 @@ public class MapperTest {
     	assertEquals(1,i);
     	
     	//klant 794 zit in zowel vestiging groningen als zuidhorn
-    	//test of dit dezelfde instantie is
+    	//test op gelijkheid
     	Vestiging groningen = null;
     	Vestiging zuidhorn = null;
     	for(Vestiging v: vestigingen) {
@@ -121,11 +120,7 @@ public class MapperTest {
         }
     	assertNotNull(kGron);
     	assertNotNull(kZuidh);
-    	assertEquals(kGron,kZuidh);
-    	
-    	
-    	//hoe testen we de DBException?
-    	
+    	assertEquals(kGron,kZuidh);    	
     }
     
 

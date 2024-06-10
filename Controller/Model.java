@@ -3,24 +3,11 @@ package Controller;
 import java.util.Collection;
 
 import ObserverPatroon.Observer;
-import gui.View;
 
 /**
- * Markeer interface voor de controller/facade
+ * Markeer interface
  */
 public interface Model {
-  
-  /**
-   * regelt welke view wordt getoond
-   * @param view de gekozen view
-   */
-  public void toonView(View view);
-
-  /**
-   * Voegt observer toe 
-   * @param observer
-   */
-  public void attach(Observer observer);
 
   /**
    * geeft een lijst met plaatsnamen van vestigingen
@@ -35,5 +22,4 @@ public interface Model {
    */
   public Collection<Integer> getVestigingKlanten(String plaats);
 
-  
 }

@@ -19,11 +19,6 @@ import Exceptions.MapperException;
 import Exceptions.MapperExceptionCode;
 import Exceptions.PostcodeException;
 
-/**
- * Mapper
- * @author carlo
- *
- */
 public class Mapper {
 
 	private class DBConst {
@@ -176,8 +171,4 @@ public class Mapper {
 		}
 		throw new MapperException(MapperExceptionCode.MAPPER_DATA_BUILD_ERR, "Vestiging niet gevonden");
 	}
-	
-	
-	
-	
 }
