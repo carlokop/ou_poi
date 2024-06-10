@@ -27,13 +27,12 @@ public class VestigingKlantOverzicht extends JPanel {
 		JPanel columnPanel = new JPanel();
 		columnPanel.setLayout(new GridLayout());
 		columnPanel.add(new JLabel("Klantnr"));
-		columnPanel.add(new JLabel("Overig"));
-		columnPanel.setW.
+//		columnPanel.add(new JLabel("Overig"));
+		columnPanel.setSize(columnWidth, this.HEIGHT);
 		this.add(columnPanel, BorderLayout.NORTH);
 	}
 	
 	public void createRows(){
-		JPanel rowPanel = new JPanel();
 		DefaultListModel<String> vestigingKlantModel = new DefaultListModel<>();
 		vestigingKlantModel.addAll(klantData);
 		JList<String> klantenLijst = new JList<>(vestigingKlantModel);

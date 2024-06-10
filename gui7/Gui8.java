@@ -28,7 +28,7 @@ import javax.swing.border.EmptyBorder;
 import controller.Facade;
 import observerPatroon.Observer;
 
-public class Gui7 extends JFrame implements Observer {
+public class Gui8 extends JFrame implements Observer {
 
 	private static final long serialVersionUID = 1L;
 
@@ -38,7 +38,7 @@ public class Gui7 extends JFrame implements Observer {
 	private Component vestigingOverzicht;
 	HashMap<String, Component> vestigingKlantOverzicht;
 
-	public Gui7(Facade fc) {
+	public Gui8(Facade fc) {
 		super();
 		this.fc = fc;
 		pane = getContentPane();
@@ -124,33 +124,26 @@ public class Gui7 extends JFrame implements Observer {
 	public class toonVestigingKlantenListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			BorderLayout bLayout = (BorderLayout) Gui7.this.pane.getLayout();
+			clearViews();
+			BorderLayout bLayout = (BorderLayout) Gui8.this.pane.getLayout();
 			Component cCache;
 			cCache = bLayout.getLayoutComponent(BorderLayout.CENTER);
 			if (cCache != null) {
-				Gui7.this.pane.remove(cCache);
+				Gui8.this.pane.remove(cCache);
 			}
 			JButton selectedButton = (JButton) e.getSource();
 			String plaats = selectedButton.getText();
 			Component vestigingKlantComponent;
 
 			if (!vestigingKlantOverzicht.containsKey(plaats)) {
-				vestigingKlantOverzicht.put(plaats, createVestigingKlantOverzicht(plaats));
+				vestigingKlantOverzicht.put(plaats, new VestigingKlantOverzicht(Gui8.this.fc.getVestigingKlanten(plaats)));
 			}
 
 			vestigingKlantComponent = vestigingKlantOverzicht.get(plaats);
 			pane.add(vestigingKlantComponent, BorderLayout.CENTER);
-			Gui7.this.pane.revalidate();
-			Gui7.this.pane.repaint();
+			Gui8.this.pane.revalidate();
+			Gui8.this.pane.repaint();
 		}
-	}
-
-	private Component createVestigingKlantOverzicht(String plaats) {
-		DefaultListModel<String> vestigingKlantModel = new DefaultListModel<>();
-		vestigingKlantModel.addAll(this.fc.getVestigingKlanten(plaats));
-		JList<String> klantenLijst = new JList<>(vestigingKlantModel);
-		JScrollPane vestigingKlantOverzicht = new JScrollPane(klantenLijst);
-		return vestigingKlantOverzicht;
 	}
 
 	/**
@@ -160,10 +153,9 @@ public class Gui7 extends JFrame implements Observer {
 	class VestigingMenuItemLuisteraar implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			removeWestCenterEastComponents();
+			clearViews();
 			pane.add(vestigingOverzicht, BorderLayout.WEST);
-			Gui7.this.pane.revalidate();
-			Gui7.this.pane.repaint();
+			Gui8.this.pane.revalidate();
 		}
 	}
 
@@ -173,7 +165,7 @@ public class Gui7 extends JFrame implements Observer {
 	class VestigingenSluitenMenuItemLuisteraar implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			removeWestCenterEastComponents();
+			clearViews();
 			System.out.println("Toon overzicht met vraag welke vestiging sluiten Taak 5");
 		}
 	}
@@ -184,11 +176,12 @@ public class Gui7 extends JFrame implements Observer {
 	class cancelViewListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			removeWestCenterEastComponents();
+			System.out.println("RESET");
+			clearViews();
 		}
 	}
 
-	public void removeWestCenterEastComponents() {
+	public void clearViews() {
 		BorderLayout bLayout = (BorderLayout) this.pane.getLayout();
 		Component cCache;
 		cCache = bLayout.getLayoutComponent(BorderLayout.WEST);
@@ -199,15 +192,18 @@ public class Gui7 extends JFrame implements Observer {
 		if (cCache != null) {
 			this.pane.remove(cCache);
 		}
-//		cCache = bLayout.getLayoutComponent(BorderLayout.EAST);
-//		if (cCache != null) {
-//			this.pane.remove(cCache);
-//		}
+		cCache = bLayout.getLayoutComponent(BorderLayout.EAST);
+		if (cCache != null) {
+			this.pane.remove(cCache);
+		}
+		Gui8.this.pane.revalidate();
+		Gui8.this.pane.repaint();
 	}
 
 	@Override
 	public void update() {
 		// TODO Auto-generated method stub
+
 	}
 
 }
