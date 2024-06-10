@@ -10,9 +10,9 @@ import org.junit.jupiter.api.Test;
 
 import Exceptions.MapperException;
 import Exceptions.PostcodeException;
-import Data.Mapper;
-import Domein.Klant;
-import Domein.Vestiging;
+import data.Mapper;
+import domein.Klant;
+import domein.Vestiging;
 
 import java.sql.Connection;
 import java.sql.SQLException;

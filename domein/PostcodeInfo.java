@@ -1,4 +1,4 @@
-package Domein;
+package domein;
 
 import Exceptions.PostcodeException;
 import Exceptions.PostcodeExceptionCode;

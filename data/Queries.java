@@ -1,10 +1,10 @@
-package Data;
+package data;
 
 /**
  * Queries voor de database
  */
 public final class Queries {
-	// Haalt klanten op en de vestigingen die deze klanten bezoeken, bij meerder vestigingen zijn komt een klantnr vaker voor.
+	// Haalt klanten op en de vestiging(en) die deze klanten bezoeken.
 	public final static String GET_KLANTEN =
 			"SELECT k.NR Klantnr, p.POSTCODE Klantpostcode, p.PLAATS Klantplaats, p.LAT Klantlat, p.LNG Klantlng, v.PLAATS Vestigingplaats \r\n"
 			+ "FROM VESTIGING v \r\n"

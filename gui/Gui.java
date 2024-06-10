@@ -1,4 +1,4 @@
-package Gui;
+package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -16,8 +16,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import Controller.Facade;
-import ObserverPatroon.Observer;
+import controller.Facade;
+import observerPatroon.Observer;
 
 public class Gui extends JFrame implements Observer {
 	private static final long serialVersionUID = 1L;
@@ -61,7 +61,7 @@ public class Gui extends JFrame implements Observer {
       rapporten.add(item_klant_vest);
       rapporten.add(item_vest_sluiten);
       
-      item_klant_vest.addActionListener(new KlantenVestegingLuisteraar());
+//      item_klant_vest.addActionListener(new KlantenVestegingLuisteraar());
       item_vest_sluiten.addActionListener(new VestSluitenLuisteraar());
 
       hoofdmenu.add(rapporten);

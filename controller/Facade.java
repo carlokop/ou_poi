@@ -1,8 +1,8 @@
-package Controller;
+package controller;
 
 import java.util.Collection;
 
-import Gui.ViewSelection;
+import gui.ViewSelection;
 
 public class Facade {
 	
@@ -26,7 +26,7 @@ public class Facade {
 	 * @param plaats
 	 * @return lijst met klant id's
 	 */
-	public Collection<Integer> getVestigingKlanten(String plaats) {
+	public Collection<String> getVestigingKlanten(String plaats) {
 	  return m.getVestigingKlanten(plaats);
 	}
 		

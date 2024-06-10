@@ -1,3 +1,3 @@
-package Gui;
+package gui;
 
 public interface View {}

@@ -1,4 +1,4 @@
-package Gui;
+package gui;
 
 
 import java.awt.BorderLayout;
@@ -12,8 +12,8 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import Controller.Facade;
-import ObserverPatroon.Observer;
+import controller.Facade;
+import observerPatroon.Observer;
 
 /**
  * Deze klasse regelt het tonen van klanten per verstigingen (Taak 4)
@@ -97,10 +97,10 @@ public class VestigingKlanten extends JPanel implements Observer {
   private void toonVestigingKlanten(String plaats) {
     if(!DROPDOWNPLACEHOLDER.equals(plaats)) {
       //haal klanten ids op van geselecteerde vestiging
-      Collection<Integer> klantids = fc.getVestigingKlanten(plaats);
+//      Collection<Integer> klantids = fc.getVestigingKlanten(plaats);
       
-      JLabel label = new JLabel("Aantal klanten voor vestiging "+plaats + " :"+ klantids.size());
-      col_rechts.add(label);  
+//      JLabel label = new JLabel("Aantal klanten voor vestiging "+plaats + " :"+ klantids.size());
+//      col_rechts.add(label);  
     }
   }
 

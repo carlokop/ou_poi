@@ -1,4 +1,4 @@
-package Data;
+package data;
 
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -12,12 +12,12 @@ import java.util.HashSet;
 
 import org.firebirdsql.jdbc.FBResultSet;
 
-import Domein.Klant;
-import Domein.PostcodeInfo;
-import Domein.Vestiging;
 import Exceptions.MapperException;
 import Exceptions.MapperExceptionCode;
 import Exceptions.PostcodeException;
+import domein.Klant;
+import domein.PostcodeInfo;
+import domein.Vestiging;
 
 public class Mapper {
 

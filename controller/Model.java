@@ -1,8 +1,8 @@
-package Controller;
+package controller;
 
 import java.util.Collection;
 
-import ObserverPatroon.Observer;
+import observerPatroon.Observer;
 
 /**
  * Markeer interface
@@ -20,6 +20,6 @@ public interface Model {
    * @param plaats
    * @return lijst met klant id's
    */
-  public Collection<Integer> getVestigingKlanten(String plaats);
+  public Collection<String> getVestigingKlanten(String plaats);
 
 }

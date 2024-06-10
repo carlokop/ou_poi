@@ -1,9 +1,9 @@
 import javax.swing.SwingUtilities;
 
-import Controller.Facade;
-import Domein.Bedrijf;
-import Gui.Gui;
-import Gui.PoiFrame;
+import controller.Facade;
+import domein.Bedrijf;
+import gui.Gui;
+import gui7.Gui7;
 
 public class Main {
 
@@ -19,8 +19,8 @@ public class Main {
 			public void run() {
 				Bedrijf bedrijf = new Bedrijf();
 				Facade facade = new Facade(bedrijf);
-				PoiFrame gui = new PoiFrame(facade);
-				bedrijf.attach(gui);
+				Gui7 gui7 = new Gui7(facade);
+				bedrijf.attach(gui7);
 			}
 		});
 	}
