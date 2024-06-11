@@ -78,6 +78,7 @@ public class Mapper {
 		if (con != null) {
 			try {
 				con.close();
+				System.out.println("DB Verbinding verbroken");
 			} catch (SQLException e) {
 				throw new MapperException(MapperExceptionCode.CONNECTION_SHUTDOWN_ERR, e.getMessage());
 			}
