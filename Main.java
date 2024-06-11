@@ -4,6 +4,9 @@ import controller.Facade;
 import domein.Bedrijf;
 import guiPrototype.Gui8;
 
+/**
+ * Startup klasse
+ */
 public class Main {
 
 	/**

@@ -18,7 +18,7 @@ class BedrijfTest {
 	private Bedrijf b = null;
 
 	/**
-	 * Inits bedrijf
+	 * Init bedrijf
 	 */
 	@BeforeEach
 	void setup() {
