@@ -2,6 +2,7 @@ package data;
 
 import java.io.PrintWriter;
 import java.sql.Connection;
+
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -14,11 +15,18 @@ import org.firebirdsql.jdbc.FBResultSet;
 import domein.Klant;
 import domein.PostcodeInfo;
 import domein.Vestiging;
+
 import exceptions.PoiException;
 import exceptions.PoiExceptionCode;
 
+/**
+ * Communiceert met de database en mapt gerelateerde domeinobjecten
+ */
 public class Mapper {
 
+   /**
+    * DB constanten om de verbinding te maken
+    */
 	private class DBConst {
 		private static final String DRIVERNAAM = "org.firebirdsql.jdbc.FBDriver"; // jaybird-5.0.4.java11
 		private static final String URL = "jdbc:firebird://localhost:3050/C:/POI_DB/Prik2Go_res_v3.fdb";
@@ -30,11 +38,16 @@ public class Mapper {
 	private PreparedStatement getKlantenV = null;
 	private Connection con = null; // verbinding met gegevensbank
 
+	/**
+	 * Initialiseert de mapper en zet een DB verbinding op
+	 * Tevens sluit de verbinding als de shutdownhook wordt aangeroepen
+	 * @throws MapperException als fout is bij het maken van de verbinding
+	 */
 	public Mapper() throws PoiException {
 		connect();
 		initPreparedStatements();
-
-		// Na speuren op stackoverflow een oplossing gevonden voor afsluiten van de db connectie
+		
+		// Na speuren op stackoverflow
 		Runtime.getRuntime().addShutdownHook(new Thread(() -> {
 			try {
 				System.out.println("DB shutdown initiated");
@@ -47,7 +60,7 @@ public class Mapper {
 
 	/**
 	 * Geeft de DB connectie
-	 *
+	 * 
 	 * @return de connectie
 	 */
 	public Connection getConnection() {
@@ -57,12 +70,12 @@ public class Mapper {
 	/**
 	 * Maakt verbinding met de database. Eerst wordt de JDBC-driver geregistreerd
 	 * door het laden van de juiste implementatie van Driver;
-	 *
+	 * 
 	 * @throws MapperException als de driver niet geladen kan worden of het
 	 *                         verbinding maken mislukt (bv. door een fout in de
 	 *                         padnaam).
 	 */
-	private void connect() throws PoiException {
+	public void connect() throws PoiException {
 		try {
 			Class.forName(DBConst.DRIVERNAAM); // 1. zoek naar de te laden driver klasse
 			DriverManager.setLogWriter(new PrintWriter(System.out)); // 2. print driver output naar console
@@ -79,8 +92,8 @@ public class Mapper {
 
 	/**
 	 * Sluit de verbinding met de database.
-	 *
-	 * @throws MapperException
+	 * 
+	 * @throws MapperException als er een SQL fout ontstaat
 	 */
 	public void disconnect() throws PoiException {
 		if (con != null) {
@@ -95,7 +108,7 @@ public class Mapper {
 
 	/**
 	 * Initialiseer prepared statements
-	 *
+	 * 
 	 * @throws MapperException sql-query syntax bevat fouten of compilatie is
 	 *                         mislukt
 	 */
@@ -109,24 +122,28 @@ public class Mapper {
 	}
 
 	/**
-	 * TODO: Contract bijwerken Leest alle vestigingen en alle onderliggende
-	 * associaties uit en maakt domeinobjecten
-	 *
+	 * Haalt alle vestigingen op uit de DB
+	 * Maakt instanties van alle vestigingen en onderliggende objecten 
+	 * en geeft een lijst van alle vestigingen terug
+	 * 
 	 * @return lijst met vestigingen inclusief alle onderliggende associaties
-	 * @throws MapperException
-	 * @throws PoiException
-	 * @throws PostcodeException
-	 * @contract happy {
-	 * @requires con != null
-	 * @requires pselectvestigingen != null
-	 * @ensures \result is een lijst met vestigingen }
-	 * @contract SQLException {
-	 * @requires SQLException
-	 * @signals DBException("Fout bij het inlezen van de Vestigingen") }
-	 * @contract Ongeldige invoer {
-	 * @requires postcode bevat ongeldige parameters
-	 * @requires klant bevat ongeldige parameters
-	 * @signals DBException("Fout bij het maken van domeinobjecten") }
+	 * @throws MapperException als er een SQL fout of postcode exceptie ontstaat
+	 */ 
+	 /*@
+	 @ @contract happy {
+	 @   @requires con != null
+	 @   @requires pselectvestigingen != null
+	 @   @ensures \result is een lijst met vestigingen 
+	 @ }
+	 @ @contract SQLException {
+	 @   @requires SQLException
+	 @   @signals DBException("Fout bij het inlezen van de Vestigingen") 
+	 @ }
+	 @ @contract Ongeldige invoer {
+	 @   @requires postcode bevat ongeldige parameters
+	 @   @requires klant bevat ongeldige parameters
+	 @   @signals DBException("Fout bij het maken van domeinobjecten") 
+	 @ }
 	 */
 	public Collection<Vestiging> getVestigingen() throws PoiException {
 		Collection<Vestiging> vestigingen = new ArrayList<>();
@@ -134,17 +151,17 @@ public class Mapper {
 		Collection<Klant> klantCollectionCache;
 		PostcodeInfo pciCache;
 		FBResultSet result;
-
+		
 		try {
 			result = (FBResultSet) getVestigingen.executeQuery();
 			while (result.next()) {
 				pciCache = new PostcodeInfo(
-						result.getString("POSTCODE"),
+						result.getString("POSTCODE"), 
 						result.getString("PLAATS"),
-						result.getDouble("LAT"),
+						result.getDouble("LAT"), 
 						result.getDouble("LNG"));
-				vestigingen.add(new Vestiging(result.getString("PLAATS"),
-								pciCache,
+				vestigingen.add(new Vestiging(result.getString("PLAATS"), 
+								pciCache, 
 								new TreeSet<>()));
 			}
 
@@ -152,13 +169,13 @@ public class Mapper {
 			while (result.next()) {
 				vestigingCache = selectVestiging(vestigingen, result.getString("VESTIGINGPLAATS"));
 				pciCache = new PostcodeInfo(
-						result.getString("KLANTPOSTCODE"),
+						result.getString("KLANTPOSTCODE"), 
 						result.getString("KLANTPLAATS"),
-						result.getDouble("KLANTLAT"),
+						result.getDouble("KLANTLAT"), 
 						result.getDouble("KLANTLNG"));
 				klantCollectionCache = vestigingCache.getKlanten();
 				klantCollectionCache.add(
-						new Klant(result.getInt("KLANTNR"),
+						new Klant(result.getInt("KLANTNR"), 
 						pciCache));
 			}
 		} catch (SQLException e) {
@@ -171,11 +188,11 @@ public class Mapper {
 
 	/**
 	 * Zoekt vestiging op met plaatsnaam
-	 *
+	 * 
 	 * @param vestigingen Verzameling waarin gezocht wordt
 	 * @param vSelect     selectiecriteria
 	 * @return gevonden vestiging
-	 * @throws MapperException Als de vestiging niet in de verzameling zit
+	 * @throws PoiException Als de vestiging niet in de verzameling zit
 	 */
 	private Vestiging selectVestiging(Collection<Vestiging> vestigingen, String vSelect) throws PoiException {
 		for (Vestiging vi : vestigingen) {
@@ -183,8 +200,8 @@ public class Mapper {
 				return vi;
 			}
 		}
-		throw new PoiException(PoiExceptionCode.MAPPER_DATA_BUILD_ERR, "Mapper heeft de vestiging niet gevonden");
+		throw new PoiException(PoiExceptionCode.MAPPER_DATA_BUILD_ERR, "Vestiging niet gevonden");
 	}
-
-
+	
+	
 }
