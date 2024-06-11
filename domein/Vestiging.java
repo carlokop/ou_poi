@@ -2,6 +2,9 @@ package domein;
 
 import java.util.Collection;
 
+import exceptions.PoiException;
+import exceptions.PoiExceptionCode;
+
 /**
  * Bevat informatie van een vestigiging en beheert de klanten van die vestiging
  */
@@ -44,12 +47,12 @@ public class Vestiging {
 	 @ }
 	 @ 
 	 */
-	public Vestiging(String plaats, PostcodeInfo postcode, Collection<Klant> klanten) throws IllegalArgumentException {
-		validate(plaats, postcode, klanten);
-		this.plaats = plaats;
-		this.postcodeInfo = postcode;
-		this.klanten = klanten;
-	}
+	public Vestiging(String plaats, PostcodeInfo postcode, Collection<Klant> klanten) throws PoiException {
+        validate(plaats, postcode, klanten);
+        this.plaats = plaats;
+        this.postcodeInfo = postcode;
+        this.klanten = klanten;
+    }
 
 	/**
 	 * Helper die valideert of een geldige plaats of postcode is opgegeven
@@ -59,24 +62,29 @@ public class Vestiging {
 	 * @param klanten klantenlijst (mag leeg zijn)
 	 * @throws IllegalArgumentException als een ongeldige string is opgegeven
 	 */
-	public static void validate(String plaats, PostcodeInfo postcode, Collection<Klant> klanten) {
-		// test plaats is niet null
-		if (plaats == null) {
-			throw new IllegalArgumentException("Plaats mag niet null zijn");
-		}
-		// test plaats is niet leeg of allen maar spaties
-		if (plaats.isBlank() || plaats.isEmpty()) {
-			throw new IllegalArgumentException("Plaats mag niet leeg zijn");
-		}
-		// test postcode is niet null
-		if (postcode == null) {
-			throw new IllegalArgumentException("Postcode mag niet null zijn");
-		}
-		// klantenlist is null
-		if (klanten == null) {
-			throw new IllegalArgumentException("Klanten mag niet null zijn");
-		}
-	}
+  	  public static void validate(String plaats, PostcodeInfo postcode, Collection<Klant> klanten) throws PoiException {
+          // test plaats is niet null
+          if (plaats == null) {
+              throw new PoiException(PoiExceptionCode.PLAATSNAAM_NULL, plaats);
+          }
+          
+          if(plaats.isEmpty()) {
+              throw new PoiException(PoiExceptionCode.PLAATSNAAM_LEEG, plaats);
+          }
+          
+          // test plaats is niet leeg of allen maar spaties
+          if (plaats.isBlank()) {
+              throw new PoiException(PoiExceptionCode.PLAATSNAAM_ALLEEN_SPATIES, plaats);
+          }
+          // test postcode is niet null
+          if (postcode == null) {
+              throw new PoiException(PoiExceptionCode.POSTCODE_NULL, postcode.toString());
+          }
+          // klantenlist is null
+          if (klanten == null) {
+              throw new PoiException(PoiExceptionCode.KLANTENLIJST_NULL, plaats + ":" + postcode.toString());
+          }
+  	  }
 
 	/**
 	 * Geeft de plaatsnaam
@@ -103,6 +111,11 @@ public class Vestiging {
 	public Collection<Klant> getKlanten() {
 		return klanten;
 	}
+	
+	@Override
+    public String toString() {
+        return "" + plaats + " : " + klanten.size();
+    }
 
 
 } // class

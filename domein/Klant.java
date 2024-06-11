@@ -2,6 +2,9 @@ package domein;
 
 import java.util.Objects;
 
+import exceptions.PoiException;
+import exceptions.PoiExceptionCode;
+
 /**
  * Een klant
  */
@@ -32,7 +35,7 @@ public class Klant implements Comparable<Klant> {
 	 @          zijn") 
 	 @ }
 	 */
-	public Klant(int klantnr, PostcodeInfo postcode) throws IllegalArgumentException {
+	public Klant(int klantnr, PostcodeInfo postcode) throws PoiException {
 		validate(klantnr, postcode);
 		this.klantnr = klantnr;
 		this.postcode = postcode;
@@ -46,15 +49,15 @@ public class Klant implements Comparable<Klant> {
 	 * @throws IllegalArgumentException als input ongeldig is
 	 * @see Klant(int, PostcodeInfo)
 	 */
-	public static void validate(int klantnr, PostcodeInfo postcode) {
-		// test klantnummer positief > 0
-		if (klantnr <= 0) {
-			throw new IllegalArgumentException("Klantknummer moet een positief getal zijn");
-		}
-		// test null postcode
-		if (postcode == null) {
-			throw new IllegalArgumentException("Postcode mag niet null zijn");
-		}
+	  public static void validate(int klantnr, PostcodeInfo postcode) throws PoiException {      
+	   // test klantnummer positief
+        if (klantnr < 1) {
+            throw new PoiException(PoiExceptionCode.KLANTNUMMER_NIET_POSITIEF, String.valueOf(klantnr));
+        }
+        // test null postcode
+        if (postcode == null) {
+            throw new PoiException(PoiExceptionCode.POSTCODE_NULL, "Postcode is null");
+        }
 	}
 	
 	/**

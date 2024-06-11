@@ -1,11 +1,12 @@
 package test;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import java.util.Collection;
 
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import domein.Bedrijf;
@@ -15,30 +16,34 @@ import domein.Bedrijf;
  */
 class BedrijfTest {
 
-	private Bedrijf b = null;
+  private static Bedrijf b = null;
 
-	/**
-	 * Init bedrijf
-	 */
-	@BeforeEach
-	void setup() {
-		b = new Bedrijf();
-	}
+  @BeforeAll
+  static void setup() {
+      b = new Bedrijf();
+  }
 
-	/**
-	 * Voert test uit voor happy path
-	 */
-	@Test
-	void happy() {
-		Collection<String> plaatsnamen = b.getVestigingPlaatsen();
-		// test of er 12 plaatsnamen zijn
-		assertEquals(12, plaatsnamen.size());
-
-		for (String plaats : plaatsnamen) {
-			assertNotEquals("", plaats);
-		}
-
-	}
+  @Test
+  void happy() {
+      Collection<String> plaatsnamen = b.getVestigingPlaatsen();
+      Collection<String> klanten;
+      // test of er 12 plaatsnamen zijn
+      assertEquals(12, plaatsnamen.size());
+  
+      for (String plaats : plaatsnamen) {
+          assertFalse(plaats.isBlank());
+          
+          klanten = b.getVestigingKlanten(plaats);
+          assertTrue(klanten.size()>0);
+      }
+  }
+  
+  @Test
+  void foutieveInvoer() {
+      Collection<String> klanten;
+      klanten = b.getVestigingKlanten("Disneyland");
+      assertNull(klanten);
+  }
 
 
 }
