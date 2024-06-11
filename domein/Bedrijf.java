@@ -6,6 +6,7 @@ import java.util.Collection;
 import controller.Model;
 import data.Mapper;
 import exceptions.PoiException;
+import exceptions.PoiExceptionCode;
 import observerPatroon.Subject;
 
 public class Bedrijf extends Subject implements Model{
@@ -40,10 +41,11 @@ public class Bedrijf extends Subject implements Model{
 	 * Haalt een lijst van de id's van klanten op
 	 * @param plaats ookwel vestiginglocatie
 	 * @return lijst van id's als string
+	 * @throws PoiException 
 	 */
 	@Override
-	public Collection<String> getVestigingKlanten(String plaats){
-		Collection<String> vestigingKlantenData = new ArrayList<>();
+	public Collection<String> getVestigingKlanten(String plaats) {
+		Collection<String> vestigingKlantenData = null;
 		Vestiging vestigingSelectie = null;
 		Collection<Klant> klantCache = null;
 
@@ -55,11 +57,15 @@ public class Bedrijf extends Subject implements Model{
 			}
 		}
 
-		// getKlanten, lsk
-		klantCache = vestigingSelectie.getKlanten();
-		for(Klant k: klantCache) {
-			vestigingKlantenData.add(String.valueOf(k.getKlantnr()));
+		if(vestigingSelectie != null) {
+			vestigingKlantenData = new ArrayList<>();
+			// getKlanten, lsk
+			klantCache = vestigingSelectie.getKlanten();
+			for(Klant k: klantCache) {
+				vestigingKlantenData.add(String.valueOf(k.getKlantnr()));
+			}
 		}
+		
 		return vestigingKlantenData;
 	}
 }

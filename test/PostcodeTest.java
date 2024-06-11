@@ -13,7 +13,7 @@ import exceptions.PoiExceptionCode;
 
 /**
  * Test Postcodeinfo, instanties in testen kunnen fictief zijn.
- * Testen slagen niet als niet all validate functies aan staan.
+ * Testen slagen niet als niet alle validate functies aan staan.
  */
 public class PostcodeTest {
 	PoiException pe;
@@ -67,7 +67,7 @@ public class PostcodeTest {
 	/**
 	 * postcode, bestaande uit: 4-cijferreeks: 1000-9999 2-letterreeks: AA-ZZ
 	 *
-	 * We testen hierin elke ongeldige randwaarden
+	 * We testen hierin elke ongeldige randwaarden. Postcode validatie moet aanstaan, dwz niet weggecomment.
 	 */
 	@Test
 	public void invalidPostcode() {

@@ -87,7 +87,7 @@ class VestigingTest {
 		});
 		assertEquals(pe.getErrCode(), PoiExceptionCode.PLAATSNAAM_ALLEEN_SPATIES);
 
-		// postcode = null
+		// postcode = null. Als de postcode validatie uitstaat, slaagt deze niet.
 		pe = assertThrows(PoiException.class, () -> {
 			new Vestiging("Bolsward", null, klantenlijst);
 		});

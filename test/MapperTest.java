@@ -25,32 +25,22 @@ public class MapperTest {
 	private static Mapper m;
 	PoiException me;
 
+	/**
+	 * Test connectie met de fdb database
+	 */
+	
 	@BeforeAll
 	@Test
 	public static void init() {
     	try {
 			m = new Mapper();
     		c = m.getConnection();
-    		c.isValid(1000);
+    		assertTrue(c.isValid(1000));
 		} catch (PoiException | SQLException e) {
 			fail("Test kan niet gestart worden");
 			e.printStackTrace();
 		}
 	}
-
-	/**
-	 * Test connectie met de fdb database
-	 */
-    @Test
-    public void connectionTest(){
-    	try {
-			assertTrue(c.isValid(1000));
-		} catch (SQLException e) {
-			fail("connectionfout:" + e.getErrorCode());
-			e.printStackTrace();
-		}
-    }
-
 
     @Test
     public void testCorrecteSortering() throws PoiException {
@@ -80,7 +70,6 @@ public class MapperTest {
      */
     @Test
     public void getVestigingen() throws PoiException {
-    	//TODO
     	Collection<Vestiging> vestigingen = m.getVestigingen();
     	assertEquals(12,vestigingen.size());
 
@@ -145,7 +134,6 @@ public class MapperTest {
 			c.close();
 			assertTrue(c.isClosed());
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			fail();
 		}
