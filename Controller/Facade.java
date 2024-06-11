@@ -2,13 +2,9 @@ package controller;
 
 import java.util.Collection;
 
-import gui.ViewSelection;
-
-
 public class Facade {
 	
 	Model m;
-	ViewSelection vs;
 	
 	public Facade(Model m){
 		this.m = m;
