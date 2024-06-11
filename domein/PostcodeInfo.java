@@ -3,7 +3,6 @@ package domein;
 import exceptions.PoiException;
 import exceptions.PoiExceptionCode;
 
-// TODO: Documentation aan het einde
 public class PostcodeInfo {
 	private String postcode;
 	private String plaatsnaam;
@@ -161,5 +160,9 @@ public class PostcodeInfo {
 	public double getLng() {
 		return lng;
 	}
-
+	
+	@Override
+	public String toString() {
+		return postcode + ", " + plaatsnaam + ", " + String.valueOf(lat) + ", " + String.valueOf(lng);
+	}
 }

@@ -9,8 +9,9 @@ public enum PoiExceptionCode {
 	CONNECTION_SHUTDOWN_ERR("Het sluiten van de database verbinding is niet geslaagd"),
 	MAPPER_DATA_BUILD_ERR("Er heeft een fout plaatsgevonden bij het opbouwen van de data voor de modellen"),
 
+	KLANTENLIJST_NULL("Klantenlijst wijst naar null"),
 	KLANTNUMMER_NIET_POSITIEF("Klantknummer moet een positief getal zijn"),
-
+	
 	POSTCODE_NULL("Postcode is null"),
 	POSTCODE_LENGTE("Ongeldige postcode lengte"),
 	POSTCODE_VELDEN("Ongeldige Postcode velden"),
