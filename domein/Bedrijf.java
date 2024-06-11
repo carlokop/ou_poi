@@ -8,10 +8,17 @@ import controller.Model;
 import data.Mapper;
 import observerPatroon.Subject;
 
+/**
+ * Beheert de mapper en alle bedrijven
+ */
 public class Bedrijf extends Subject implements Model{
 	private Collection<Vestiging> vestigingen;
 	private Mapper m;
 	
+	/**
+	 * Initialiseert een bedrijf
+	 * maakt een associatie met de mapper en vestigingen 
+	 */
 	public Bedrijf() {
 		try {
 			m = new Mapper();

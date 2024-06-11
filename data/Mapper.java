@@ -19,8 +19,14 @@ import exceptions.MapperException;
 import exceptions.MapperExceptionCode;
 import exceptions.PostcodeException;
 
+/**
+ * Communiceert met de database en mapt gerelateerde domeinobjecten
+ */
 public class Mapper {
 
+   /**
+    * DB constanten om de verbinding te maken
+    */
 	private class DBConst {
 		private static final String DRIVERNAAM = "org.firebirdsql.jdbc.FBDriver"; // jaybird-5.0.4.java11
 		private static final String URL = "jdbc:firebird://localhost:3050/C:/POI_DB/Prik2Go_res_v3.fdb";
@@ -32,6 +38,11 @@ public class Mapper {
 	private PreparedStatement getKlantenV = null;
 	private Connection con = null; // verbinding met gegevensbank
 
+	/**
+	 * Initialiseert de mapper en zet een DB verbinding op
+	 * Tevens sluit de verbinding als de shutdownhook wordt aangeroepen
+	 * @throws MapperException als fout is bij het maken van de verbinding
+	 */
 	public Mapper() throws MapperException {
 		connect();
 		initPreparedStatements();
@@ -82,7 +93,7 @@ public class Mapper {
 	/**
 	 * Sluit de verbinding met de database.
 	 * 
-	 * @throws MapperException
+	 * @throws MapperException als er een SQL fout ontstaat
 	 */
 	public void disconnect() throws MapperException {
 		if (con != null) {
@@ -111,23 +122,28 @@ public class Mapper {
 	}
 
 	/**
-	 * TODO: Contract bijwerken Leest alle vestigingen en alle onderliggende
-	 * associaties uit en maakt domeinobjecten
+	 * Haalt alle vestigingen op uit de DB
+	 * Maakt instanties van alle vestigingen en onderliggende objecten 
+	 * en geeft een lijst van alle vestigingen terug
 	 * 
 	 * @return lijst met vestigingen inclusief alle onderliggende associaties
-	 * @throws MapperException
-	 * @throws PostcodeException
-	 * @contract happy {
-	 * @requires con != null
-	 * @requires pselectvestigingen != null
-	 * @ensures \result is een lijst met vestigingen }
-	 * @contract SQLException {
-	 * @requires SQLException
-	 * @signals DBException("Fout bij het inlezen van de Vestigingen") }
-	 * @contract Ongeldige invoer {
-	 * @requires postcode bevat ongeldige parameters
-	 * @requires klant bevat ongeldige parameters
-	 * @signals DBException("Fout bij het maken van domeinobjecten") }
+	 * @throws MapperException als er een SQL fout of postcode exceptie ontstaat
+	 */ 
+	 /*@
+	 @ @contract happy {
+	 @   @requires con != null
+	 @   @requires pselectvestigingen != null
+	 @   @ensures \result is een lijst met vestigingen 
+	 @ }
+	 @ @contract SQLException {
+	 @   @requires SQLException
+	 @   @signals DBException("Fout bij het inlezen van de Vestigingen") 
+	 @ }
+	 @ @contract Ongeldige invoer {
+	 @   @requires postcode bevat ongeldige parameters
+	 @   @requires klant bevat ongeldige parameters
+	 @   @signals DBException("Fout bij het maken van domeinobjecten") 
+	 @ }
 	 */
 	public Collection<Vestiging> getVestigingen() throws MapperException {
 		Collection<Vestiging> vestigingen = new ArrayList<>();

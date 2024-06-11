@@ -6,28 +6,30 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import data.Mapper;
 import domein.Klant;
 import domein.Vestiging;
 import exceptions.MapperException;
-import exceptions.PostcodeException;
-
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.Iterator;
 
+/**
+ * test voor de DB Mapper
+ */
 public class MapperTest {
 
 	private static Connection c;
 	private static Mapper m;
 	MapperException me;
 	
+	/**
+	 * initialiseert de mappertest
+	 */
 	@BeforeAll
 	@Test
 	public static void init() {
@@ -54,9 +56,12 @@ public class MapperTest {
 		}
     }
     
-    
+    /**
+     * test of of vestigignen correct gesorteerd worden
+     */
     @Test
-    public void testCorrecteSortering() throws MapperException {
+    public void testCorrecteSortering()  {
+      try {
     	Collection<Vestiging> vestigingen = m.getVestigingen();
     	Collection<Klant> vestigingKlanten = null;
     	Iterator<Klant> vkIt;
@@ -72,16 +77,14 @@ public class MapperTest {
         		prevK = crrntK;
         	}
     	}
+      } catch(MapperException me) {
+        fail(me);
+      }
     }
     
     
     /**
      * Test correct ophalen van de vestigingen
-     * @throws MapperException 
-     * @throws IllegalArgumentException 
-     * @author carlo
-     * @throws SQLException 
-     * @throws PostcodeException 
      */
     /*
      @	@contract ophalenVestigingen {
@@ -90,7 +93,8 @@ public class MapperTest {
      @	}
      */
     @Test
-    public void getVestigingen() throws MapperException {
+    public void getVestigingen() {
+      try {
     	//TODO
     	Collection<Vestiging> vestigingen = m.getVestigingen();
     	assertEquals(12,vestigingen.size()); 
@@ -146,9 +150,16 @@ public class MapperTest {
         }
     	assertNotNull(kGron);
     	assertNotNull(kZuidh);
-    	assertEquals(kGron,kZuidh);    	
+    	assertEquals(kGron,kZuidh); 
+      }
+      catch(MapperException me) {
+        fail(me);
+      }
     }
     
+    /**
+     * Test of het sluiten van de db verbinding goed gaat
+     */
 	@AfterAll
 	@Test
 	public static void closeConnection() {

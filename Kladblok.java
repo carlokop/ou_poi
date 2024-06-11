@@ -11,14 +11,18 @@ import data.Queries;
 import domein.Vestiging;
 import exceptions.MapperException;
 
-// Test stukjes code hier
-
+/**
+ * Voor het testen van stukjes code
+ */
 public class Kladblok {
 	private Mapper m;
 	private Connection con;
 	private PreparedStatement ps0, ps1;
 	private FBResultSet result;
 	
+	/**
+	 * Verbindt de database
+	 */
 	public void connect() {
 	  try {
         m = new Mapper();
@@ -30,6 +34,9 @@ public class Kladblok {
       }
 	}
 	
+	/**
+	 * Test de query met een aantal prints naar het console
+	 */
 	public void blad() {
 		try {
 		    ps0 = con.prepareStatement(Queries.GET_VESTIGINGEN);
@@ -65,6 +72,9 @@ public class Kladblok {
 		}
 	}
 	
+	/**
+	 * Prints de vestigingen naar het console
+	 */
 	public void printVestigingen() {
 	  try {
 	    Collection<Vestiging> vestigingen = m.getVestigingen();
@@ -79,6 +89,10 @@ public class Kladblok {
 	  
 	}
 
+	/**
+	 * Initialiseert het kladblok
+	 * @param args argumenten worden niet gebruikt
+	 */
 	public static void main(String[] args) {
 		Kladblok k = new Kladblok();
 		k.connect();

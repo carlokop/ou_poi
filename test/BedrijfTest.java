@@ -10,15 +10,24 @@ import org.junit.jupiter.api.Test;
 
 import domein.Bedrijf;
 
+/**
+ * Test voor bedrijf
+ */
 class BedrijfTest {
 
 	private Bedrijf b = null;
 
+	/**
+	 * Inits bedrijf
+	 */
 	@BeforeAll
 	void setup() {
 		b = new Bedrijf();
 	}
 
+	/**
+	 * Voert test uit voor happy path
+	 */
 	@Test
 	void happy() {
 		Collection<String> plaatsnamen = b.getVestigingPlaatsen();
@@ -31,9 +40,10 @@ class BedrijfTest {
 
 	}
 
-	@Test
-	void test() {
-		// fail("Not yet implemented");
-	}
+	
+//	@Test
+//	void test() {
+//		// fail("Not yet implemented");
+//	}
 
 }

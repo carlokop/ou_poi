@@ -9,7 +9,7 @@ public class Main {
 	/**
 	 * Maakt gui, controller, model en koppelt deze.
 	 * 
-	 * @param args
+	 * @param args argumenten worden niet gebruikt
 	 */
 	public static void main(String[] args) {
 

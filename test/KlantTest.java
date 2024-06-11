@@ -13,18 +13,28 @@ import exceptions.PostcodeException;
 /**
  * Test de Klant classe
  */
-
 class KlantTest {
   
   private Klant klant = null;
   private PostcodeInfo postcode = null;
   
   
+    /**
+     * initialiseert de postcode instantie
+     */
     @BeforeEach
-    void setup() throws PostcodeException {
-      postcode = new PostcodeInfo("8701GH", "Bolsward", 53.0673994187339, 5.5274963648489);
+    void setup() {
+      try {
+        postcode = new PostcodeInfo("8701GH", "Bolsward", 53.0673994187339, 5.5274963648489);
+      } catch(PostcodeException pce) {
+        fail(pce);
+      }
+      
     }
     
+    /**
+     * Test happy path
+     */
     @Test
     void happyTest() {
       klant = new Klant(123, postcode);
@@ -32,6 +42,9 @@ class KlantTest {
       assertEquals("8701GH",klant.getPostcode().getPostcode()); 
     }
     
+    /**
+     * Test foutive invoer
+     */
     @Test 
     void foutieveInvoerTest() {
       //negatief klant nr

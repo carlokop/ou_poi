@@ -12,12 +12,19 @@ import domein.PostcodeInfo;
 import domein.Vestiging;
 import exceptions.PostcodeException;
 
+/**
+ * Test voor vestigingen
+ */
 class VestigingTest {
   
   private Vestiging vestiging = null;
   private PostcodeInfo postcode = null;
   private ArrayList<Klant> klantenlijst = null;
   
+  /**
+   * Initialiseert het postcodeinfo object en een lijstje met drie klanten
+   * @throws PostcodeException
+   */
   @BeforeEach
   void setup() throws PostcodeException {
     postcode = new PostcodeInfo("8701GH", "Bolsward", 53.0673994187339, 5.5274963648489);
@@ -27,6 +34,9 @@ class VestigingTest {
     klantenlijst.add(new Klant(125, postcode));
   }
 
+  /**
+   * Test happy path
+   */
   @Test
   void happy() {
     ArrayList<Klant> klantenlijst = new ArrayList<>();
@@ -58,6 +68,10 @@ class VestigingTest {
 //    assertFalse(vestiging.voegKlantToe(null));
   }
   
+  /**
+   * Test of er ongeldige invoer is
+   * Nulls, lege stringen of alleen spaties
+   */
   @Test 
   void foutiveInvoer() {
     //plaats null

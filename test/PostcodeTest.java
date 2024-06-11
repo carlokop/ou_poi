@@ -20,9 +20,8 @@ public class PostcodeTest {
 	/**
 	 * Er zijn 4 parameters voor postcode: postcode, bestaande uit: 4-cijferreeks:
 	 * 1000-9999 2-letterreeks: AA-ZZ plaatsnaam, niet lege string; zonder getallen,
-	 * met apostrof en spaties. 1 <= string.length <= 30, langste adres in NL is 28
-	 * lang maar we kiezen even 30. latitude, -90 <= lat <= 90 longitude, -180 <=
-	 * lng <= 180
+	 * met apostrof en spaties. string.length moet tussen de 1 en 30 liggen, langste adres in NL is 28
+	 * lang maar we kiezen even 30. latitude, tussen -90 lat en 90 longitude, -180 lng en 180
 	 * 
 	 * We testen hierin elke geldige randwaarde
 	 */
@@ -127,8 +126,8 @@ public class PostcodeTest {
 	}
 
 	/**
-	 * plaatsnaam: niet lege string; zonder getallen, met apostrof en spaties. 1 <=
-	 * string.length <= 30, langste adres in NL is 28 lang maar we kiezen even 30.
+	 * plaatsnaam: niet lege string; zonder getallen, met apostrof en spaties.
+	 * string.length tussen 1 en 30, langste adres in NL is 28 lang maar we kiezen even 30.
 	 * 
 	 * We testen hierin elke ongeldige randwaarden
 	 */
@@ -167,8 +166,8 @@ public class PostcodeTest {
 	}
 
 	/**
-	 * Geografische coordinaten: latitude, -90 <= lat <= 90 longitude, -180 <= lng
-	 * <= 180
+	 * Geografische coordinaten: latitude, lat tussen -90 en 90 
+	 * longitude, lng tussen -180 en 180
 	 *
 	 * We testen hierin elke ongeldige randwaarden
 	 */

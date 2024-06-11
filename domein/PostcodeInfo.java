@@ -3,7 +3,10 @@ package domein;
 import exceptions.PostcodeException;
 import exceptions.PostcodeExceptionCode;
 
-// TODO: Documentation aan het einde
+/**
+ * Postcode informatie object
+ * Bevat informatie over een postcode 
+ */
 public class PostcodeInfo {
 	private String postcode;
 	private String plaatsnaam;
@@ -13,34 +16,40 @@ public class PostcodeInfo {
 	/**
 	 * Maakt postcode instantie
 	 * 
-	 * @param postcode de postcode
-	 * @param plaats   de plaatsnaam
-	 * @param lat      latitude
-	 * @param len      longtitude
-	 * @throws IllegalArgumentException bij ongeldige invoer
-	 * 
-	 * @contract happy {
-	 * @requires postcode != null && postcode.length == 6 bestaande uit eerst 4
-	 *           cijfers dan 2 letters
-	 * @requires plaats is not null en trim(plaats) != ""
-	 * @requires -90 > lat > 90
-	 * @requires -180 > len > 180
-	 * @ensures /result }
-	 * @contract null waarden {
-	 * @requires postcode == null of plaats == null
-	 * @signals IllegalArgumentException("Postcode mag niet leeg zijn") }
-	 * @contract lege str plaatsnaam {
-	 * @requires plaatsnaam is een lege string
-	 * @signals IllegalArgumentException("Plaatsnaam mag niet leeg zijn") }
-	 * @contract lat of len out of range {
-	 * @requires lat < -90 || lat > 90
-	 * @requires len < -180 || lat > 180
-	 * @signals IllegalArgumentException("latitude out of range moet tussen de -180
-	 *          en 180 zijn maar was: ...") }
-	 * @contract ongeldige postcode {
-	 * @requires postcode voldoet niet aan regex ^\d{4}[a-zA-Z]{2}$ (4 cijfers
-	 *           gevolgd door 2 letters)
-	 * @signals IllegalArgumentException("Ongeldig formaat voor postcode") }
+	 * @param postcode     de postcode
+	 * @param plaatsnaam   de plaatsnaam
+	 * @param lat          latitude
+	 * @param lng          longtitude
+	 * @throws PostcodeException bij ongeldige invoer
+	 */
+	/*@
+	 @ @contract happy {
+	 @   @requires postcode != null && postcode.length == 6 bestaande uit eerst 4
+	 @           cijfers dan 2 letters
+	 @   @requires plaats is not null en trim(plaats) != ""
+	 @   @requires -90 > lat > 90
+	 @   @requires -180 > len > 180
+	 @   @ensures /result 
+	 @ }
+	 @ @contract null waarden {
+	 @   @requires postcode == null of plaats == null
+	 @   @signals IllegalArgumentException("Postcode mag niet leeg zijn") 
+	 @ }
+	 @ @contract lege str plaatsnaam {
+	 @   @requires plaatsnaam is een lege string
+	 @   @signals IllegalArgumentException("Plaatsnaam mag niet leeg zijn") 
+	 @ }
+	 @ @contract lat of len out of range {
+	 @   @requires lat < -90 || lat > 90
+	 @   @requires len < -180 || lat > 180
+	 @   @signals IllegalArgumentException("latitude out of range moet tussen de -180
+	 @          en 180 zijn maar was: ...") 
+	 @ }
+	 @ @contract ongeldige postcode {
+	 @   @requires postcode voldoet niet aan regex ^\d{4}[a-zA-Z]{2}$ (4 cijfers
+	 @           gevolgd door 2 letters)
+	 @   @signals IllegalArgumentException("Ongeldig formaat voor postcode") 
+	 * }
 	 */
 	public PostcodeInfo(String postcode, String plaatsnaam, double lat, double lng) throws PostcodeException {
 		//validatePostcode(postcode);
@@ -53,11 +62,12 @@ public class PostcodeInfo {
 	}
 
 	/**
-	 * Controleert of de postcode info geldig is
+	 * Helper die controleert of de postcode string in een geldig formaat is
+	 * gooit een postcode exceptie op als dat niet het geval is
 	 * 
-	 * @param postcode
-	 * @return
-	 * @throws PostcodeException
+	 * @param postcode string
+	 * @throws PostcodeException als een ongeldige postcode opgegeven wordt
+	 * @see PostcodeInfo(String, String, double, double )
 	 */
 	public static void validatePostcode(String postcode) throws PostcodeException {
 		char c;
@@ -90,6 +100,12 @@ public class PostcodeInfo {
 		}
 	}
 
+	/**
+	 * helper die valideert of de plaatsnaam in een geldig formaat is
+	 * @param plaatsnaam naam van de plaats
+	 * @throws PostcodeException als ongeldige plaatsnaam is opgegeven
+	 * @see PostcodeInfo(String, String, double, double )
+	 */
 	public static void validatePlaatsnaam(String plaatsnaam) throws PostcodeException {
 		char c;
 		// Plaatsnaam null
@@ -117,6 +133,13 @@ public class PostcodeInfo {
 		}
 	}
 
+	/**
+	 * helper die valideert of lat en lng in een geldig formaat zijn
+	 * @param lat  latitude
+	 * @param lng  longtitude
+	 * @throws PostcodeException als ongeldige lat on lng zijn opgegeven
+	 * @see PostcodeInfo(String, String, double, double )
+	 */
 	public static void validateGeographicCoords(double lat, double lng) throws PostcodeException {
 		if(lat < -90 || lat > 90) {
 			throw new PostcodeException(PostcodeExceptionCode.GGCOORDS_LAT_OVERSCHRIJDING, Double.toString(lat));
