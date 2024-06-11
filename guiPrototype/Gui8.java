@@ -97,7 +97,6 @@ public class Gui8 extends JFrame implements Observer {
 		JButton sluitbtn = new JButton("Huidige activiteit stoppen.");
 		sluitbtn.setBackground(Color.RED);
 		sluitbtn.setForeground(Color.WHITE);
-		sluitbtn.setBorder(new EmptyBorder(5, 10, 5, 10));
 		sluitbtn.addActionListener(new stopActiviteitListener());
 
 		footer.add(sluitbtn);
