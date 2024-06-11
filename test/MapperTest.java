@@ -63,13 +63,6 @@ public class MapperTest {
     	}
     }
 
-
-    /*
-     @	@contract ophalenVestigingen {
-     @		@requires fdb database met geen andere wijzigingen anders dan in taak 3 aangegeven.
-     @		@ensures  lijst met vestigingen opgehaald en in benodigd formaat
-     @	}
-     */
     @Test
     public void getVestigingen() throws PoiException {
     	Collection<Vestiging> vestigingen = m.getVestigingen();

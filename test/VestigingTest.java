@@ -21,6 +21,7 @@ class VestigingTest {
 	private static PostcodeInfo postcode = null;
 	private static ArrayList<Klant> klantenlijst = null;
 	private static PoiException pe;
+	
 	@BeforeAll
 	static void setup() throws PoiException {
 		postcode = new PostcodeInfo("8701GH", "Bolsward", 53.0673994187339, 5.5274963648489);

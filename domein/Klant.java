@@ -14,7 +14,7 @@ public class Klant implements Comparable<Klant> {
 	 *
 	 * @param klantnr      het klantnummer
 	 * @param postcodeInfo postcodeinfo object
-	 * @throws IllegalArgumentException als foutive waarde wordt meegegeven
+	 * @throws PoiException als foutive waarde wordt meegegeven
 	 *
 	 * @contract happy {
 	 * @requires klantnr > 0
@@ -22,11 +22,10 @@ public class Klant implements Comparable<Klant> {
 	 * @ensures /result is een nieuwe klant }
 	 * @contract postcode null {
 	 * @requires postcode == null
-	 * @signals IllegalArgumentException("Postcode mag niet null zijn") }
+	 * @signals PoiException, PoiExceptionCode.POSTCODE_NULL
 	 * @contract klantnummer onjuist {
 	 * @requires klantnummer <= 0
-	 * @signals IllegalArgumentException("Klantknummer moet een positief getal
-	 *          zijn") }
+	 * @signals PoiException, PoiExceptionCode.KLANTNUMMER_NIET_POSITIEF
 	 */
 	public Klant(int klantnr, PostcodeInfo postcode) throws PoiException {
 		validate(klantnr, postcode);

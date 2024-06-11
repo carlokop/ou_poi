@@ -17,7 +17,7 @@ public class Vestiging {
 	 * @param plaats   vestiging plaatsnaam
 	 * @param postcode postcode instantie
 	 * @param klanten  collectieobject met klanten >= 0
-	 * @throws IllegalArgumentException bij ongeldige parameters
+	 * @throws PoiException bij ongeldige parameters
 	 *
 	 * @contract happy {
 	 * @requires plaats != null of lege string
@@ -26,16 +26,16 @@ public class Vestiging {
 	 * @ensures \result is een klanten instantie }
 	 * @contract ongeldigeplaats {
 	 * @requires plaats == null
-	 * @signals IllegalArgumentException("Plaats mag niet null zijn") }
+	 * @signals PoiException, PoiExceptionCode.PLAATSNAAM_NULL
 	 * @contract plaats_leeg {
 	 * @requires plaats == lege string of alleen spaties
-	 * @signals IllegalArgumentException("Plaats mag niet leeg zijn") }
+	 * @signals PoiException, PoiExceptionCode. ("Plaats mag niet leeg zijn") }
 	 * @contract postcode_null {
 	 * @requires postcode == null
-	 * @signals IllegalArgumentException("Postcode mag niet null zijn") }
+	 * @signals PoiException, PoiExceptionCode.("Postcode mag niet null zijn") }
 	 * @contract klanten_null {
 	 * @requires klanten == null
-	 * @signals IllegalArgumentException("Klanten mag niet null zijn") }
+	 * @signals PoiException, PoiExceptionCode.KLANTENLIJST_NULL
 	 *
 	 */
 	public Vestiging(String plaats, PostcodeInfo postcode, Collection<Klant> klanten) throws PoiException {
