@@ -4,6 +4,7 @@ import java.util.Collection;
 
 /**
  * Facade controller
+ * regelt communicatie tussen de GUI en de domeinlaag
  */
 public class Facade {
 	
