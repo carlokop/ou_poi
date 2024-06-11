@@ -2,6 +2,9 @@ package domein;
 
 import java.util.Collection;
 
+import exceptions.PoiException;
+import exceptions.PoiExceptionCode;
+
 public class Vestiging {
 
 	private Collection<Klant> klanten;
@@ -35,29 +38,34 @@ public class Vestiging {
 	 * @signals IllegalArgumentException("Klanten mag niet null zijn") }
 	 *
 	 */
-	public Vestiging(String plaats, PostcodeInfo postcode, Collection<Klant> klanten) throws IllegalArgumentException {
+	public Vestiging(String plaats, PostcodeInfo postcode, Collection<Klant> klanten) throws PoiException {
 		validate(plaats, postcode, klanten);
 		this.plaats = plaats;
 		this.postcodeInfo = postcode;
 		this.klanten = klanten;
 	}
 
-	public static void validate(String plaats, PostcodeInfo postcode, Collection<Klant> klanten) {
+	public static void validate(String plaats, PostcodeInfo postcode, Collection<Klant> klanten) throws PoiException {
 		// test plaats is niet null
 		if (plaats == null) {
-			throw new IllegalArgumentException("Plaats mag niet null zijn");
+			throw new PoiException(PoiExceptionCode.PLAATSNAAM_NULL, plaats);
 		}
+		
+		if(plaats.isEmpty()) {
+			throw new PoiException(PoiExceptionCode.PLAATSNAAM_LEEG, plaats);
+		}
+		
 		// test plaats is niet leeg of allen maar spaties
-		if (plaats.isBlank() || plaats.isEmpty()) {
-			throw new IllegalArgumentException("Plaats mag niet leeg zijn");
+		if (plaats.isBlank()) {
+			throw new PoiException(PoiExceptionCode.PLAATSNAAM_ALLEEN_SPATIES, plaats);
 		}
 		// test postcode is niet null
 		if (postcode == null) {
-			throw new IllegalArgumentException("Postcode mag niet null zijn");
+			throw new PoiException(PoiExceptionCode.POSTCODE_NULL, postcode.toString());
 		}
 		// klantenlist is null
 		if (klanten == null) {
-			throw new IllegalArgumentException("Klanten mag niet null zijn");
+			throw new PoiException(PoiExceptionCode.KLANTENLIJST_NULL, plaats + ":" + postcode.toString());
 		}
 	}
 
@@ -91,4 +99,4 @@ public class Vestiging {
 		return "" + plaats + " : " + klanten.size();
 	}
 
-} // class
+}
