@@ -6,9 +6,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import Exceptions.PostcodeException;
 import domein.Klant;
 import domein.PostcodeInfo;
+import exceptions.PostcodeException;
 
 /**
  * Test de Klant classe

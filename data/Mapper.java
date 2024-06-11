@@ -9,15 +9,17 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.TreeSet;
+import java.util.concurrent.ConcurrentSkipListSet;
 
 import org.firebirdsql.jdbc.FBResultSet;
 
-import Exceptions.MapperException;
-import Exceptions.MapperExceptionCode;
-import Exceptions.PostcodeException;
 import domein.Klant;
 import domein.PostcodeInfo;
 import domein.Vestiging;
+import exceptions.MapperException;
+import exceptions.MapperExceptionCode;
+import exceptions.PostcodeException;
 
 public class Mapper {
 
@@ -39,6 +41,7 @@ public class Mapper {
 
 	/**
 	 * Geeft de DB connectie
+	 * 
 	 * @return de connectie
 	 */
 	public Connection getConnection() {
@@ -67,9 +70,10 @@ public class Mapper {
 			throw new MapperException(MapperExceptionCode.CONNECTION_ESTABLISH_ERR, e.getMessage());
 		}
 	}
- 
+
 	/**
 	 * Sluit de verbinding met de database.
+	 * 
 	 * @throws MapperException
 	 */
 	public void disconnect() throws MapperException {
@@ -84,7 +88,9 @@ public class Mapper {
 
 	/**
 	 * Initialiseer prepared statements
-	 * @throws MapperException sql-query syntax bevat fouten of compilatie is mislukt
+	 * 
+	 * @throws MapperException sql-query syntax bevat fouten of compilatie is
+	 *                         mislukt
 	 */
 	private void initPreparedStatements() throws MapperException {
 		try {
@@ -96,9 +102,8 @@ public class Mapper {
 	}
 
 	/**
-	 * TODO: Contract bijwerken
-	 * Leest alle vestigingen en alle onderliggende associaties uit en maakt
-	 * domeinobjecten
+	 * TODO: Contract bijwerken Leest alle vestigingen en alle onderliggende
+	 * associaties uit en maakt domeinobjecten
 	 * 
 	 * @return lijst met vestigingen inclusief alle onderliggende associaties
 	 * @throws MapperException
@@ -116,50 +121,51 @@ public class Mapper {
 	 * @signals DBException("Fout bij het maken van domeinobjecten") }
 	 */
 	public Collection<Vestiging> getVestigingen() throws MapperException {
-	  Collection<Vestiging> vestigingen = new ArrayList<>();
-	  try {
+		Collection<Vestiging> vestigingen = new ArrayList<>();
 		Vestiging vestigingCache;
-		Collection<Klant> klantCache;
+		Collection<Klant> klantCollectionCache;
 		PostcodeInfo pciCache;
 		FBResultSet result;
-		result = (FBResultSet) getVestigingen.executeQuery();
-		while (result.next()) {
-			pciCache = new PostcodeInfo(
-					result.getString("POSTCODE"), 
-					result.getString("PLAATS"),
-					result.getDouble("LAT"), 
-					result.getDouble("LNG"));
-			vestigingen.add(new Vestiging(
-					result.getString("PLAATS"), 
-					pciCache, 
-					new HashSet<>()
-			));
-		}
-
-		result = (FBResultSet) getKlantenV.executeQuery();
-		while (result.next()) {
-			vestigingCache = selectVestiging(vestigingen, result.getString("VESTIGINGPLAATS"));
-			pciCache = new PostcodeInfo(
-					result.getString("KLANTPOSTCODE"), 
-					result.getString("KLANTPLAATS"),
-					result.getDouble("KLANTLAT"), 
-					result.getDouble("KLANTLNG"));
-			klantCache = vestigingCache.getKlanten();
-			klantCache.add(new Klant(result.getInt("KLANTNR"), pciCache));
-		}
 		
-	  } catch(SQLException e) {
-	    throw new MapperException(MapperExceptionCode.MAPPER_DATA_BUILD_ERR,e.getMessage());
-	  } catch(PostcodeException e) {
-	    throw new MapperException(MapperExceptionCode.MAPPER_DATA_BUILD_ERR,e.getMessage());
-      }
+		try {
+			result = (FBResultSet) getVestigingen.executeQuery();
+			while (result.next()) {
+				pciCache = new PostcodeInfo(
+						result.getString("POSTCODE"), 
+						result.getString("PLAATS"),
+						result.getDouble("LAT"), 
+						result.getDouble("LNG"));
+				vestigingen.add(new Vestiging(result.getString("PLAATS"), 
+								pciCache, 
+								new TreeSet<>()));
+			}
+
+			result = (FBResultSet) getKlantenV.executeQuery();
+			while (result.next()) {
+				vestigingCache = selectVestiging(vestigingen, result.getString("VESTIGINGPLAATS"));
+				pciCache = new PostcodeInfo(
+						result.getString("KLANTPOSTCODE"), 
+						result.getString("KLANTPLAATS"),
+						result.getDouble("KLANTLAT"), 
+						result.getDouble("KLANTLNG"));
+				klantCollectionCache = vestigingCache.getKlanten();
+				klantCollectionCache.add(
+						new Klant(result.getInt("KLANTNR"), 
+						pciCache));
+			}
+		} catch (SQLException e) {
+			throw new MapperException(MapperExceptionCode.MAPPER_DATA_BUILD_ERR, e.getMessage());
+		} catch (PostcodeException e) {
+			throw new MapperException(MapperExceptionCode.MAPPER_DATA_BUILD_ERR, e.getMessage());
+		}
 		return vestigingen;
 	}
 
 	/**
 	 * Zoekt vestiging op met plaatsnaam
-	 * @param vestigingen 	Verzameling waarin gezocht wordt
-	 * @param vSelect		selectiecriteria
+	 * 
+	 * @param vestigingen Verzameling waarin gezocht wordt
+	 * @param vSelect     selectiecriteria
 	 * @return gevonden vestiging
 	 * @throws MapperException Als de vestiging niet in de verzameling zit
 	 */

@@ -1,4 +1,4 @@
-package Exceptions;
+package exceptions;
 
 public enum MapperExceptionCode {
 	JAYBIRD_JDBC_NOT_FOUND("Java kan de klasse voor de driver niet vinden, controleer de classpath op de juiste instellingen"),

@@ -1,8 +1,9 @@
-package gui7;
+package guiPrototype;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.util.Collection;
+import java.util.Iterator;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
@@ -25,9 +26,9 @@ public class VestigingKlantOverzicht extends JPanel {
 	
 	public void createColumns(){
 		JPanel columnPanel = new JPanel();
-		columnPanel.setLayout(new GridLayout());
-		columnPanel.add(new JLabel("Klantnr"));
-//		columnPanel.add(new JLabel("Overig"));
+		columnPanel.setLayout(new GridLayout(1, 2, 0, 0));
+		columnPanel.add(new JLabel("Klantnr" ));
+		columnPanel.add(new JLabel("Klantaantal: "  + klantData.size()));
 		columnPanel.setSize(columnWidth, this.HEIGHT);
 		this.add(columnPanel, BorderLayout.NORTH);
 	}

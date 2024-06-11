@@ -7,10 +7,10 @@ import java.util.ArrayList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import Exceptions.PostcodeException;
 import domein.Klant;
 import domein.PostcodeInfo;
 import domein.Vestiging;
+import exceptions.PostcodeException;
 
 class VestigingTest {
   

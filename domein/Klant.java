@@ -2,7 +2,7 @@ package domein;
 
 import java.util.Objects;
 
-public class Klant  {
+public class Klant implements Comparable {
 	private PostcodeInfo postcode;
 	private int klantnr;
 	
@@ -70,5 +70,10 @@ public class Klant  {
     @Override public int hashCode() {
     	return Objects.hash(klantnr);
     }
+
+	@Override
+	public int compareTo(Object o) {
+		return this.klantnr - ((Klant) o).getKlantnr();
+	}
     
 }

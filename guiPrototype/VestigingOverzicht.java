@@ -1,8 +1,7 @@
-package gui7;
+package guiPrototype;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.Container;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,29 +13,25 @@ import javax.swing.JPanel;
 
 import controller.Facade;
 
-public class VestigingOverzicht extends JPanel{
+public class VestigingOverzicht extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	Facade fc;
 	HashMap<String, Component> vestigingKlantOverzicht;
 
-	
-	VestigingOverzicht(Facade fc){
+	VestigingOverzicht(Facade fc) {
 		this.setLayout(new BorderLayout());
-		this.setSize(500, 500);
 		this.fc = fc;
 		this.vestigingKlantOverzicht = new HashMap<>();
-		
+		init();
 	}
-	
-	public void createVestigingLijst() {
+
+	public void init() {
 		JPanel jpVestigingLijst = new JPanel();
 		jpVestigingLijst.setLayout(new GridLayout(0, 1));
 		Collection<String> vestigingPlaatsData = fc.getVestigingPlaatsen();
-
 		toonVestigingKlantenListener tvkListener = new toonVestigingKlantenListener();
 		
-		// maak alle knoppen
 		for (String plaats : vestigingPlaatsData) {
 			JButton knop = new JButton(plaats);
 			jpVestigingLijst.add(knop);
@@ -44,22 +39,28 @@ public class VestigingOverzicht extends JPanel{
 		}
 		this.add(jpVestigingLijst, BorderLayout.WEST);
 	}
-	
+
 	public class toonVestigingKlantenListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			JButton selectedButton = (JButton) e.getSource();
 			String plaats = selectedButton.getText();
-			Component vestigingKlantComponent;
 			Collection<String> vestigingKlantData = fc.getVestigingKlanten(plaats);
+			BorderLayout bLayout = (BorderLayout) VestigingOverzicht.this.getLayout();
+			Component cCache;
+			
+			cCache = bLayout.getLayoutComponent(BorderLayout.CENTER);
+			if (cCache != null) {
+				VestigingOverzicht.this.remove(cCache);
+			}
 
 			if (!vestigingKlantOverzicht.containsKey(plaats)) {
 				vestigingKlantOverzicht.put(plaats, new VestigingKlantOverzicht(vestigingKlantData));
 			}
 
-			System.out.println("Test");
-			vestigingKlantComponent = vestigingKlantOverzicht.get(plaats);
-			VestigingOverzicht.this.add(vestigingKlantComponent, BorderLayout.CENTER);
+			VestigingOverzicht.this.add(vestigingKlantOverzicht.get(plaats), BorderLayout.CENTER);
+			VestigingOverzicht.this.revalidate();
+			VestigingOverzicht.this.repaint();
 		}
 	}
 }
