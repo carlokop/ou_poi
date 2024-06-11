@@ -1,7 +1,9 @@
 package test;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Collection;
 
@@ -22,18 +24,22 @@ class BedrijfTest {
 	@Test
 	void happy() {
 		Collection<String> plaatsnamen = b.getVestigingPlaatsen();
+		Collection<String> klanten;
 		// test of er 12 plaatsnamen zijn
 		assertEquals(12, plaatsnamen.size());
 
 		for (String plaats : plaatsnamen) {
-			assertNotEquals("", plaats);
+			assertFalse(plaats.isBlank());
+			
+			klanten = b.getVestigingKlanten(plaats);
+			assertTrue(klanten.size()>0);
 		}
-
 	}
-
+	
 	@Test
-	void test() {
-		// fail("Not yet implemented");
+	void foutieveInvoer() {
+		Collection<String> klanten;
+		klanten = b.getVestigingKlanten("Disneyland");
+		assertNull(klanten);
 	}
-
 }

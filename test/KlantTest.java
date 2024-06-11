@@ -29,8 +29,8 @@ class KlantTest {
 	@Test
 	void happyTest() {
 		try {
-			klant = new Klant(123, postcode);
-			assertEquals(123, klant.getKlantnr());
+			klant = new Klant(1, postcode);
+			assertEquals(1, klant.getKlantnr());
 			assertEquals("8701GH", klant.getPostcode().getPostcode());
 		} catch (PoiException e) {
 			e.printStackTrace();
