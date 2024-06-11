@@ -91,7 +91,7 @@ public class Vestiging {
 	 * Geeft de postcode instantie
 	 * @return de postcodeInfo instantie
 	 */
-	public PostcodeInfo getPostcode() {
+	public PostcodeInfo getPostcodeInfo() {
 		return postcodeInfo;
 	}
 

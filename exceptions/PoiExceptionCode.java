@@ -24,8 +24,10 @@ public enum PoiExceptionCode {
 	PLAATSNAAM_TE_GROOT("Plaatsnaam maximale lengte overschreden"),
 
 	GGCOORDS_LAT_OVERSCHRIJDING("GGCoord lat overschrijdt grenswaarde"),
-	GGCOORDS_LNG_OVERSCHRIJDING("GGCoord lng overschrijdt grenswaarde"),;
+	GGCOORDS_LNG_OVERSCHRIJDING("GGCoord lng overschrijdt grenswaarde"),
 
+	VESTIGING_PLAATS_ONGELDIG("Vestiging is onbekend of null"),
+	;
 	private String ec_message;
 
 	PoiExceptionCode(String ec_message) {
