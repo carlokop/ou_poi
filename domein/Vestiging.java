@@ -10,12 +10,12 @@ public class Vestiging {
 
 	/**
 	 * Maakt een nieuwe vestiging
-	 * 
+	 *
 	 * @param plaats   vestiging plaatsnaam
 	 * @param postcode postcode instantie
 	 * @param klanten  collectieobject met klanten >= 0
 	 * @throws IllegalArgumentException bij ongeldige parameters
-	 * 
+	 *
 	 * @contract happy {
 	 * @requires plaats != null of lege string
 	 * @requires postcode != null
@@ -33,7 +33,7 @@ public class Vestiging {
 	 * @contract klanten_null {
 	 * @requires klanten == null
 	 * @signals IllegalArgumentException("Klanten mag niet null zijn") }
-	 * 
+	 *
 	 */
 	public Vestiging(String plaats, PostcodeInfo postcode, Collection<Klant> klanten) throws IllegalArgumentException {
 		validate(plaats, postcode, klanten);
@@ -63,7 +63,7 @@ public class Vestiging {
 
 	/**
 	 * Geeft de plaatsnaam
-	 * 
+	 *
 	 * @return de plaatsnaam
 	 */
 	public String getPlaats() {
@@ -79,7 +79,7 @@ public class Vestiging {
 
 	/**
 	 * Geeft de klantenlijst
-	 * 
+	 *
 	 * @return collectie met klanten
 	 */
 	public Collection<Klant> getKlanten() {

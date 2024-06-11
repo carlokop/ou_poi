@@ -31,7 +31,7 @@ public class VestigingOverzicht extends JPanel {
 		jpVestigingLijst.setLayout(new GridLayout(0, 1));
 		Collection<String> vestigingPlaatsData = fc.getVestigingPlaatsen();
 		toonVestigingKlantenListener tvkListener = new toonVestigingKlantenListener();
-		
+
 		for (String plaats : vestigingPlaatsData) {
 			JButton knop = new JButton(plaats);
 			jpVestigingLijst.add(knop);
@@ -44,7 +44,7 @@ public class VestigingOverzicht extends JPanel {
 		Collection<String> vestigingKlantData = fc.getVestigingKlanten(plaats);
 		BorderLayout bLayout = (BorderLayout) VestigingOverzicht.this.getLayout();
 		Component cCache;
-		
+
 		cCache = bLayout.getLayoutComponent(BorderLayout.CENTER);
 		if (cCache != null) {
 			VestigingOverzicht.this.remove(cCache);
@@ -53,15 +53,15 @@ public class VestigingOverzicht extends JPanel {
 		if (!vestigingKlantOverzicht.containsKey(plaats)) {
 			vestigingKlantOverzicht.put(plaats, new VestigingKlantOverzicht(vestigingKlantData));
 		}
+		VestigingOverzicht.this.add(vestigingKlantOverzicht.get(plaats), BorderLayout.CENTER);
 	}
-	
+
 	public class toonVestigingKlantenListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			JButton selectedButton = (JButton) e.getSource();
 			String plaats = selectedButton.getText();
 			toonVestigingKlanten(plaats);
-			VestigingOverzicht.this.add(vestigingKlantOverzicht.get(plaats), BorderLayout.CENTER);
 			VestigingOverzicht.this.revalidate();
 			VestigingOverzicht.this.repaint();
 		}

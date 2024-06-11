@@ -12,7 +12,7 @@ public final class Queries {
 			+ "	 JOIN KLANT k ON b.KLANT = k.NR\r\n"
 			+ "	 JOIN POSTCODEINFO p ON k.POSTCODE = p.POSTCODE\r\n"
 			+ "ORDER BY KLANT ASC;";
-	
+
 	// Haalt gegevens over de vestigingen zelf op
 	public final static String GET_VESTIGINGEN =
 			"SELECT v.PLAATS , p.POSTCODE , p.LAT, p.LNG \r\n"

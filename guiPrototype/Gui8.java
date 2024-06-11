@@ -5,27 +5,15 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.FlowLayout;
-import java.awt.GridLayout;
-import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowAdapter;
-import java.util.Collection;
-import java.util.HashMap;
 
-import javax.swing.DefaultListModel;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.border.EmptyBorder;
 
 import controller.Facade;
 import observerPatroon.Observer;
@@ -108,7 +96,7 @@ public class Gui8 extends JFrame implements Observer {
 	class VestigingMenuItemLuisteraar implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			clearViews();
+			stopActivity();
 			pane.add(vestigingOverzicht, BorderLayout.WEST);
 			Gui8.this.pane.revalidate();
 			Gui8.this.pane.repaint();
@@ -121,7 +109,7 @@ public class Gui8 extends JFrame implements Observer {
 	class VestigingenSluitenMenuItemLuisteraar implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			clearViews();
+			stopActivity();
 		}
 	}
 
@@ -131,11 +119,11 @@ public class Gui8 extends JFrame implements Observer {
 	class stopActiviteitListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			clearViews();
+			stopActivity();
 		}
 	}
 
-	public void clearViews() {
+	public void stopActivity() {
 		BorderLayout bLayout = (BorderLayout) this.pane.getLayout();
 		Component cCache;
 		cCache = bLayout.getLayoutComponent(BorderLayout.WEST);
@@ -153,7 +141,7 @@ public class Gui8 extends JFrame implements Observer {
 		this.pane.revalidate();
 		this.pane.repaint();
 	}
-	
+
 	@Override
 	public void update() {
 		// Taak 5

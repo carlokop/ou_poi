@@ -8,11 +8,11 @@ public class Klant implements Comparable<Klant> {
 
 	/**
 	 * Maakt nieuwe klant
-	 * 
+	 *
 	 * @param klantnr      het klantnummer
 	 * @param postcodeInfo postcodeinfo object
 	 * @throws IllegalArgumentException als foutive waarde wordt meegegeven
-	 * 
+	 *
 	 * @contract happy {
 	 * @requires klantnr > 0
 	 * @requires postcodeinfo != null
@@ -42,10 +42,10 @@ public class Klant implements Comparable<Klant> {
 			throw new IllegalArgumentException("Postcode mag niet null zijn");
 		}
 	}
-	
+
 	/**
 	 * Geeft het klantnummer
-	 * 
+	 *
 	 * @return klantnr
 	 */
 	public int getKlantnr() {
@@ -54,7 +54,7 @@ public class Klant implements Comparable<Klant> {
 
 	/**
 	 * Geeft het postcodeinstantie
-	 * 
+	 *
 	 * @return postcode
 	 */
 	public PostcodeInfo getPostcode() {
