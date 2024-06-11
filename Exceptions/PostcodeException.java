@@ -1,4 +1,4 @@
-package Exceptions;
+package exceptions;
 
 public class PostcodeException extends Exception {
 	private static final long serialVersionUID = 1L;

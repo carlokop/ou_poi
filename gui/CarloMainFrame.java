@@ -16,8 +16,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import Controller.CarloFacade;
-import ObserverPatroon.Observer;
+import controller.CarloFacade;
+import observerPatroon.Observer;
 
 public class CarloMainFrame extends JFrame implements Observer {
     private static final long serialVersionUID = 1L;

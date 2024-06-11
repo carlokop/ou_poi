@@ -1,7 +1,7 @@
-package Domein;
+package domein;
 
-import Exceptions.PostcodeException;
-import Exceptions.PostcodeExceptionCode;
+import exceptions.PostcodeException;
+import exceptions.PostcodeExceptionCode;
 
 // TODO: Documentation aan het einde
 public class PostcodeInfo {

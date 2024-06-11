@@ -1,4 +1,4 @@
-package Exceptions;
+package exceptions;
 
 public enum PostcodeExceptionCode {
 	POSTCODE_NULL("Postcode is null"),

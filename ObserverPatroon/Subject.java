@@ -1,4 +1,4 @@
-package ObserverPatroon;
+package observerPatroon;
 
 import java.util.ArrayList;
 import java.util.List;

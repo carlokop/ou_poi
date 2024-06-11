@@ -1,4 +1,4 @@
-package ObserverPatroon;
+package observerPatroon;
 
 public interface Observer {
 	

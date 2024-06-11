@@ -1,11 +1,11 @@
-package Domein;
+package domein;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import Controller.Model;
-import Data.Mapper;
-import Exceptions.MapperException;
-import ObserverPatroon.Subject;
+import controller.Model;
+import data.Mapper;
+import exceptions.MapperException;
+import observerPatroon.Subject;
 
 public class Bedrijf extends Subject implements Model{
 	Collection<Vestiging> vestigingen;

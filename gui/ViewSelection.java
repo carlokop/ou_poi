@@ -1,4 +1,4 @@
-package Gui;
+package gui;
 
 /**
  * Definieert views die geselecteerd kunnen worden in de GUI *

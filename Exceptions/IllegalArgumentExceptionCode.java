@@ -1,4 +1,4 @@
-package Exceptions;
+package exceptions;
 
 public enum IllegalArgumentExceptionCode {
   KLANTNUMMER_NIET_POSITIEF("Klantknummer moet een positief getal zijn"),

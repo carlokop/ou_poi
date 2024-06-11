@@ -1,7 +1,7 @@
 import javax.swing.SwingUtilities;
 
-import Controller.CarloFacade;
-import Domein.Bedrijf;
+import controller.CarloFacade;
+import domein.Bedrijf;
 import gui.CarloMainFrame;
 
 public class Main {

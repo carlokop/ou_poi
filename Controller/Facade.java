@@ -1,8 +1,8 @@
-package Controller;
+package controller;
 
 import java.util.Collection;
 
-import Gui.ViewSelection;
+import gui.ViewSelection;
 
 
 public class Facade {

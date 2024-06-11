@@ -1,4 +1,4 @@
-package Data;
+package data;
 
 /**
  * Queries voor de database

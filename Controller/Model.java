@@ -1,8 +1,8 @@
-package Controller;
+package controller;
 
 import java.util.Collection;
 
-import ObserverPatroon.Observer;
+import observerPatroon.Observer;
 
 /**
  * Markeer interface

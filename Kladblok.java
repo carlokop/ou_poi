@@ -6,10 +6,10 @@ import java.util.Collection;
 
 import org.firebirdsql.jdbc.FBResultSet;
 
-import Data.Mapper;
-import Data.Queries;
-import Domein.Vestiging;
-import Exceptions.MapperException;
+import data.Mapper;
+import data.Queries;
+import domein.Vestiging;
+import exceptions.MapperException;
 
 // Test stukjes code hier
 

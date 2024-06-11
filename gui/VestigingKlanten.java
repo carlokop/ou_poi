@@ -11,8 +11,8 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import Controller.CarloFacade;
-import ObserverPatroon.Observer;
+import controller.CarloFacade;
+import observerPatroon.Observer;
 
 /**
  * Deze klasse regelt het tonen van klanten per verstigingen (Taak 4)
