@@ -35,9 +35,11 @@ public class Mapper {
 	public Mapper() throws MapperException {
 		connect();
 		initPreparedStatements();
+		
+		// Na speuren op stackoverflow
 		Runtime.getRuntime().addShutdownHook(new Thread(() -> {
 			try {
-				System.out.println("db shutdown initiated");
+				System.out.println("DB shutdown initiated");
 				disconnect();
 			} catch (MapperException e) {
 				e.printStackTrace();
@@ -86,7 +88,7 @@ public class Mapper {
 		if (con != null) {
 			try {
 				con.close();
-				System.out.println("DB Verbinding verbroken");
+				System.out.println("DB Verbinding is verbroken");
 			} catch (SQLException e) {
 				throw new MapperException(MapperExceptionCode.CONNECTION_SHUTDOWN_ERR, e.getMessage());
 			}

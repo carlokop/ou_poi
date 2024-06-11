@@ -4,7 +4,7 @@ import java.util.Collection;
 
 public class Facade {
 	
-	Model m;
+	private Model m;
 	
 	public Facade(Model m){
 		this.m = m;
