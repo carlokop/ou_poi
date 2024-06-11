@@ -1,8 +1,10 @@
 import javax.swing.SwingUtilities;
 
-import controller.CarloFacade;
+import controller.Facade;
 import domein.Bedrijf;
-import gui.CarloMainFrame;
+//import gui.Gui;
+import guiPrototype.Gui7;
+import guiPrototype.Gui8;
 
 public class Main {
 
@@ -17,9 +19,12 @@ public class Main {
 			@Override
 			public void run() {
 				Bedrijf bedrijf = new Bedrijf();
-				CarloFacade facade = new CarloFacade(bedrijf);
-				CarloMainFrame gui = new CarloMainFrame(facade);
-				bedrijf.attach(gui);
+				Facade facade = new Facade(bedrijf);
+//				Gui7 gui7 = new Gui7(facade);
+//				bedrijf.attach(gui7);
+				
+				Gui8 gui8 = new Gui8(facade);
+				bedrijf.attach(gui8);
 			}
 		});
 	}

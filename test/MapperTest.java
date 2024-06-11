@@ -8,14 +8,16 @@ import static org.junit.jupiter.api.Assertions.fail;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import exceptions.MapperException;
 import data.Mapper;
 import domein.Klant;
 import domein.Vestiging;
+import exceptions.MapperException;
+import exceptions.PostcodeException;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Collection;
+import java.util.Iterator;
 
 public class MapperTest {
 
@@ -25,7 +27,6 @@ public class MapperTest {
 	
 	@BeforeEach
 	public void init() {
-    	
     	try {
 			m = new Mapper();
     		c = m.getConnection();
@@ -48,10 +49,34 @@ public class MapperTest {
 		}
     }
     
+    
+    @Test
+    public void testCorrecteSortering() throws MapperException {
+    	Collection<Vestiging> vestigingen = m.getVestigingen();
+    	Collection<Klant> vestigingKlanten = null;
+    	Iterator<Klant> vkIt;
+    	Klant prevK, crrntK;
+    	
+    	for(Vestiging v: vestigingen) {
+    		vestigingKlanten = v.getKlanten();
+        	vkIt = vestigingKlanten.iterator();
+        	prevK = vkIt.next();
+        	while(vkIt.hasNext()) {
+        		crrntK = vkIt.next();
+        		assertTrue(prevK.getKlantnr() < crrntK.getKlantnr());
+        		prevK = crrntK;
+        	}
+    	}
+    }
+    
+    
     /**
      * Test correct ophalen van de vestigingen
      * @throws MapperException 
+     * @throws IllegalArgumentException 
      * @author carlo
+     * @throws SQLException 
+     * @throws PostcodeException 
      */
     /*
      @	@contract ophalenVestigingen {
@@ -118,7 +143,6 @@ public class MapperTest {
     	assertNotNull(kZuidh);
     	assertEquals(kGron,kZuidh);    	
     }
-    
     
     /**
      * Test sluiten van connectie met de fdb database

@@ -23,8 +23,8 @@ public class Facade {
 	 * @param plaats
 	 * @return lijst met klant id's
 	 */
-	public Collection<Integer> getVestigingKlanten(String plaats) {
+	public Collection<String> getVestigingKlanten(String plaats) {
 	  return m.getVestigingKlanten(plaats);
 	}
-		
+
 }

@@ -2,9 +2,10 @@ package domein;
 
 import java.util.ArrayList;
 import java.util.Collection;
+
+import exceptions.MapperException;
 import controller.Model;
 import data.Mapper;
-import exceptions.MapperException;
 import observerPatroon.Subject;
 
 public class Bedrijf extends Subject implements Model{
@@ -16,6 +17,7 @@ public class Bedrijf extends Subject implements Model{
 			m = new Mapper();
 			vestigingen = m.getVestigingen();
 		} catch (MapperException e) {
+			//
 			e.printStackTrace();
 		}
 	}
@@ -37,8 +39,8 @@ public class Bedrijf extends Subject implements Model{
 	 * @param plaats ookwel vestiginglocatie
 	 * @return lijst van id's als string
 	 */
-	public Collection<Integer> getVestigingKlanten(String plaats){
-		Collection<Integer> vestigingKlantenData = new ArrayList<>();
+	public Collection<String> getVestigingKlanten(String plaats){
+		Collection<String> vestigingKlantenData = new ArrayList<>();
 		Vestiging vestigingSelectie = null;
 		Collection<Klant> klantCache = null;
 		
@@ -51,23 +53,8 @@ public class Bedrijf extends Subject implements Model{
 		
 		klantCache = vestigingSelectie.getKlanten();
 		for(Klant k: klantCache) {
-			vestigingKlantenData.add(k.getKlantnr());
+			vestigingKlantenData.add(String.valueOf(k.getKlantnr()));
 		}
 		return vestigingKlantenData;
 	}
-	
-	/**
-	 * verbreekt de verbinding en sluit de applicatie af
-	 */
-	public void sluitAf() {
-	  try {
-	    m.disconnect();
-	    System.exit(0);
-	  } catch(MapperException ignore) {
-	    
-	  }
-	  
-	}
-	
-	
 }
