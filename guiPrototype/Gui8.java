@@ -7,17 +7,18 @@ import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-
 import controller.Facade;
 import observerPatroon.Observer;
 
+/**
+ * Standaardframe van de Grafische userinterface
+*/
 public class Gui8 extends JFrame implements Observer {
 
 	private static final long serialVersionUID = 1L;
@@ -27,6 +28,10 @@ public class Gui8 extends JFrame implements Observer {
 	private Component header, footer;
 	private Component vestigingOverzicht;
 
+	/**
+	 * Initialiseert en stelt de contentpane in
+	 * @param fc facade controller
+	 */
 	public Gui8(Facade fc) {
 		super();
 		this.fc = fc;
@@ -34,6 +39,10 @@ public class Gui8 extends JFrame implements Observer {
 		init();
 	}
 
+	/**
+	 * Initialiseert de contentpane met een header, footer en een gedeelte in het midden
+	 * In het middelste stuk wordt een vestiging onverzicht geplaatst
+	 */
 	public void init() {
 		setVisible(true);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -52,7 +61,8 @@ public class Gui8 extends JFrame implements Observer {
 	}
 
 	/**
-	 * Voegt hoofdmenu toe aan de contentpane
+	 * Voegt header met hoofdmenu toe aan de contentpane
+	 * @return de header
 	 */
 	private Container createHeader() {
 		JMenuBar headermenu = new JMenuBar();
@@ -75,6 +85,7 @@ public class Gui8 extends JFrame implements Observer {
 
 	/**
 	 * Voegt een footer toe aan de content pane met een sluit button
+	 * @return de footer
 	 */
 	private Component createFooter() {
 		JPanel footer = new JPanel();
@@ -96,7 +107,7 @@ public class Gui8 extends JFrame implements Observer {
 	class VestigingMenuItemLuisteraar implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			stopActivity();
+			clearViews();
 			pane.add(vestigingOverzicht, BorderLayout.WEST);
 			Gui8.this.pane.revalidate();
 			Gui8.this.pane.repaint();
@@ -109,7 +120,7 @@ public class Gui8 extends JFrame implements Observer {
 	class VestigingenSluitenMenuItemLuisteraar implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			stopActivity();
+			clearViews();
 		}
 	}
 
@@ -119,11 +130,15 @@ public class Gui8 extends JFrame implements Observer {
 	class stopActiviteitListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			stopActivity();
+			clearViews();
 		}
 	}
 
-	public void stopActivity() {
+	/***
+	 * Maakt de layout m.u.v. de header en footer leeg 
+	 * Dit sluit alle actieve use cases en brengt de GUI terug naar de begintoestant
+	 */
+	public void clearViews() {
 		BorderLayout bLayout = (BorderLayout) this.pane.getLayout();
 		Component cCache;
 		cCache = bLayout.getLayoutComponent(BorderLayout.WEST);
@@ -141,7 +156,10 @@ public class Gui8 extends JFrame implements Observer {
 		this.pane.revalidate();
 		this.pane.repaint();
 	}
-
+	
+	/**
+	 * Updates wijzigingen in de observers
+	 */
 	@Override
 	public void update() {
 		// Taak 5

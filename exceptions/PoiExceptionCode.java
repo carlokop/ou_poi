@@ -17,7 +17,8 @@ public enum PoiExceptionCode {
 	POSTCODE_VELDEN("Ongeldige Postcode velden"),
 	POSTCODE_NUL_START("Postcode begint met 0"),
 
-	PLAATSNAAM_NULL("Plaatsnaam is null"), PLAATSNAAM_LEEG("Plaatsnaam is leeg"),
+	PLAATSNAAM_NULL("Plaatsnaam is null"), 
+	PLAATSNAAM_LEEG("Plaatsnaam is leeg"),
 	PLAATSNAAM_ALLEEN_SPATIES("Plaatsnaam bevat alleen spaties"),
 	PLAATSNAAM_ILLEGAL_CHAR("Karakter in plaatsnaam niet toegestaan"),
 	PLAATSNAAM_TE_GROOT("Plaatsnaam maximale lengte overschreden"),
