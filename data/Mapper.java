@@ -2,7 +2,6 @@ package data;
 
 import java.io.PrintWriter;
 import java.sql.Connection;
-
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -15,9 +14,8 @@ import org.firebirdsql.jdbc.FBResultSet;
 import domein.Klant;
 import domein.PostcodeInfo;
 import domein.Vestiging;
-import exceptions.MapperException;
-import exceptions.MapperExceptionCode;
-import exceptions.PostcodeException;
+import exceptions.PoiException;
+import exceptions.PoiExceptionCode;
 
 public class Mapper {
 
@@ -32,16 +30,16 @@ public class Mapper {
 	private PreparedStatement getKlantenV = null;
 	private Connection con = null; // verbinding met gegevensbank
 
-	public Mapper() throws MapperException {
+	public Mapper() throws PoiException {
 		connect();
 		initPreparedStatements();
-		
-		// Na speuren op stackoverflow
+
+		// Na speuren op stackoverflow een oplossing gevonden voor afsluiten van de db connectie
 		Runtime.getRuntime().addShutdownHook(new Thread(() -> {
 			try {
 				System.out.println("DB shutdown initiated");
 				disconnect();
-			} catch (MapperException e) {
+			} catch (PoiException e) {
 				e.printStackTrace();
 			}
 		}));
@@ -49,7 +47,7 @@ public class Mapper {
 
 	/**
 	 * Geeft de DB connectie
-	 * 
+	 *
 	 * @return de connectie
 	 */
 	public Connection getConnection() {
@@ -59,63 +57,64 @@ public class Mapper {
 	/**
 	 * Maakt verbinding met de database. Eerst wordt de JDBC-driver geregistreerd
 	 * door het laden van de juiste implementatie van Driver;
-	 * 
+	 *
 	 * @throws MapperException als de driver niet geladen kan worden of het
 	 *                         verbinding maken mislukt (bv. door een fout in de
 	 *                         padnaam).
 	 */
-	public void connect() throws MapperException {
+	private void connect() throws PoiException {
 		try {
 			Class.forName(DBConst.DRIVERNAAM); // 1. zoek naar de te laden driver klasse
 			DriverManager.setLogWriter(new PrintWriter(System.out)); // 2. print driver output naar console
 			con = DriverManager.getConnection(DBConst.URL, DBConst.GEBRUIKERSNAAM, DBConst.WACHTWOORD); // 3. start de
 																										// verbinding
 		} catch (ClassNotFoundException cnfe) {// <- 1
-			throw new MapperException(MapperExceptionCode.JAYBIRD_JDBC_NOT_FOUND, cnfe.getMessage());
+			throw new PoiException(PoiExceptionCode.JAYBIRD_JDBC_NOT_FOUND, cnfe.getMessage());
 		} catch (SecurityException se) {// <- 2
-			throw new MapperException(MapperExceptionCode.LOGWRITER_PERMISSION_DENIED, se.getMessage());
+			throw new PoiException(PoiExceptionCode.LOGWRITER_PERMISSION_DENIED, se.getMessage());
 		} catch (SQLException e) { // <- 3
-			throw new MapperException(MapperExceptionCode.CONNECTION_ESTABLISH_ERR, e.getMessage());
+			throw new PoiException(PoiExceptionCode.CONNECTION_ESTABLISH_ERR, e.getMessage());
 		}
 	}
 
 	/**
 	 * Sluit de verbinding met de database.
-	 * 
+	 *
 	 * @throws MapperException
 	 */
-	public void disconnect() throws MapperException {
+	public void disconnect() throws PoiException {
 		if (con != null) {
 			try {
 				con.close();
 				System.out.println("DB Verbinding is verbroken");
 			} catch (SQLException e) {
-				throw new MapperException(MapperExceptionCode.CONNECTION_SHUTDOWN_ERR, e.getMessage());
+				throw new PoiException(PoiExceptionCode.CONNECTION_SHUTDOWN_ERR, e.getMessage());
 			}
 		}
 	}
 
 	/**
 	 * Initialiseer prepared statements
-	 * 
+	 *
 	 * @throws MapperException sql-query syntax bevat fouten of compilatie is
 	 *                         mislukt
 	 */
-	private void initPreparedStatements() throws MapperException {
+	private void initPreparedStatements() throws PoiException {
 		try {
 			getVestigingen = con.prepareStatement(Queries.GET_VESTIGINGEN);
 			getKlantenV = con.prepareStatement(Queries.GET_KLANTEN);
 		} catch (SQLException sqle) {
-			throw new MapperException(MapperExceptionCode.SQL_QUERY_PREP_STAT_ERROR, sqle.getMessage());
+			throw new PoiException(PoiExceptionCode.SQL_QUERY_PREP_STAT_ERROR, sqle.getMessage());
 		}
 	}
 
 	/**
 	 * TODO: Contract bijwerken Leest alle vestigingen en alle onderliggende
 	 * associaties uit en maakt domeinobjecten
-	 * 
+	 *
 	 * @return lijst met vestigingen inclusief alle onderliggende associaties
 	 * @throws MapperException
+	 * @throws PoiException
 	 * @throws PostcodeException
 	 * @contract happy {
 	 * @requires con != null
@@ -129,23 +128,23 @@ public class Mapper {
 	 * @requires klant bevat ongeldige parameters
 	 * @signals DBException("Fout bij het maken van domeinobjecten") }
 	 */
-	public Collection<Vestiging> getVestigingen() throws MapperException {
+	public Collection<Vestiging> getVestigingen() throws PoiException {
 		Collection<Vestiging> vestigingen = new ArrayList<>();
 		Vestiging vestigingCache;
 		Collection<Klant> klantCollectionCache;
 		PostcodeInfo pciCache;
 		FBResultSet result;
-		
+
 		try {
 			result = (FBResultSet) getVestigingen.executeQuery();
 			while (result.next()) {
 				pciCache = new PostcodeInfo(
-						result.getString("POSTCODE"), 
+						result.getString("POSTCODE"),
 						result.getString("PLAATS"),
-						result.getDouble("LAT"), 
+						result.getDouble("LAT"),
 						result.getDouble("LNG"));
-				vestigingen.add(new Vestiging(result.getString("PLAATS"), 
-								pciCache, 
+				vestigingen.add(new Vestiging(result.getString("PLAATS"),
+								pciCache,
 								new TreeSet<>()));
 			}
 
@@ -153,39 +152,39 @@ public class Mapper {
 			while (result.next()) {
 				vestigingCache = selectVestiging(vestigingen, result.getString("VESTIGINGPLAATS"));
 				pciCache = new PostcodeInfo(
-						result.getString("KLANTPOSTCODE"), 
+						result.getString("KLANTPOSTCODE"),
 						result.getString("KLANTPLAATS"),
-						result.getDouble("KLANTLAT"), 
+						result.getDouble("KLANTLAT"),
 						result.getDouble("KLANTLNG"));
 				klantCollectionCache = vestigingCache.getKlanten();
 				klantCollectionCache.add(
-						new Klant(result.getInt("KLANTNR"), 
+						new Klant(result.getInt("KLANTNR"),
 						pciCache));
 			}
 		} catch (SQLException e) {
-			throw new MapperException(MapperExceptionCode.MAPPER_DATA_BUILD_ERR, e.getMessage());
-		} catch (PostcodeException e) {
-			throw new MapperException(MapperExceptionCode.MAPPER_DATA_BUILD_ERR, e.getMessage());
+			throw new PoiException(PoiExceptionCode.MAPPER_DATA_BUILD_ERR, e.getMessage());
+		} catch (PoiException e) {
+			throw new PoiException(PoiExceptionCode.MAPPER_DATA_BUILD_ERR, e.getMessage());
 		}
 		return vestigingen;
 	}
 
 	/**
 	 * Zoekt vestiging op met plaatsnaam
-	 * 
+	 *
 	 * @param vestigingen Verzameling waarin gezocht wordt
 	 * @param vSelect     selectiecriteria
 	 * @return gevonden vestiging
 	 * @throws MapperException Als de vestiging niet in de verzameling zit
 	 */
-	private Vestiging selectVestiging(Collection<Vestiging> vestigingen, String vSelect) throws MapperException {
+	private Vestiging selectVestiging(Collection<Vestiging> vestigingen, String vSelect) throws PoiException {
 		for (Vestiging vi : vestigingen) {
 			if (vi.getPlaats().equalsIgnoreCase(vSelect)) {
 				return vi;
 			}
 		}
-		throw new MapperException(MapperExceptionCode.MAPPER_DATA_BUILD_ERR, "Vestiging niet gevonden");
+		throw new PoiException(PoiExceptionCode.MAPPER_DATA_BUILD_ERR, "Mapper heeft de vestiging niet gevonden");
 	}
-	
-	
+
+
 }

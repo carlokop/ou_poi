@@ -10,7 +10,7 @@ public abstract class Subject {
 	public Subject() {
 		observers = new ArrayList<>();
 	}
-	
+
 	public void attach(Observer observer) {
 		observers.add(observer);
 	}
@@ -23,5 +23,5 @@ public abstract class Subject {
 		for (Observer o : observers) {
 			o.update();
 		}
-	}	
+	}
 }

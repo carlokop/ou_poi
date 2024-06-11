@@ -5,29 +5,26 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import data.Mapper;
-import domein.Klant;
-import domein.Vestiging;
-import exceptions.MapperException;
-import exceptions.PostcodeException;
-
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.Iterator;
 
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+
+import data.Mapper;
+import domein.Klant;
+import domein.Vestiging;
+import exceptions.PoiException;
+
 public class MapperTest {
 
 	private static Connection c;
 	private static Mapper m;
-	MapperException me;
-	
+	PoiException me;
+
 	@BeforeAll
 	@Test
 	public static void init() {
@@ -35,17 +32,17 @@ public class MapperTest {
 			m = new Mapper();
     		c = m.getConnection();
     		c.isValid(1000);
-		} catch (MapperException | SQLException e) {
+		} catch (PoiException | SQLException e) {
 			fail("Test kan niet gestart worden");
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Test connectie met de fdb database
 	 */
     @Test
-    public void connectionTest(){ 
+    public void connectionTest(){
     	try {
 			assertTrue(c.isValid(1000));
 		} catch (SQLException e) {
@@ -53,15 +50,15 @@ public class MapperTest {
 			e.printStackTrace();
 		}
     }
-    
-    
+
+
     @Test
-    public void testCorrecteSortering() throws MapperException {
+    public void testCorrecteSortering() throws PoiException {
     	Collection<Vestiging> vestigingen = m.getVestigingen();
     	Collection<Klant> vestigingKlanten = null;
     	Iterator<Klant> vkIt;
     	Klant prevK, crrntK;
-    	
+
     	for(Vestiging v: vestigingen) {
     		vestigingKlanten = v.getKlanten();
         	vkIt = vestigingKlanten.iterator();
@@ -73,16 +70,8 @@ public class MapperTest {
         	}
     	}
     }
-    
-    
-    /**
-     * Test correct ophalen van de vestigingen
-     * @throws MapperException 
-     * @throws IllegalArgumentException 
-     * @author carlo
-     * @throws SQLException 
-     * @throws PostcodeException 
-     */
+
+
     /*
      @	@contract ophalenVestigingen {
      @		@requires fdb database met geen andere wijzigingen anders dan in taak 3 aangegeven.
@@ -90,17 +79,17 @@ public class MapperTest {
      @	}
      */
     @Test
-    public void getVestigingen() throws MapperException {
+    public void getVestigingen() throws PoiException {
     	//TODO
     	Collection<Vestiging> vestigingen = m.getVestigingen();
-    	assertEquals(12,vestigingen.size()); 
-    	
+    	assertEquals(12,vestigingen.size());
+
     	//alle vestigingen bevatten klanten
     	for(Vestiging v: vestigingen) {
     	  Collection<Klant> klanten = v.getKlanten();
     	  assertTrue(klanten.size() > 0);
     	}
-    	
+
     	//klant 1089 zit maar 1x in vestiging veendam te zitten ipv 2x
     	Vestiging veendam = null;
     	for(Vestiging v: vestigingen) {
@@ -109,7 +98,7 @@ public class MapperTest {
           }
         }
     	assertNotNull(veendam);
-    	
+
     	int i = 0;
     	for(Klant k: veendam.getKlanten()) {
     	  if(k.getKlantnr() == 1089) {
@@ -117,7 +106,7 @@ public class MapperTest {
     	  }
     	}
     	assertEquals(1,i);
-    	
+
     	//klant 794 zit in zowel vestiging groningen als zuidhorn
     	//test op gelijkheid
     	Vestiging groningen = null;
@@ -131,7 +120,7 @@ public class MapperTest {
         }
     	assertNotNull(groningen);
     	assertNotNull(zuidhorn);
-    	
+
     	Klant kGron = null;
     	Klant kZuidh = null;
     	for(Klant k: groningen.getKlanten()) {
@@ -146,9 +135,9 @@ public class MapperTest {
         }
     	assertNotNull(kGron);
     	assertNotNull(kZuidh);
-    	assertEquals(kGron,kZuidh);    	
+    	assertEquals(kGron,kZuidh);
     }
-    
+
 	@AfterAll
 	@Test
 	public static void closeConnection() {
