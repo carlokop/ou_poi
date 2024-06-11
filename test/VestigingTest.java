@@ -17,12 +17,12 @@ import exceptions.PoiExceptionCode;
 
 class VestigingTest {
 
-	private Vestiging vestiging = null;
-	private PostcodeInfo postcode = null;
-	private ArrayList<Klant> klantenlijst = null;
-	private PoiException pe;
+	private static Vestiging vestiging = null;
+	private static PostcodeInfo postcode = null;
+	private static ArrayList<Klant> klantenlijst = null;
+	private static PoiException pe;
 	@BeforeAll
-	void setup() throws PoiException {
+	static void setup() throws PoiException {
 		postcode = new PostcodeInfo("8701GH", "Bolsward", 53.0673994187339, 5.5274963648489);
 		klantenlijst = new ArrayList<>();
 		klantenlijst.add(new Klant(123, postcode));
@@ -34,14 +34,14 @@ class VestigingTest {
 	void happy() {
 		ArrayList<Klant> klantenlijst = new ArrayList<>();
 		try {
-			klantenlijst.add(new Klant(123, postcode));
+			klantenlijst.add(new Klant(1, postcode));
 			klantenlijst.add(new Klant(124, postcode));
 			klantenlijst.add(new Klant(125, postcode));
 			vestiging = new Vestiging("Bolsward", postcode, klantenlijst);
 
 			assertEquals("Bolsward", vestiging.getPlaats());
-			assertEquals("8701GH", vestiging.getPostcode());
-			assertEquals("8701GH", vestiging.getPostcode());
+			assertEquals("8701GH", vestiging.getPostcodeInfo().getPostcode());
+			assertEquals("8701GH", vestiging.getPostcodeInfo().getPostcode());
 
 			assertEquals(3, vestiging.getKlanten().size());
 //    vestiging.voegKlantToe(new Klant(126, postcode));

@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import domein.Klant;
 import domein.PostcodeInfo;
 import exceptions.PoiException;
+import exceptions.PoiExceptionCode;
 
 /**
  * Test de Klant classe
@@ -39,19 +40,22 @@ class KlantTest {
 	@Test
 	void foutieveInvoerTest() {
 		// negatief klant nr
-		assertThrows(IllegalArgumentException.class, () -> {
+		pe = assertThrows(PoiException.class, () -> {
 			new Klant(-1, postcode);
 		});
-
+		assertEquals(pe.getErrCode(), PoiExceptionCode.KLANTNUMMER_NIET_POSITIEF);
+		
 		// klantnr = 0
-		assertThrows(IllegalArgumentException.class, () -> {
+		pe = assertThrows(PoiException.class, () -> {
 			new Klant(0, postcode);
 		});
+		assertEquals(pe.getErrCode(), PoiExceptionCode.KLANTNUMMER_NIET_POSITIEF);
 
 		// postcode == null
-		assertThrows(IllegalArgumentException.class, () -> {
+		pe = assertThrows(PoiException.class, () -> {
 			new Klant(123, null);
 		});
+		assertEquals(pe.getErrCode(), PoiExceptionCode.POSTCODE_NULL);
 
 	}
 

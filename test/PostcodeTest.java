@@ -13,6 +13,7 @@ import exceptions.PoiExceptionCode;
 
 /**
  * Test Postcodeinfo, instanties in testen kunnen fictief zijn.
+ * Testen slagen niet als niet all validate functies aan staan.
  */
 public class PostcodeTest {
 	PoiException pe;

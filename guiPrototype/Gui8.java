@@ -37,7 +37,7 @@ public class Gui8 extends JFrame implements Observer {
 	public void init() {
 		setVisible(true);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setSize(500, 500);
+		setSize(600, 500);
 		setTitle("Practicum Ontwerpen en implementeren");
 		pane.setBackground(Color.white);
 		pane.setLayout(new BorderLayout());
