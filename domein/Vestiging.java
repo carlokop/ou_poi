@@ -104,9 +104,5 @@ public class Vestiging {
 		return klanten;
 	}
 
-//	@Override
-//	public String toString() {
-//		return "" + plaats + " : " + klanten.size();
-//	}
 
 } // class

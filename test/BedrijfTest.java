@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import java.util.Collection;
 
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import domein.Bedrijf;
@@ -20,7 +20,7 @@ class BedrijfTest {
 	/**
 	 * Inits bedrijf
 	 */
-	@BeforeAll
+	@BeforeEach
 	void setup() {
 		b = new Bedrijf();
 	}
@@ -40,10 +40,5 @@ class BedrijfTest {
 
 	}
 
-	
-//	@Test
-//	void test() {
-//		// fail("Not yet implemented");
-//	}
 
 }

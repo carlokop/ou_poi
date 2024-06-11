@@ -9,7 +9,7 @@ import org.firebirdsql.jdbc.FBResultSet;
 import data.Mapper;
 import data.Queries;
 import domein.Vestiging;
-import exceptions.MapperException;
+import exceptions.PoiException;
 
 /**
  * Voor het testen van stukjes code
@@ -29,7 +29,7 @@ public class Kladblok {
         m.connect();
         //System.out.println(m.getConnection().isClosed());
         con = m.getConnection();
-      } catch (MapperException e) {
+      } catch (PoiException e) {
           e.printStackTrace();
       }
 	}
@@ -65,7 +65,7 @@ public class Kladblok {
 			m.disconnect();
 			System.out.println(m.getConnection().isClosed());
 
-		} catch (MapperException e) {
+		} catch (PoiException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();

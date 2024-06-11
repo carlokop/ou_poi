@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import domein.Klant;
 import domein.PostcodeInfo;
-import exceptions.PostcodeException;
+import exceptions.PoiException;
 
 /**
  * Test de Klant classe
@@ -26,7 +26,7 @@ class KlantTest {
     void setup() {
       try {
         postcode = new PostcodeInfo("8701GH", "Bolsward", 53.0673994187339, 5.5274963648489);
-      } catch(PostcodeException pce) {
+      } catch(PoiException pce) {
         fail(pce);
       }
       

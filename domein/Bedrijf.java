@@ -3,9 +3,9 @@ package domein;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import exceptions.MapperException;
 import controller.Model;
 import data.Mapper;
+import exceptions.PoiException;
 import observerPatroon.Subject;
 
 /**
@@ -23,7 +23,7 @@ public class Bedrijf extends Subject implements Model{
 		try {
 			m = new Mapper();
 			vestigingen = m.getVestigingen();
-		} catch (MapperException e) {
+		} catch (PoiException e) {
 			e.printStackTrace();
 		}
 	}

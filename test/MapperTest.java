@@ -12,7 +12,8 @@ import org.junit.jupiter.api.Test;
 import data.Mapper;
 import domein.Klant;
 import domein.Vestiging;
-import exceptions.MapperException;
+import exceptions.PoiException;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Collection;
@@ -25,7 +26,7 @@ public class MapperTest {
 
 	private static Connection c;
 	private static Mapper m;
-	MapperException me;
+	PoiException me;
 	
 	/**
 	 * initialiseert de mappertest
@@ -37,7 +38,7 @@ public class MapperTest {
 			m = new Mapper();
     		c = m.getConnection();
     		c.isValid(1000);
-		} catch (MapperException | SQLException e) {
+		} catch (PoiException | SQLException e) {
 			fail("Test kan niet gestart worden");
 			e.printStackTrace();
 		}
@@ -77,7 +78,7 @@ public class MapperTest {
         		prevK = crrntK;
         	}
     	}
-      } catch(MapperException me) {
+      } catch(PoiException me) {
         fail(me);
       }
     }
@@ -152,7 +153,7 @@ public class MapperTest {
     	assertNotNull(kZuidh);
     	assertEquals(kGron,kZuidh); 
       }
-      catch(MapperException me) {
+      catch(PoiException me) {
         fail(me);
       }
     }
