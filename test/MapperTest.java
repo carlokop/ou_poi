@@ -18,7 +18,6 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.ArrayList;
 
 public class MapperTest {
 
@@ -68,7 +67,6 @@ public class MapperTest {
         		prevK = crrntK;
         	}
     	}
-    	
     }
     
     
@@ -145,23 +143,6 @@ public class MapperTest {
     	assertNotNull(kZuidh);
     	assertEquals(kGron,kZuidh);    	
     }
-  
-
-    
-    /**
-     * Test vereist tabel bezoek
-     */
-//    public void getVestigingenKlanten() {
-//    	//TODO
-//    	Collection<Vestiging> vestigingen = null;
-//    	Collection<Klant> klanten = null;
-//    	
-//    	assertEquals(vestigingen.size(), 12); 
-//    	for(Vestiging vk:vestigingen) {
-//    		klanten = vk.getKlanten();
-//    		// test op klant heeft bezoek en vestiging klopt, vereist tabel bezoek
-//    	}
-//    }
     
     /**
      * Test sluiten van connectie met de fdb database

@@ -8,9 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.TreeSet;
-import java.util.concurrent.ConcurrentSkipListSet;
 
 import org.firebirdsql.jdbc.FBResultSet;
 
