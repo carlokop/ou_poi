@@ -28,7 +28,7 @@ public class Facade {
 	/**
 	 * Haalt een lijst op met alle klant id's die in de opgegeven vestiging zitten
 	 * @param plaats vestiging plaatsnaam
-	 * @return lijst met klant id's
+	 * @return lijst met klant id's 
 	 */
 	public Collection<String> getVestigingKlanten(String plaats) {
 	  return m.getVestigingKlanten(plaats);
