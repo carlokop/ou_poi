@@ -5,6 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -21,16 +24,18 @@ import java.util.Iterator;
 
 public class MapperTest {
 
-	private Connection c;
-	private Mapper m;
+	private static Connection c;
+	private static Mapper m;
 	MapperException me;
 	
-	@BeforeEach
-	public void init() {
+	@BeforeAll
+	@Test
+	public static void init() {
     	try {
 			m = new Mapper();
     		c = m.getConnection();
-		} catch (MapperException e) {
+    		c.isValid(1000);
+		} catch (MapperException | SQLException e) {
 			fail("Test kan niet gestart worden");
 			e.printStackTrace();
 		}
@@ -144,23 +149,16 @@ public class MapperTest {
     	assertEquals(kGron,kZuidh);    	
     }
     
-    /**
-     * Test sluiten van connectie met de fdb database
-     */
-    /*
-    @	@contract sluitenConnectie {
-    @ 		@requires Connectie is geldig
-    @ 		@ensures  Verbinding met db is verbroken
-    @	}
-    */
-    @Test
-    public void connectionClose() {
-    	try {
+	@AfterAll
+	@Test
+	public static void closeConnection() {
+		try {
 			c.close();
 			assertTrue(c.isClosed());
 		} catch (SQLException e) {
-			fail("connectionfout:" + e.getErrorCode());
+			// TODO Auto-generated catch block
 			e.printStackTrace();
+			fail();
 		}
-    }
+	}
 }

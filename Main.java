@@ -2,7 +2,6 @@ import javax.swing.SwingUtilities;
 
 import controller.Facade;
 import domein.Bedrijf;
-//import gui.Gui;
 import guiPrototype.Gui7;
 import guiPrototype.Gui8;
 

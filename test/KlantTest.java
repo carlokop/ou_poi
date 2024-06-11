@@ -12,9 +12,8 @@ import exceptions.PostcodeException;
 
 /**
  * Test de Klant classe
- * @author carlo
- *
  */
+
 class KlantTest {
   
   private Klant klant = null;
@@ -36,13 +35,13 @@ class KlantTest {
     @Test 
     void foutieveInvoerTest() {
       //negatief klant nr
-      assertThrows(IllegalArgumentException.class, () -> { new Klant(-1, postcode); });
+      assertThrows(IllegalArgumentException.class, () -> {new Klant(-1, postcode); });
       
       //klantnr = 0
-      assertThrows(IllegalArgumentException.class, () -> { new Klant(0, postcode); });
+      assertThrows(IllegalArgumentException.class, () -> {new Klant(0, postcode); });
       
       //postcode == null
-      assertThrows(IllegalArgumentException.class, () -> { new Klant(123, null); });
+      assertThrows(IllegalArgumentException.class, () -> {new Klant(123, null); });
       
     }
 

@@ -10,6 +10,9 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 
 public class VestigingKlantOverzicht extends JPanel {
 
@@ -20,26 +23,30 @@ public class VestigingKlantOverzicht extends JPanel {
 	VestigingKlantOverzicht(Collection<String> klantData){
 		this.setLayout(new BorderLayout());
 		this.klantData = klantData;
-		createColumns();
-		createRows();
+		createOverview();
+		createKlantTable();
 	}
 	
-	public void createColumns(){
+	public void createOverview(){
 		JPanel columnPanel = new JPanel();
-		columnPanel.setLayout(new GridLayout(1, 2, 0, 0));
-		columnPanel.add(new JLabel("Klantnr" ));
+		columnPanel.setLayout(new GridLayout(1, 1, 0, 0));
+		
 		columnPanel.add(new JLabel("Klantaantal: "  + klantData.size()));
 		columnPanel.setSize(columnWidth, this.HEIGHT);
 		
 		this.add(columnPanel, BorderLayout.NORTH);
 	}
 	
-	public void createRows(){
-		DefaultListModel<String> vestigingKlantModel = new DefaultListModel<>();
-		vestigingKlantModel.addAll(klantData);
-		JList<String> klantenLijst = new JList<>(vestigingKlantModel);
-		JScrollPane vestigingKlantOverzicht = new JScrollPane(klantenLijst);
-		vestigingKlantOverzicht.setSize(columnWidth, this.HEIGHT);
+	public void createKlantTable() {
+		String[] columnNames = {"Rij", "Klantnr"};
+		DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0);
+		Iterator<String> kIt = klantData.iterator();
+		for(int i=0;i<klantData.size();i++) {
+			tableModel.addRow(new String[]{String.valueOf(i), kIt.next()});
+		}
+		JTable klantTable = new JTable(tableModel);
+		
+		JScrollPane vestigingKlantOverzicht = new JScrollPane(klantTable);
 		
 		this.add(vestigingKlantOverzicht, BorderLayout.CENTER);
 	}
