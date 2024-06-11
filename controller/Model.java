@@ -2,8 +2,6 @@ package controller;
 
 import java.util.Collection;
 
-import observerPatroon.Observer;
-
 /**
  * Markeer interface
  */
@@ -21,10 +19,5 @@ public interface Model {
    * @return lijst met klant id's
    */
   public Collection<String> getVestigingKlanten(String plaats);
-
-  /**
-   * Sluit de applicatie af
-   */
-  public void sluitAf();
 
 }
