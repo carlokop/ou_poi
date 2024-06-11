@@ -35,6 +35,14 @@ public class Mapper {
 	public Mapper() throws MapperException {
 		connect();
 		initPreparedStatements();
+		Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+			try {
+				System.out.println("db shutdown initiated");
+				disconnect();
+			} catch (MapperException e) {
+				e.printStackTrace();
+			}
+		}));
 	}
 
 	/**
@@ -176,4 +184,6 @@ public class Mapper {
 		}
 		throw new MapperException(MapperExceptionCode.MAPPER_DATA_BUILD_ERR, "Vestiging niet gevonden");
 	}
+	
+	
 }

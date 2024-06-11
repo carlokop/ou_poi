@@ -30,7 +30,6 @@ public class VestigingKlantOverzicht extends JPanel {
 	public void createOverview(){
 		JPanel columnPanel = new JPanel();
 		columnPanel.setLayout(new GridLayout(1, 1, 0, 0));
-		
 		columnPanel.add(new JLabel("Klantaantal: "  + klantData.size()));
 		columnPanel.setSize(columnWidth, this.HEIGHT);
 		
@@ -45,7 +44,6 @@ public class VestigingKlantOverzicht extends JPanel {
 			tableModel.addRow(new String[]{String.valueOf(i), kIt.next()});
 		}
 		JTable klantTable = new JTable(tableModel);
-		
 		JScrollPane vestigingKlantOverzicht = new JScrollPane(klantTable);
 		
 		this.add(vestigingKlantOverzicht, BorderLayout.CENTER);
