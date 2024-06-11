@@ -42,7 +42,7 @@ public class Klant implements Comparable<Klant> {
 		}
 		// test null postcode
 		if (postcode == null) {
-			throw new PoiException(PoiExceptionCode.POSTCODE_NULL, postcode.toString());
+			throw new PoiException(PoiExceptionCode.POSTCODE_NULL, "Postcode is null");
 		}
 	}
 

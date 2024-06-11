@@ -12,10 +12,10 @@ import domein.Bedrijf;
 
 class BedrijfTest {
 
-	private Bedrijf b = null;
+	private static Bedrijf b = null;
 
 	@BeforeAll
-	void setup() {
+	static void setup() {
 		b = new Bedrijf();
 	}
 
