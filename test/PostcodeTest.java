@@ -7,9 +7,9 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 import org.junit.jupiter.api.Test;
 
-import Domein.PostcodeInfo;
-import Exceptions.PostcodeException;
-import Exceptions.PostcodeExceptionCode;
+import domein.PostcodeInfo;
+import exceptions.PostcodeException;
+import exceptions.PostcodeExceptionCode;
 
 /**
  * Test Postcodeinfo, instanties in testen kunnen fictief zijn.

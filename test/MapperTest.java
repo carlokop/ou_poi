@@ -8,10 +8,10 @@ import static org.junit.jupiter.api.Assertions.fail;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import Exceptions.MapperException;
-import Data.Mapper;
-import Domein.Klant;
-import Domein.Vestiging;
+import exceptions.MapperException;
+import data.Mapper;
+import domein.Klant;
+import domein.Vestiging;
 
 import java.sql.Connection;
 import java.sql.SQLException;

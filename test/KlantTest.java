@@ -6,15 +6,14 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import Domein.Klant;
-import Domein.PostcodeInfo;
-import Exceptions.IllegalArgumentExceptionCode;
-import Exceptions.PostcodeException;
+import domein.Klant;
+import domein.PostcodeInfo;
+import exceptions.IllegalArgumentExceptionCode;
+import exceptions.PostcodeException;
 
 /**
  * Test de Klant classe
- * @author carlo
- *
+
  */
 class KlantTest {
   

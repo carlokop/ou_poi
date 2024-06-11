@@ -8,7 +8,7 @@ import java.util.Collection;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import Domein.Bedrijf;
+import domein.Bedrijf;
 
 class BedrijfTest {
   
