@@ -51,12 +51,14 @@ public class MapperTest {
 
     	for(Vestiging v: vestigingen) {
     		vestigingKlanten = v.getKlanten();
-        	vkIt = vestigingKlanten.iterator();
-        	prevK = vkIt.next();
-        	while(vkIt.hasNext()) {
-        		crrntK = vkIt.next();
-        		assertTrue(prevK.getKlantnr() < crrntK.getKlantnr());
-        		prevK = crrntK;
+    		if(vestigingKlanten.size() > 1) {
+    			vkIt = vestigingKlanten.iterator();
+            	prevK = vkIt.next();
+            	while(vkIt.hasNext()) {
+            		crrntK = vkIt.next();
+            		assertTrue(prevK.getKlantnr() < crrntK.getKlantnr());
+            		prevK = crrntK;
+            	}
         	}
     	}
     }
@@ -94,7 +96,7 @@ public class MapperTest {
     	    i++;
     	  }
     	}
-    	assertEquals(1,i);
+    	assertEquals(1, i);
 
     	//klant 794 zit in zowel vestiging groningen als zuidhorn
     	//test op gelijkheid
@@ -117,6 +119,7 @@ public class MapperTest {
     	    kGron = k;
     	  }
     	}
+    	
     	for(Klant k: zuidhorn.getKlanten()) {
           if(k.getKlantnr() == 794) {
             kZuidh = k;
@@ -124,7 +127,8 @@ public class MapperTest {
         }
     	assertNotNull(kGron);
     	assertNotNull(kZuidh);
-    	assertEquals(kGron,kZuidh);
+    	assertEquals(kGron, kZuidh);
+    	assertEquals(kGron.getKlantnr(), 794);
     }
 
 	@AfterAll

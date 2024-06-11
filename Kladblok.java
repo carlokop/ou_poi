@@ -22,7 +22,6 @@ public class Kladblok {
 	public void connect() {
 	  try {
         m = new Mapper();
-        //System.out.println(m.getConnection().isClosed());
         con = m.getConnection();
       } catch (PoiException e) {
           e.printStackTrace();
