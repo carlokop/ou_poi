@@ -75,7 +75,6 @@ class VestigingTest {
     //klantenlijst is null
     assertThrows(IllegalArgumentException.class, () -> { new Vestiging("Bolsward", postcode, null); });
     
-    
   }
 
 }

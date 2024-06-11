@@ -2,7 +2,7 @@ package domein;
 
 import java.util.Objects;
 
-public class Klant implements Comparable {
+public class Klant implements Comparable<Klant> {
 	private PostcodeInfo postcode;
 	private int klantnr;
 	
@@ -72,8 +72,8 @@ public class Klant implements Comparable {
     }
 
 	@Override
-	public int compareTo(Object o) {
-		return this.klantnr - ((Klant) o).getKlantnr();
+	public int compareTo(Klant o) {
+		return this.klantnr - o.getKlantnr();
 	}
     
 }
