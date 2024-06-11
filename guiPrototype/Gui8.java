@@ -38,13 +38,11 @@ public class Gui8 extends JFrame implements Observer {
 	private Container pane;
 	private Component header, footer;
 	private Component vestigingOverzicht;
-	HashMap<String, Component> vestigingKlantOverzicht;
 
 	public Gui8(Facade fc) {
 		super();
 		this.fc = fc;
 		pane = getContentPane();
-		vestigingKlantOverzicht = new HashMap<>();
 		init();
 	}
 
@@ -118,7 +116,7 @@ public class Gui8 extends JFrame implements Observer {
 	}
 
 	/**
-	 * Dit is voor taak 5 wordt later geimplenteerd
+	 * Dit is voor taak 5 wordt later geimplementeerd
 	 */
 	class VestigingenSluitenMenuItemLuisteraar implements ActionListener {
 		@Override
@@ -155,17 +153,9 @@ public class Gui8 extends JFrame implements Observer {
 		this.pane.revalidate();
 		this.pane.repaint();
 	}
-
-//	class sluitProgrammaListener extends WindowAdapter {
-//
-//		@Override
-//		public void windowClosed(WindowEvent e) {
-//			fc.shutdown();
-//		}	
-//	}
 	
 	@Override
 	public void update() {
-		// TODO Auto-generated method stub
+		// Taak 5
 	}
 }

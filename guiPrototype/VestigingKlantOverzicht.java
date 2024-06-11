@@ -16,7 +16,6 @@ import javax.swing.table.TableColumn;
 
 public class VestigingKlantOverzicht extends JPanel {
 
-	private int columnWidth = 250;
 	private static final long serialVersionUID = 1L;
 	Collection<String> klantData;
 	
@@ -31,7 +30,6 @@ public class VestigingKlantOverzicht extends JPanel {
 		JPanel columnPanel = new JPanel();
 		columnPanel.setLayout(new GridLayout(1, 1, 0, 0));
 		columnPanel.add(new JLabel("Klantaantal: "  + klantData.size()));
-		columnPanel.setSize(columnWidth, this.HEIGHT);
 		
 		this.add(columnPanel, BorderLayout.NORTH);
 	}

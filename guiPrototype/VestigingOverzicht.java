@@ -16,8 +16,8 @@ import controller.Facade;
 public class VestigingOverzicht extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	Facade fc;
-	HashMap<String, Component> vestigingKlantOverzicht;
+	private Facade fc;
+	private HashMap<String, Component> vestigingKlantOverzicht;
 
 	VestigingOverzicht(Facade fc) {
 		this.setLayout(new BorderLayout());
@@ -40,24 +40,27 @@ public class VestigingOverzicht extends JPanel {
 		this.add(jpVestigingLijst, BorderLayout.WEST);
 	}
 
+	public void toonVestigingKlanten(String plaats){
+		Collection<String> vestigingKlantData = fc.getVestigingKlanten(plaats);
+		BorderLayout bLayout = (BorderLayout) VestigingOverzicht.this.getLayout();
+		Component cCache;
+		
+		cCache = bLayout.getLayoutComponent(BorderLayout.CENTER);
+		if (cCache != null) {
+			VestigingOverzicht.this.remove(cCache);
+		}
+
+		if (!vestigingKlantOverzicht.containsKey(plaats)) {
+			vestigingKlantOverzicht.put(plaats, new VestigingKlantOverzicht(vestigingKlantData));
+		}
+	}
+	
 	public class toonVestigingKlantenListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			JButton selectedButton = (JButton) e.getSource();
 			String plaats = selectedButton.getText();
-			Collection<String> vestigingKlantData = fc.getVestigingKlanten(plaats);
-			BorderLayout bLayout = (BorderLayout) VestigingOverzicht.this.getLayout();
-			Component cCache;
-			
-			cCache = bLayout.getLayoutComponent(BorderLayout.CENTER);
-			if (cCache != null) {
-				VestigingOverzicht.this.remove(cCache);
-			}
-
-			if (!vestigingKlantOverzicht.containsKey(plaats)) {
-				vestigingKlantOverzicht.put(plaats, new VestigingKlantOverzicht(vestigingKlantData));
-			}
-
+			toonVestigingKlanten(plaats);
 			VestigingOverzicht.this.add(vestigingKlantOverzicht.get(plaats), BorderLayout.CENTER);
 			VestigingOverzicht.this.revalidate();
 			VestigingOverzicht.this.repaint();

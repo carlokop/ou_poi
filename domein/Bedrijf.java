@@ -9,15 +9,14 @@ import data.Mapper;
 import observerPatroon.Subject;
 
 public class Bedrijf extends Subject implements Model{
-	Collection<Vestiging> vestigingen;
-	Mapper m;
+	private Collection<Vestiging> vestigingen;
+	private Mapper m;
 	
 	public Bedrijf() {
 		try {
 			m = new Mapper();
 			vestigingen = m.getVestigingen();
 		} catch (MapperException e) {
-			//
 			e.printStackTrace();
 		}
 	}
