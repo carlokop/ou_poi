@@ -19,7 +19,7 @@ import observerPatroon.Observer;
 /**
  * Standaardframe van de Grafische userinterface
 */
-public class Gui8 extends JFrame implements Observer {
+public class Gui extends JFrame implements Observer {
 
 	private static final long serialVersionUID = 1L;
 
@@ -32,7 +32,7 @@ public class Gui8 extends JFrame implements Observer {
 	 * Initialiseert en stelt de contentpane in
 	 * @param fc facade controller
 	 */
-	public Gui8(Facade fc) {
+	public Gui(Facade fc) {
 		super();
 		this.fc = fc;
 		pane = getContentPane();
@@ -108,8 +108,8 @@ public class Gui8 extends JFrame implements Observer {
 		public void actionPerformed(ActionEvent e) {
 			clearViews();
 			pane.add(vestigingOverzicht, BorderLayout.WEST);
-			Gui8.this.pane.revalidate();
-			Gui8.this.pane.repaint();
+			Gui.this.pane.revalidate();
+			Gui.this.pane.repaint();
 		}
 	}
 

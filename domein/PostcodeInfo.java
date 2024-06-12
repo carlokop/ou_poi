@@ -16,10 +16,10 @@ public class PostcodeInfo {
 	/**
      * Maakt postcode instantie
      * 
-     * @param postcode     de postcode
-     * @param plaatsnaam   de plaatsnaam
-     * @param lat          latitude
-     * @param lng          longtitude
+     * @param postcode      de postcode
+     * @param plaatsnaam    de plaatsnaam
+     * @param lat           latitude
+     * @param lng           longtitude
      * @throws PoiException bij ongeldige invoer
      */
     /*@
@@ -33,7 +33,7 @@ public class PostcodeInfo {
      @ }
      @ @contract null waarden {
      @   @requires postcode == null of plaats == null
-     @   @signals PoiException("Postcode mag niet leeg zijn") 
+     @   @signals PoiException
      @ }
      @ @contract lege str plaatsnaam {
      @   @requires plaatsnaam is een lege string
@@ -45,14 +45,12 @@ public class PostcodeInfo {
      @   @signals PoiException("latitude out of range moet tussen de -180
      @          en 180 zijn maar was: ...") 
      @ }
-     @ @contract ongeldige postcode {
-     @   @requires postcode voldoet niet aan regex ^\d{4}[a-zA-Z]{2}$ (4 cijfers
-     @           gevolgd door 2 letters)
-     @   @signals PoiException("Ongeldig formaat voor postcode") 
-     * }
      */
 	public PostcodeInfo(String postcode, String plaatsnaam, double lat, double lng) throws PoiException {
-//		validatePostcode(postcode);
+//		validatePostcode(postcode); //dit doen we niet meer. Volgen schema uit de database ook al staan daar fouten in alleen null testen
+    	if (postcode == null) {
+            throw new PoiException(PoiExceptionCode.POSTCODE_NULL, postcode);
+        }
 		validatePlaatsnaam(plaatsnaam);
 		validateGeographicCoords(lat, lng);
 		this.postcode = postcode;
@@ -61,6 +59,11 @@ public class PostcodeInfo {
 		this.lat = lat;
 	}
 
+	/*
+	 * DEZE METHODE HEBBEN WE WEL GESCHREVEN MAAR WORDT NIET MEER GEBRUIKT
+     * WE VOLGEN HET FORMAAT ZOALS IN DE DATABASE STAAT> 
+     * VOOR DE VOLLEDIGHEID HIER WEL LATEN STAAN
+	 */
 	/**
      * Helper die controleert of de postcode string in een geldig formaat is
      * gooit een postcode exceptie op als dat niet het geval is
@@ -68,6 +71,17 @@ public class PostcodeInfo {
      * @param postcode string
      * @throws PoiException als een ongeldige postcode opgegeven wordt
      * @see PostcodeInfo(String, String, double, double )
+     */
+     /*
+     @ @contract postcode null {
+     @   @requires postcode == null
+     @   @signals PoiException("Postcode mag niet leeg zijn") 
+     @ }
+     @ @contract ongeldige postcode {
+     @   @requires postcode voldoet niet aan regex ^\d{4}[a-zA-Z]{2}$ (4 cijfers
+     @           gevolgd door 2 letters)
+     @   @signals PoiException("Ongeldig formaat voor postcode") 
+     * }
      */
     public static void validatePostcode(String postcode) throws PoiException {
         char c;

@@ -25,8 +25,13 @@ class KlantTest {
      * initialiseert de postcode instantie
      */
     @BeforeEach
-    void setup() throws PoiException {
+    void setup() {
+      try {
         postcode = new PostcodeInfo("8701GH", "Bolsward", 53.0673994187339, 5.5274963648489);
+      } catch(PoiException e) {
+        //postcodeInfo wordt daar al uitgebreid getest hoeft hier niet nog een keer
+        fail("Kan geen postcode maken: "+e);
+      }
     }
     
     /**
@@ -39,7 +44,7 @@ class KlantTest {
           assertEquals(1, klant.getKlantnr());
           assertEquals("8701GH", klant.getPostcodeInfo().getPostcode());
       } catch (PoiException e) {
-          e.printStackTrace();
+          fail("Fout in de happy test: "+e);
       }
   }
     

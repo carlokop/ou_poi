@@ -29,18 +29,17 @@ public class MapperTest {
 	PoiException me;
 
 	/**
-	 * Test connectie met de fdb database
+	 * Setup van de db connectie voor de test
+	 * Tests of de verbinding tot stand is gekomen
 	 */
 	@BeforeAll
-	@Test
 	public static void init() {
     	try {
 			m = new Mapper();
     		c = m.getConnection();
     		assertTrue(c.isValid(1000));
 		} catch (PoiException | SQLException e) {
-			fail("Test kan niet gestart worden");
-			e.printStackTrace();
+			fail("Test kan niet gestart worden: "+e);
 		}
 	}
 
@@ -49,24 +48,29 @@ public class MapperTest {
      * @throws PoiException als er sql excepties zijn
      */
     @Test
-    public void testCorrecteSortering() throws PoiException {
-    	Collection<Vestiging> vestigingen = m.getVestigingen();
-    	Collection<Klant> vestigingKlanten = null;
-    	Iterator<Klant> vkIt;
-    	Klant prevK, crrntK;
-
-    	for(Vestiging v: vestigingen) {
-    		vestigingKlanten = v.getKlanten();
-    		if(vestigingKlanten.size() > 1) {
-    			vkIt = vestigingKlanten.iterator();
-            	prevK = vkIt.next();
-            	while(vkIt.hasNext()) {
-            		crrntK = vkIt.next();
-            		assertTrue(prevK.getKlantnr() < crrntK.getKlantnr());
-            		prevK = crrntK;
+    public void testCorrecteSortering() {
+      try {
+        	Collection<Vestiging> vestigingen = m.getVestigingen();
+        	Collection<Klant> vestigingKlanten = null;
+        	Iterator<Klant> vkIt;
+        	Klant prevK, crrntK;
+    
+        	for(Vestiging v: vestigingen) {
+        		vestigingKlanten = v.getKlanten();
+        		if(vestigingKlanten.size() > 1) {
+        			vkIt = vestigingKlanten.iterator();
+                	prevK = vkIt.next();
+                	while(vkIt.hasNext()) {
+                		crrntK = vkIt.next();
+                		assertTrue(prevK.getKlantnr() < crrntK.getKlantnr());
+                		prevK = crrntK;
+                	}
             	}
         	}
-    	}
+        } catch(PoiException e) {
+          //SQL excepties lijken hier lastig om uitgebreid te testen
+          fail(e);
+        }
     }
 
     /**
@@ -80,7 +84,8 @@ public class MapperTest {
      @  }
      */
     @Test
-    public void getVestigingen() throws PoiException {
+    public void getVestigingen() {
+      try {
     	Collection<Vestiging> vestigingen = m.getVestigingen();
     	assertEquals(12,vestigingen.size());
 
@@ -138,20 +143,23 @@ public class MapperTest {
     	assertNotNull(kZuidh);
     	assertEquals(kGron, kZuidh);
     	assertEquals(kGron.getKlantnr(), 794);
+    	
+      } catch(PoiException e) {
+        fail(e);
+      }
     }
 
     /**
-     * Test of het sluiten van de db verbinding goed gaat
+     * Sluit de verbinding en test of dat goed is gegaan
      */
 	@AfterAll
-	@Test
 	public static void closeConnection() {
 		try {
 			c.close();
 			assertTrue(c.isClosed());
 		} catch (SQLException e) {
 			e.printStackTrace();
-			fail();
+			fail(e);
 		}
 	}
 }

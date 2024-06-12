@@ -57,17 +57,20 @@ public class PostcodeTest {
           new PostcodeInfo("5555EG", "O", 52.377778951201, 180);
       } catch (PoiException pce) {
           pce.printStackTrace();
-          fail();
+          fail(pce);
       }
       assertTrue(true);
   }
 
+    /*
+     * DEZE METHODE HEBBEN WE WEL GESCHREVEN MAAR UITGEZET OMDAT NIET ALLE POSTCODES IN DE DATABASE HET JUISTE FORMAAT HEBBEN EN HET FORMAAT UIT DE DB VOLGEN
+     * VOOR VOLLEDIGHEID HEBBEN WE DEZE TESTS ER WEL INGELATEN
+     */
     /**
      * postcode, bestaande uit: 4-cijferreeks: 1000-9999 2-letterreeks: AA-ZZ
      * Deze test is verouderd omdat we niet meer op postcode testen
      * 
      * We testen hierin elke ongeldige randwaarden
-     * DEZE METHODE HEBBEN WE WEL GESCHREVEN MAAR UITGEZET OMDAT NIET ALLE POSTCODES IN DE DATABASE HET JUISTE FORMAAT HEBBEN
      */
 //    @Test
 //    public void invalidPostcode() {

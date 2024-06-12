@@ -2,7 +2,7 @@ import javax.swing.SwingUtilities;
 
 import controller.Facade;
 import domein.Bedrijf;
-import guiPrototype.Gui8;
+import guiPrototype.Gui;
 
 /**
  * Startup klasse
@@ -21,8 +21,8 @@ public class Main {
 			public void run() {
 				Bedrijf bedrijf = new Bedrijf();
 				Facade facade = new Facade(bedrijf);
-				Gui8 gui8 = new Gui8(facade);
-				bedrijf.attach(gui8);
+				Gui gui = new Gui(facade);
+				bedrijf.attach(gui);
 			}
 		});
 	}

@@ -47,7 +47,8 @@ public class Mapper {
 		connect();
 		initPreparedStatements();
 		
-		// Na speuren op stackoverflow
+		//Om koppeling te verlagen bij het sluiten van de GUI
+		//Na speuren op stackoverflow
 		Runtime.getRuntime().addShutdownHook(new Thread(() -> {
 			try {
 				System.out.println("DB shutdown initiated");
