@@ -11,32 +11,23 @@ import data.Queries;
 import domein.Vestiging;
 import exceptions.PoiException;
 
-/**
- * Voor het testen van stukjes code
- */
+// Test stukjes code hier
+
 public class Kladblok {
 	private Mapper m;
 	private Connection con;
 	private PreparedStatement ps0, ps1;
 	private FBResultSet result;
-	
-	/**
-	 * Verbindt de database
-	 */
+
 	public void connect() {
 	  try {
         m = new Mapper();
-        m.connect();
-        //System.out.println(m.getConnection().isClosed());
         con = m.getConnection();
       } catch (PoiException e) {
           e.printStackTrace();
       }
 	}
-	
-	/**
-	 * Test de query met een aantal prints naar het console
-	 */
+
 	public void blad() {
 		try {
 		    ps0 = con.prepareStatement(Queries.GET_VESTIGINGEN);
@@ -47,7 +38,7 @@ public class Kladblok {
 			System.out.println(result.getString("PLAATS"));
 			System.out.println(result.getString("POSTCODE"));
 			System.out.println(result.getString("LAT"));
-			System.out.println(result.getString("LNG"));			
+			System.out.println(result.getString("LNG"));
 			System.out.println("-");
 
 			ps1 = con.prepareStatement(Queries.GET_KLANTEN);
@@ -59,7 +50,7 @@ public class Kladblok {
 			System.out.println(result.getString("KLANTPOSTCODE"));
 			System.out.println(result.getString("KLANTLAT"));
 			System.out.println(result.getString("KLANTLNG"));
-			System.out.println(result.getString("VESTIGINGPLAATS"));			
+			System.out.println(result.getString("VESTIGINGPLAATS"));
 			System.out.println("-");
 
 			m.disconnect();
@@ -71,28 +62,21 @@ public class Kladblok {
 			e.printStackTrace();
 		}
 	}
-	
-	/**
-	 * Prints de vestigingen naar het console
-	 */
+
 	public void printVestigingen() {
 	  try {
 	    Collection<Vestiging> vestigingen = m.getVestigingen();
-	    
+
 	    for(Vestiging v: vestigingen) {
 	      System.out.println(v.toString());
 	    }
-	    
+
 	  } catch(Exception e) {
 	    System.out.println(e.getMessage());
 	  }
-	  
+
 	}
 
-	/**
-	 * Initialiseert het kladblok
-	 * @param args argumenten worden niet gebruikt
-	 */
 	public static void main(String[] args) {
 		Kladblok k = new Kladblok();
 		k.connect();

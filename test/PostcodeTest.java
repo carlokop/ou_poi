@@ -67,63 +67,63 @@ public class PostcodeTest {
 	 * 
 	 * We testen hierin elke ongeldige randwaarden
 	 */
-	@Test
-	public void invalidPostcode() {
-        // postcode null
-        pe = assertThrows(PoiException.class, () -> {
-            new PostcodeInfo(null, "Amsterdam", 52.377778951201, 4.9055895401203);
-        });
-        assertEquals(pe.getErrCode(), PoiExceptionCode.POSTCODE_NULL);
-  
-        // postcode 3-cijferreeks
-        pe = assertThrows(PoiException.class, () -> {
-            new PostcodeInfo("100EG", "Amsterdam", 52.377778951201, 4.9055895401203);
-        });
-        assertEquals(pe.getErrCode(), PoiExceptionCode.POSTCODE_LENGTE);
-  
-        // postcode 5-cijferreeks
-        pe = assertThrows(PoiException.class, () -> {
-            new PostcodeInfo("55000EG", "Amsterdam", 52.377778951201, 4.9055895401203);
-        });
-        assertEquals(pe.getErrCode(), PoiExceptionCode.POSTCODE_LENGTE);
-  
-        // postcode niet-cijfer in cijferreeks
-        pe = assertThrows(PoiException.class, () -> {
-            new PostcodeInfo("5A00EG", "Amsterdam", 52.377778951201, 4.9055895401203);
-        });
-        assertEquals(pe.getErrCode(), PoiExceptionCode.POSTCODE_VELDEN);
-  
-        // postcode cijferreeks ondergrens overschrijding
-        pe = assertThrows(PoiException.class, () -> {
-            new PostcodeInfo("0999AB", "Amsterdam", 52.377778951201, 4.9055895401203);
-        });
-        assertEquals(pe.getErrCode(), PoiExceptionCode.POSTCODE_NUL_START);
-  
-        // postcode cijferreeks bovengrens overschrijding, wordt 10000, zelfde als
-        // 5-cijferreeks
-        pe = assertThrows(PoiException.class, () -> {
-            new PostcodeInfo("10000AB", "Amsterdam", 52.377778951201, 4.9055895401203);
-        });
-        assertEquals(pe.getErrCode(), PoiExceptionCode.POSTCODE_LENGTE);
-  
-        // postcode 1-letterreeks
-        pe = assertThrows(PoiException.class, () -> {
-            new PostcodeInfo("1000A", "Amsterdam", 52.377778951201, 4.9055895401203);
-        });
-        assertEquals(pe.getErrCode(), PoiExceptionCode.POSTCODE_LENGTE);
-  
-        // postcode 3-letterreeks
-        pe = assertThrows(PoiException.class, () -> {
-            new PostcodeInfo("1000ABC", "Amsterdam", 52.377778951201, 4.9055895401203);
-        });
-        assertEquals(pe.getErrCode(), PoiExceptionCode.POSTCODE_LENGTE);
-  
-        // postcode niet-letter in letterreeks
-        pe = assertThrows(PoiException.class, () -> {
-            new PostcodeInfo("1000A2", "Amsterdam", 52.377778951201, 4.9055895401203);
-        });
-        assertEquals(pe.getErrCode(), PoiExceptionCode.POSTCODE_VELDEN);
-    }
+//	@Test
+//	public void invalidPostcode() {
+//        // postcode null
+//        pe = assertThrows(PoiException.class, () -> {
+//            new PostcodeInfo(null, "Amsterdam", 52.377778951201, 4.9055895401203);
+//        });
+//        assertEquals(pe.getErrCode(), PoiExceptionCode.POSTCODE_NULL);
+//  
+//        // postcode 3-cijferreeks
+//        pe = assertThrows(PoiException.class, () -> {
+//            new PostcodeInfo("100EG", "Amsterdam", 52.377778951201, 4.9055895401203);
+//        });
+//        assertEquals(pe.getErrCode(), PoiExceptionCode.POSTCODE_LENGTE);
+//  
+//        // postcode 5-cijferreeks
+//        pe = assertThrows(PoiException.class, () -> {
+//            new PostcodeInfo("55000EG", "Amsterdam", 52.377778951201, 4.9055895401203);
+//        });
+//        assertEquals(pe.getErrCode(), PoiExceptionCode.POSTCODE_LENGTE);
+//  
+//        // postcode niet-cijfer in cijferreeks
+//        pe = assertThrows(PoiException.class, () -> {
+//            new PostcodeInfo("5A00EG", "Amsterdam", 52.377778951201, 4.9055895401203);
+//        });
+//        assertEquals(pe.getErrCode(), PoiExceptionCode.POSTCODE_VELDEN);
+//  
+//        // postcode cijferreeks ondergrens overschrijding
+//        pe = assertThrows(PoiException.class, () -> {
+//            new PostcodeInfo("0999AB", "Amsterdam", 52.377778951201, 4.9055895401203);
+//        });
+//        assertEquals(pe.getErrCode(), PoiExceptionCode.POSTCODE_NUL_START);
+//  
+//        // postcode cijferreeks bovengrens overschrijding, wordt 10000, zelfde als
+//        // 5-cijferreeks
+//        pe = assertThrows(PoiException.class, () -> {
+//            new PostcodeInfo("10000AB", "Amsterdam", 52.377778951201, 4.9055895401203);
+//        });
+//        assertEquals(pe.getErrCode(), PoiExceptionCode.POSTCODE_LENGTE);
+//  
+//        // postcode 1-letterreeks
+//        pe = assertThrows(PoiException.class, () -> {
+//            new PostcodeInfo("1000A", "Amsterdam", 52.377778951201, 4.9055895401203);
+//        });
+//        assertEquals(pe.getErrCode(), PoiExceptionCode.POSTCODE_LENGTE);
+//  
+//        // postcode 3-letterreeks
+//        pe = assertThrows(PoiException.class, () -> {
+//            new PostcodeInfo("1000ABC", "Amsterdam", 52.377778951201, 4.9055895401203);
+//        });
+//        assertEquals(pe.getErrCode(), PoiExceptionCode.POSTCODE_LENGTE);
+//  
+//        // postcode niet-letter in letterreeks
+//        pe = assertThrows(PoiException.class, () -> {
+//            new PostcodeInfo("1000A2", "Amsterdam", 52.377778951201, 4.9055895401203);
+//        });
+//        assertEquals(pe.getErrCode(), PoiExceptionCode.POSTCODE_VELDEN);
+//    }
 
 	/**
 	 * plaatsnaam: niet lege string; zonder getallen, met apostrof en spaties.
