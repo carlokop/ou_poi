@@ -33,6 +33,7 @@ public class MapperTest {
 	 * Tests of de verbinding tot stand is gekomen
 	 */
 	@BeforeAll
+	@Test
 	public static void init() {
     	try {
 			m = new Mapper();
@@ -153,6 +154,7 @@ public class MapperTest {
      * Sluit de verbinding en test of dat goed is gegaan
      */
 	@AfterAll
+	@Test
 	public static void closeConnection() {
 		try {
 			c.close();

@@ -117,7 +117,7 @@ public class Vestiging {
 	 */
 	@Override
 	public String toString() {
-		return "" + plaats + " : " + klanten.size();
+		return plaats + " : " + klanten.size();
 	}
 
 }

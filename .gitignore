@@ -4,3 +4,5 @@
 # uitsluiting van class bestanden
 **/*.class
 /bin/
+
+doc/
