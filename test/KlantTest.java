@@ -37,7 +37,7 @@ class KlantTest {
       try {
           klant = new Klant(1, postcode);
           assertEquals(1, klant.getKlantnr());
-          assertEquals("8701GH", klant.getPostcode().getPostcode());
+          assertEquals("8701GH", klant.getPostcodeInfo().getPostcode());
       } catch (PoiException e) {
           e.printStackTrace();
       }

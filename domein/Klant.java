@@ -59,7 +59,7 @@ public class Klant implements Comparable<Klant> {
 	 *
 	 * @return postcode
 	 */
-	public PostcodeInfo getPostcode() {
+	public PostcodeInfo getPostcodeInfo() {
 		return postcode;
 	}
 
