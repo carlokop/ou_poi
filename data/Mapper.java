@@ -41,7 +41,7 @@ public class Mapper {
 	/**
 	 * Initialiseert de mapper en zet een DB verbinding op
 	 * Tevens sluit de verbinding als de shutdownhook wordt aangeroepen
-	 * @throws MapperException als fout is bij het maken van de verbinding
+	 * @throws PoiException als fout is bij het maken van de verbinding
 	 */
 	public Mapper() throws PoiException {
 		connect();
@@ -71,7 +71,7 @@ public class Mapper {
 	 * Maakt verbinding met de database. Eerst wordt de JDBC-driver geregistreerd
 	 * door het laden van de juiste implementatie van Driver;
 	 * 
-	 * @throws MapperException als de driver niet geladen kan worden of het
+	 * @throws PoiException als de driver niet geladen kan worden of het
 	 *                         verbinding maken mislukt (bv. door een fout in de
 	 *                         padnaam).
 	 */
@@ -93,7 +93,7 @@ public class Mapper {
 	/**
 	 * Sluit de verbinding met de database.
 	 * 
-	 * @throws MapperException als er een SQL fout ontstaat
+	 * @throws PoiException als er een SQL fout ontstaat
 	 */
 	public void disconnect() throws PoiException {
 		if (con != null) {
@@ -109,7 +109,7 @@ public class Mapper {
 	/**
 	 * Initialiseer prepared statements
 	 * 
-	 * @throws MapperException sql-query syntax bevat fouten of compilatie is
+	 * @throws PoiException sql-query syntax bevat fouten of compilatie is
 	 *                         mislukt
 	 */
 	private void initPreparedStatements() throws PoiException {
@@ -122,29 +122,29 @@ public class Mapper {
 	}
 
 	/**
-	 * Haalt alle vestigingen op uit de DB
-	 * Maakt instanties van alle vestigingen en onderliggende objecten 
-	 * en geeft een lijst van alle vestigingen terug
-	 * 
-	 * @return lijst met vestigingen inclusief alle onderliggende associaties
-	 * @throws MapperException als er een SQL fout of postcode exceptie ontstaat
-	 */ 
-	 /*@
-	 @ @contract happy {
-	 @   @requires con != null
-	 @   @requires pselectvestigingen != null
-	 @   @ensures \result is een lijst met vestigingen 
-	 @ }
-	 @ @contract SQLException {
-	 @   @requires SQLException
-	 @   @signals DBException("Fout bij het inlezen van de Vestigingen") 
-	 @ }
-	 @ @contract Ongeldige invoer {
-	 @   @requires postcode bevat ongeldige parameters
-	 @   @requires klant bevat ongeldige parameters
-	 @   @signals DBException("Fout bij het maken van domeinobjecten") 
-	 @ }
-	 */
+     * Haalt alle vestigingen op uit de DB
+     * Maakt instanties van alle vestigingen en onderliggende objecten 
+     * en geeft een lijst van alle vestigingen terug
+     * 
+     * @return lijst met vestigingen inclusief alle onderliggende associaties
+     * @throws PoiException als er een SQL fout of postcode exceptie ontstaat
+     */ 
+     /*@
+     @ @contract happy {
+     @   @requires con != null
+     @   @requires pselectvestigingen != null
+     @   @ensures \result is een lijst met vestigingen 
+     @ }
+     @ @contract SQLException {
+     @   @requires SQLException
+     @   @signals PoiException("Fout bij het inlezen van de Vestigingen") 
+     @ }
+     @ @contract Ongeldige invoer {
+     @   @requires postcode bevat ongeldige parameters
+     @   @requires klant bevat ongeldige parameters
+     @   @signals PoiException("Fout bij het maken van domeinobjecten") 
+     @ }
+     */
 	public Collection<Vestiging> getVestigingen() throws PoiException {
 		Collection<Vestiging> vestigingen = new ArrayList<>();
 		Vestiging vestigingCache;

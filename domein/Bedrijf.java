@@ -9,7 +9,8 @@ import exceptions.PoiException;
 import observerPatroon.Subject;
 
 /**
- * Beheert de mapper en alle bedrijven
+ * Deze klasse stelt het bedrijf voor
+ * Beheert vervolgens alle vestigingen en regelt de communocatie met de mapper
  */
 public class Bedrijf extends Subject implements Model{
 	private Collection<Vestiging> vestigingen;
@@ -45,7 +46,7 @@ public class Bedrijf extends Subject implements Model{
 	
 	/**
 	 * Haalt een lijst van de id's van klanten op
-	 * @param plaats ookwel vestiginglocatie
+	 * @param plaats ook wel vestiginglocatie
 	 * @return lijst van id's als string
 	 */
 	@Override

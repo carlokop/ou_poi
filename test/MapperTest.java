@@ -19,6 +19,9 @@ import domein.Klant;
 import domein.Vestiging;
 import exceptions.PoiException;
 
+/**
+ * test voor de DB Mapper
+ */
 public class MapperTest {
 
 	private static Connection c;
@@ -28,7 +31,6 @@ public class MapperTest {
 	/**
 	 * Test connectie met de fdb database
 	 */
-	
 	@BeforeAll
 	@Test
 	public static void init() {
@@ -42,6 +44,10 @@ public class MapperTest {
 		}
 	}
 
+	 /**
+     * test of of vestigignen correct gesorteerd worden
+     * @throws PoiException als er sql excepties zijn
+     */
     @Test
     public void testCorrecteSortering() throws PoiException {
     	Collection<Vestiging> vestigingen = m.getVestigingen();
@@ -63,6 +69,16 @@ public class MapperTest {
     	}
     }
 
+    /**
+     * Test correct ophalen van de vestigingen
+     * @throws PoiException als er sql excepties worden opgegooid
+     */
+    /*
+     @  @contract ophalenVestigingen {
+     @      @requires fdb database met geen andere wijzigingen anders dan in taak 3 aangegeven.
+     @      @ensures  lijst met vestigingen opgehaald en in benodigd formaat
+     @  }
+     */
     @Test
     public void getVestigingen() throws PoiException {
     	Collection<Vestiging> vestigingen = m.getVestigingen();
@@ -124,6 +140,9 @@ public class MapperTest {
     	assertEquals(kGron.getKlantnr(), 794);
     }
 
+    /**
+     * Test of het sluiten van de db verbinding goed gaat
+     */
 	@AfterAll
 	@Test
 	public static void closeConnection() {

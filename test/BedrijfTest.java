@@ -18,11 +18,17 @@ class BedrijfTest {
 
   private static Bedrijf b = null;
 
+  /**
+   * Initialiseert het bedrijf
+   */
   @BeforeAll
   static void setup() {
       b = new Bedrijf();
   }
 
+  /**
+   * Tests happy flow
+   */
   @Test
   void happy() {
       Collection<String> plaatsnamen = b.getVestigingPlaatsen();
@@ -38,6 +44,9 @@ class BedrijfTest {
       }
   }
   
+  /**
+   * Tests onjuiste invoer
+   */
   @Test
   void foutieveInvoer() {
       Collection<String> klanten;

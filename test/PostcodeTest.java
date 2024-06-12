@@ -10,65 +10,67 @@ import domein.PostcodeInfo;
 import exceptions.PoiException;
 import exceptions.PoiExceptionCode;
 
+
 /**
  * Test Postcodeinfo, instanties in testen kunnen fictief zijn.
  */
 public class PostcodeTest {
     PoiException pe;
 
-	/**
-	 * Er zijn 4 parameters voor postcode: postcode, bestaande uit: 4-cijferreeks:
-	 * 1000-9999 2-letterreeks: AA-ZZ plaatsnaam, niet lege string; zonder getallen,
-	 * met apostrof en spaties. string.length moet tussen de 1 en 30 liggen, langste adres in NL is 28
-	 * lang maar we kiezen even 30. latitude, tussen -90 lat en 90 longitude, -180 lng en 180
-	 * 
-	 * We testen hierin elke geldige randwaarde
-	 */
+    /**
+     * Er zijn 4 parameters voor postcode: postcode, bestaande uit: 4-cijferreeks:
+     * 1000-9999 2-letterreeks: AA-ZZ plaatsnaam, niet lege string; zonder getallen,
+     * met apostrof en spaties. string.length moet tussen de 1 en 30 liggen, langste adres in NL is 28
+     * lang maar we kiezen even 30. latitude, tussen -90 lat en 90 longitude, -180 lng en 180
+     * 
+     * We testen hierin elke geldige randwaarde
+     */
     @Test
     public void validInput() {
-        try {
-            // Postcode cijferreeks ondergrens 1000
-            new PostcodeInfo("1000EG", "Amsterdam", 52.377778951201, 4.9055895401203);
-            // Postcode cijferreeks bovengrens 9999
-            new PostcodeInfo("9999IH", "Stitswerd", 53.3609, 6.5993);
-            // Postcode letterreeks ondergrens AA
-            new PostcodeInfo("5555AA", "Fictiefistan", 52.377778951201, 4.9055895401203);
-            // Postcode letterreeks bovengrens ZZ
-            new PostcodeInfo("5555ZZ", "Fictiefistan", 52.377778951201, 4.9055895401203);
+      try {
+          // Postcode cijferreeks ondergrens 1000
+          new PostcodeInfo("1000EG", "Amsterdam", 52.377778951201, 4.9055895401203);
+          // Postcode cijferreeks bovengrens 9999
+          new PostcodeInfo("9999IH", "Stitswerd", 53.3609, 6.5993);
+          // Postcode letterreeks ondergrens AA
+          new PostcodeInfo("5555AA", "Fictiefistan", 52.377778951201, 4.9055895401203);
+          // Postcode letterreeks bovengrens ZZ
+          new PostcodeInfo("5555ZZ", "Fictiefistan", 52.377778951201, 4.9055895401203);
 
-            // Plaatsnaam apostrof en spatie(s)
-            new PostcodeInfo("5555EG", " '", 52.377778951201, 4.9055895401203);
-            // Plaatsnaam alleen letters
-            new PostcodeInfo("5555EG", "Abc", 52.377778951201, 4.9055895401203);
-            // Plaatsnaam lengte 1
-            new PostcodeInfo("5555EG", "O", 52.377778951201, 4.9055895401203);
-            // Plaatsnaam lengte 30
-            new PostcodeInfo("5555EG", "Langeplaatsnaamdiedertiglangis", 52.377779, 4.9058954);
-            assertEquals(30, "Langeplaatsnaamdiedertiglangis".length());
+          // Plaatsnaam apostrof en spatie(s)
+          new PostcodeInfo("5555EG", " '", 52.377778951201, 4.9055895401203);
+          // Plaatsnaam alleen letters
+          new PostcodeInfo("5555EG", "Abc", 52.377778951201, 4.9055895401203);
+          // Plaatsnaam lengte 1
+          new PostcodeInfo("5555EG", "O", 52.377778951201, 4.9055895401203);
+          // Plaatsnaam lengte 30
+          new PostcodeInfo("5555EG", "Langeplaatsnaamdiedertiglangis", 52.377779, 4.9058954);
+          assertEquals(30, "Langeplaatsnaamdiedertiglangis".length());
 
-            // Latitude ondergrens -90
-            new PostcodeInfo("5555EG", "O", -90, 4.9055895401203);
-            // Latitude bovengrens 90
-            new PostcodeInfo("5555EG", "O", 90, 4.9055895401203);
-            // longitude ondergrens -180
-            new PostcodeInfo("5555EG", "O", 52.377778951201, -180);
-            // longitude bovengrens 180
-            new PostcodeInfo("5555EG", "O", 52.377778951201, 180);
-        } catch (PoiException pce) {
-            pce.printStackTrace();
-            fail();
-        }
-        assertTrue(true);
-    }
+          // Latitude ondergrens -90
+          new PostcodeInfo("5555EG", "O", -90, 4.9055895401203);
+          // Latitude bovengrens 90
+          new PostcodeInfo("5555EG", "O", 90, 4.9055895401203);
+          // longitude ondergrens -180
+          new PostcodeInfo("5555EG", "O", 52.377778951201, -180);
+          // longitude bovengrens 180
+          new PostcodeInfo("5555EG", "O", 52.377778951201, 180);
+      } catch (PoiException pce) {
+          pce.printStackTrace();
+          fail();
+      }
+      assertTrue(true);
+  }
 
-	/**
-	 * postcode, bestaande uit: 4-cijferreeks: 1000-9999 2-letterreeks: AA-ZZ
-	 * Deze test is verouderd omdat we niet meer op postcode testen
-	 * 
-	 * We testen hierin elke ongeldige randwaarden
-	 */
-//	@Test
-//	public void invalidPostcode() {
+    /**
+     * postcode, bestaande uit: 4-cijferreeks: 1000-9999 2-letterreeks: AA-ZZ
+     * Deze test is verouderd omdat we niet meer op postcode testen
+     * 
+     * We testen hierin elke ongeldige randwaarden
+     * DEZE METHODE HEBBEN WE WEL GESCHREVEN MAAR UITGEZET OMDAT NIET ALLE POSTCODES IN DE DATABASE HET JUISTE FORMAAT HEBBEN
+     */
+//    @Test
+//    public void invalidPostcode() {
 //        // postcode null
 //        pe = assertThrows(PoiException.class, () -> {
 //            new PostcodeInfo(null, "Amsterdam", 52.377778951201, 4.9055895401203);
@@ -115,7 +117,6 @@ public class PostcodeTest {
 //        // postcode 3-letterreeks
 //        pe = assertThrows(PoiException.class, () -> {
 //            new PostcodeInfo("1000ABC", "Amsterdam", 52.377778951201, 4.9055895401203);
-//        });
 //        assertEquals(pe.getErrCode(), PoiExceptionCode.POSTCODE_LENGTE);
 //  
 //        // postcode niet-letter in letterreeks
@@ -125,14 +126,14 @@ public class PostcodeTest {
 //        assertEquals(pe.getErrCode(), PoiExceptionCode.POSTCODE_VELDEN);
 //    }
 
-	/**
-	 * plaatsnaam: niet lege string; zonder getallen, met apostrof en spaties.
-	 * string.length tussen 1 en 30, langste adres in NL is 28 lang maar we kiezen even 30.
-	 * 
-	 * We testen hierin elke ongeldige randwaarden
-	 */
-	@Test
-	public void invalidPlaatsnaam() {
+    /**
+     * plaatsnaam: niet lege string; zonder getallen, met apostrof en spaties.
+     * string.length tussen 1 en 30, langste adres in NL is 28 lang maar we kiezen even 30.
+     * 
+     * We testen hierin elke ongeldige randwaarden
+     */
+    @Test
+    public void invalidPlaatsnaam() {
         // plaatsnaam null
         pe = assertThrows(PoiException.class, () -> {
             new PostcodeInfo("5555AB", null, 52.377778951201, 4.9055895401203);
@@ -165,14 +166,14 @@ public class PostcodeTest {
         assertEquals(pe.getErrCode(), PoiExceptionCode.PLAATSNAAM_TE_GROOT);
     }
 
-	/**
-	 * Geografische coordinaten: latitude, lat tussen -90 en 90 
-	 * longitude, lng tussen -180 en 180
-	 *
-	 * We testen hierin elke ongeldige randwaarden
-	 */
-	@Test
-	public void invalidGGCoords() {
+    /**
+     * Geografische coordinaten: latitude, lat tussen -90 en 90 
+     * longitude, lng tussen -180 en 180
+     *
+     * We testen hierin elke ongeldige randwaarden
+     */
+    @Test
+    public void invalidGGCoords() {
       // latitude < -90
       pe = assertThrows(PoiException.class, () -> {
           new PostcodeInfo("5555AA", "Fictiefistan", -91, 4.9055895401203);

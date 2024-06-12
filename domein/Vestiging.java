@@ -5,6 +5,9 @@ import java.util.Collection;
 import exceptions.PoiException;
 import exceptions.PoiExceptionCode;
 
+/**
+ * Bevat informatie van een vestigiging en beheert de klanten van die vestiging
+ */
 public class Vestiging {
 
 	private Collection<Klant> klanten;
@@ -12,32 +15,38 @@ public class Vestiging {
 	private String plaats;
 
 	/**
-	 * Maakt een nieuwe vestiging
-	 *
-	 * @param plaats   vestiging plaatsnaam
-	 * @param postcode postcode instantie
-	 * @param klanten  collectieobject met klanten >= 0
-	 * @throws PoiException bij ongeldige parameters
-	 *
-	 * @contract happy {
-	 * @requires plaats != null of lege string
-	 * @requires postcode != null
-	 * @requires klanten != null && klanten.size() >= 0
-	 * @ensures \result is een klanten instantie }
-	 * @contract ongeldigeplaats {
-	 * @requires plaats == null
-	 * @signals PoiException, PoiExceptionCode.PLAATSNAAM_NULL
-	 * @contract plaats_leeg {
-	 * @requires plaats == lege string of alleen spaties
-	 * @signals PoiException, PoiExceptionCode. ("Plaats mag niet leeg zijn") }
-	 * @contract postcode_null {
-	 * @requires postcode == null
-	 * @signals PoiException, PoiExceptionCode.("Postcode mag niet null zijn") }
-	 * @contract klanten_null {
-	 * @requires klanten == null
-	 * @signals PoiException, PoiExceptionCode.KLANTENLIJST_NULL
-	 *
-	 */
+     * Maakt een nieuwe vestiging
+     * 
+     * @param plaats   vestiging plaatsnaam
+     * @param postcode postcode instantie
+     * @param klanten  collectieobject met klanten
+     * @throws PoiException bij ongeldige parameters
+     */
+    /*@
+     @ @contract happy {
+     @   @requires plaats != null of lege string
+     @   @requires postcode != null
+     @   @requires klanten != null && klanten.size() >= 0
+     @   @ensures \result is een klanten instantie 
+     @ }
+     @ @contract ongeldigeplaats {
+     @   @requires plaats == null
+     @   @signals PoiException("Plaats mag niet null zijn") 
+     @ }
+     @ @contract plaats_leeg {
+     @   @requires plaats == lege string of alleen spaties
+     @   @signals PoiException("Plaats mag niet leeg zijn") 
+     @ }
+     @ @contract postcode_null {
+     @   @requires postcode == null
+     @   @signals PoiException("Postcode mag niet null zijn") 
+     @ }
+     @ @contract klanten_null {
+     @   @requires klanten == null
+     @   @signals PoiException("Klanten mag niet null zijn") 
+     @ }
+     @ 
+     */
 	public Vestiging(String plaats, PostcodeInfo postcode, Collection<Klant> klanten) throws PoiException {
 		validate(plaats, postcode, klanten);
 		this.plaats = plaats;
@@ -45,6 +54,14 @@ public class Vestiging {
 		this.klanten = klanten;
 	}
 
+	/**
+     * Helper die valideert of een geldige plaats of postcode is opgegeven
+     * Controleert hierbij op nullwaarden en lege strings
+     * @param plaats plaatsnaam
+     * @param postcode postcode instantie 
+     * @param klanten klantenlijst (mag leeg zijn)
+     * @throws PoiException als een ongeldige string is opgegeven
+     */
 	public static void validate(String plaats, PostcodeInfo postcode, Collection<Klant> klanten) throws PoiException {
 		// test plaats is niet null
 		if (plaats == null) {
@@ -61,7 +78,7 @@ public class Vestiging {
 		}
 		// test postcode is niet null
 		if (postcode == null) {
-			throw new PoiException(PoiExceptionCode.POSTCODE_NULL, postcode.toString());
+			throw new PoiException(PoiExceptionCode.POSTCODE_NULL, plaats);
 		}
 		// klantenlist is null
 		if (klanten == null) {
@@ -79,8 +96,9 @@ public class Vestiging {
 	}
 
 	/**
-	 * Geeft de postcode instantie
-	 */
+     * Geeft de postcode instantie
+     * @return de postcodeInfo instantie
+     */
 	public PostcodeInfo getPostcodeInfo() {
 		return postcodeInfo;
 	}
@@ -94,6 +112,9 @@ public class Vestiging {
 		return klanten;
 	}
 
+	/**
+	 * Geeft de string representatie van de plaats en het aantal klanten 
+	 */
 	@Override
 	public String toString() {
 		return "" + plaats + " : " + klanten.size();

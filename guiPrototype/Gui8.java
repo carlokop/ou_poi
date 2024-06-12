@@ -102,7 +102,6 @@ public class Gui8 extends JFrame implements Observer {
 
 	/**
 	 * Handler voor tonen van kiesvestiging taak
-	 *
 	 */
 	class VestigingMenuItemLuisteraar implements ActionListener {
 		@Override

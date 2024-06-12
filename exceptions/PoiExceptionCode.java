@@ -1,5 +1,8 @@
 package exceptions;
 
+/**
+ * Dit regelt welke foutcodes met welke foutmeldingen er mogen zijn
+ */
 public enum PoiExceptionCode {
 
 	JAYBIRD_JDBC_NOT_FOUND("Java kan de klasse voor de driver niet vinden, controleer uw instellingen"),
@@ -30,10 +33,17 @@ public enum PoiExceptionCode {
 	;
 	private String ec_message;
 
+	/*
+	 * Maakt de error message
+	 */
 	PoiExceptionCode(String ec_message) {
 		this.ec_message = ec_message;
 	}
 
+	/**
+	 * Geeft de error message
+	 * @return de error message
+	 */
 	public String getErrMessage() {
 		return this.ec_message;
 	}

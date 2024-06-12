@@ -15,6 +15,9 @@ import domein.Vestiging;
 import exceptions.PoiException;
 import exceptions.PoiExceptionCode;
 
+/**
+ * Test voor vestigingen
+ */
 class VestigingTest {
 
 	private static Vestiging vestiging = null;
@@ -22,6 +25,10 @@ class VestigingTest {
 	private static ArrayList<Klant> klantenlijst = null;
 	private static PoiException pe;
 	
+	/**
+	   * Initialiseert het postcodeinfo object en een lijstje met drie klanten
+	   * @throws PoiException
+	   */
 	@BeforeAll
 	static void setup() throws PoiException {
 		postcode = new PostcodeInfo("8701GH", "Bolsward", 53.0673994187339, 5.5274963648489);
@@ -31,6 +38,9 @@ class VestigingTest {
 		klantenlijst.add(new Klant(125, postcode));
 	}
 
+	/**
+	   * Test happy path
+	   */
 	@Test
 	void happy() {
 		ArrayList<Klant> klantenlijst = new ArrayList<>();
@@ -67,6 +77,10 @@ class VestigingTest {
 		}
 	}
 
+	/**
+	* Test of er ongeldige invoer is
+	* Nulls, lege stringen of alleen spaties
+	*/
 	@Test
 	void foutiveInvoer() {
 		
