@@ -27,12 +27,11 @@ public class Klant implements Comparable<Klant> {
      @ }
      @ @contract postcode null {
      @   @requires postcode == null
-     @   @signals PoiException("Postcode mag niet null zijn") 
+     @   @signals PoiException PoiException, PoiExceptionCode.POSTCODE_NULL
      @ }
      @ @contract klantnummer onjuist {
      @   @requires klantnummer <= 0
-     @   @signals PoiException("Klantknummer moet een positief getal
-     @          zijn") 
+     @   @signals PoiException PoiExceptionCode.KLANTNUMMER_NIET_POSITIEF
      @ }
      */
 	public Klant(int klantnr, PostcodeInfo postcode) throws PoiException {
@@ -46,7 +45,8 @@ public class Klant implements Comparable<Klant> {
      * Valideert of opgegeven klantnr en postcode een geldige invoer hebben
      * @param klantnr  het klantnummer
      * @param postcode de postcodeinfo instantie
-     * @throws PoiException als input ongeldig is
+     * @throws PoiException PoiExceptionCode.KLANTNUMMER_NIET_POSITIEF
+     * @throws PoiException PoiExceptionCode.POSTCODE_NULL
      * @see Klant(int, PostcodeInfo)
      */
 	public static void validate(int klantnr, PostcodeInfo postcode) throws PoiException {

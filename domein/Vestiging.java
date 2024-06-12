@@ -31,19 +31,19 @@ public class Vestiging {
      @ }
      @ @contract ongeldigeplaats {
      @   @requires plaats == null
-     @   @signals PoiException("Plaats mag niet null zijn") 
+     @   @signals PoiException, PoiExceptionCode.PLAATSNAAM_NULL
      @ }
      @ @contract plaats_leeg {
      @   @requires plaats == lege string of alleen spaties
-     @   @signals PoiException("Plaats mag niet leeg zijn") 
+     @   @signals PoiException, PoiExceptionCode. ("Plaats mag niet leeg zijn") 
      @ }
      @ @contract postcode_null {
      @   @requires postcode == null
-     @   @signals PoiException("Postcode mag niet null zijn") 
+     @   @signals PoiException, PoiExceptionCode.POSTCODE_NULL
      @ }
      @ @contract klanten_null {
      @   @requires klanten == null
-     @   @signals PoiException("Klanten mag niet null zijn") 
+     @   @signals PoiException, PoiExceptionCode.KLANTENLIJST_NULL 
      @ }
      @ 
      */

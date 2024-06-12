@@ -57,7 +57,7 @@ public class PostcodeTest {
           new PostcodeInfo("5555EG", "O", 52.377778951201, 180);
       } catch (PoiException pce) {
           pce.printStackTrace();
-          fail(pce);
+          fail(pce.getMessage());
       }
       assertTrue(true);
   }

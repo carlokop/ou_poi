@@ -33,17 +33,16 @@ public class PostcodeInfo {
      @ }
      @ @contract null waarden {
      @   @requires postcode == null of plaats == null
-     @   @signals PoiException
+     @   @signals PoiException, PoiExceptionCode.POSTCODE_NULL
      @ }
      @ @contract lege str plaatsnaam {
      @   @requires plaatsnaam is een lege string
-     @   @signals PoiException("Plaatsnaam mag niet leeg zijn") 
+     @   @signals PoiException, PoiExceptionCode.PLAATSNAAM_LEEG
      @ }
      @ @contract lat of len out of range {
      @   @requires lat < -90 || lat > 90
      @   @requires len < -180 || lat > 180
-     @   @signals PoiException("latitude out of range moet tussen de -180
-     @          en 180 zijn maar was: ...") 
+     @   @signals PoiException, PoiExceptionCode.GGCOORDS_LAT_OVERSCHRIJDING 
      @ }
      */
 	public PostcodeInfo(String postcode, String plaatsnaam, double lat, double lng) throws PoiException {
@@ -75,12 +74,15 @@ public class PostcodeInfo {
      /*
      @ @contract postcode null {
      @   @requires postcode == null
-     @   @signals PoiException("Postcode mag niet leeg zijn") 
+     @   @signals PoiException, PoiExceptionCode.POSTCODE_NULL
+     @ }
+     @ @contract ongeldige postcode lengte {
+     @   @requires postcode char.length != 6
+     @   @signals PoiException, PoiExceptionCode.POSTCODE_LENGTE
      @ }
      @ @contract ongeldige postcode {
-     @   @requires postcode voldoet niet aan regex ^\d{4}[a-zA-Z]{2}$ (4 cijfers
-     @           gevolgd door 2 letters)
-     @   @signals PoiException("Ongeldig formaat voor postcode") 
+     @   @requires postcode voldoet niet aan partoon (4 cijfers gevolgd door 2 letters)
+     @   @signals PoiException, PoiExceptionCode.POSTCODE_VELDE
      * }
      */
     public static void validatePostcode(String postcode) throws PoiException {

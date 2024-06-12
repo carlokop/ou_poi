@@ -40,7 +40,7 @@ public class MapperTest {
     		c = m.getConnection();
     		assertTrue(c.isValid(1000));
 		} catch (PoiException | SQLException e) {
-			fail("Test kan niet gestart worden: "+e);
+			fail("Test kan niet gestart worden: "+e.getMessage());
 		}
 	}
 
@@ -70,7 +70,7 @@ public class MapperTest {
         	}
         } catch(PoiException e) {
           //SQL excepties lijken hier lastig om uitgebreid te testen
-          fail(e);
+          fail(e.getMessage());
         }
     }
 
@@ -146,7 +146,7 @@ public class MapperTest {
     	assertEquals(kGron.getKlantnr(), 794);
     	
       } catch(PoiException e) {
-        fail(e);
+        fail(e.getMessage());
       }
     }
 
@@ -161,7 +161,7 @@ public class MapperTest {
 			assertTrue(c.isClosed());
 		} catch (SQLException e) {
 			e.printStackTrace();
-			fail(e);
+			fail(e.getMessage());
 		}
 	}
 }

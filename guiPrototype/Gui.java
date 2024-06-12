@@ -106,7 +106,7 @@ public class Gui extends JFrame implements Observer {
 	class VestigingMenuItemLuisteraar implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			clearViews();
+		    stopActiviteit();
 			pane.add(vestigingOverzicht, BorderLayout.WEST);
 			Gui.this.pane.revalidate();
 			Gui.this.pane.repaint();
@@ -119,7 +119,7 @@ public class Gui extends JFrame implements Observer {
 	class VestigingenSluitenMenuItemLuisteraar implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			clearViews();
+		  stopActiviteit();
 		}
 	}
 
@@ -129,7 +129,7 @@ public class Gui extends JFrame implements Observer {
 	class stopActiviteitListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			clearViews();
+		  stopActiviteit();
 		}
 	}
 
@@ -137,7 +137,7 @@ public class Gui extends JFrame implements Observer {
 	 * Maakt de layout m.u.v. de header en footer leeg 
 	 * Dit sluit alle actieve use cases en brengt de GUI terug naar de begintoestant
 	 */
-	public void clearViews() {
+	public void stopActiviteit() {
 		BorderLayout bLayout = (BorderLayout) this.pane.getLayout();
 		Component cCache;
 		cCache = bLayout.getLayoutComponent(BorderLayout.WEST);
