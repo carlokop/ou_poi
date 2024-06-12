@@ -55,7 +55,7 @@ class VestigingTest {
 			assertEquals("8701GH", vestiging.getPostcodeInfo().getPostcode());
 
 			assertEquals(3, vestiging.getKlanten().size());
-//    vestiging.voegKlantToe(new Klant(126, postcode));
+//    vestiging.voegKlantToe(new Klant(126, postcode));  //taak 5
 //    assertEquals(4,vestiging.getKlanten().size());
 
 			// klantenlijst mag leeg zijn
