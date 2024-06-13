@@ -27,15 +27,18 @@ class VestigingTest {
 	
 	/**
 	   * Initialiseert het postcodeinfo object en een lijstje met drie klanten
-	   * @throws PoiException
 	   */
 	@BeforeAll
-	static void setup() throws PoiException {
+	static void setup()  {
+	  try {
 		postcode = new PostcodeInfo("8701GH", "Bolsward", 53.0673994187339, 5.5274963648489);
 		klantenlijst = new ArrayList<>();
 		klantenlijst.add(new Klant(123, postcode));
 		klantenlijst.add(new Klant(124, postcode));
 		klantenlijst.add(new Klant(125, postcode));
+	  } catch(PoiException e) {
+	    fail(e.getMessage());
+	  }
 	}
 
 	/**
