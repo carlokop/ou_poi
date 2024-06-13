@@ -46,7 +46,6 @@ public class MapperTest {
 
 	 /**
      * test of of vestigignen correct gesorteerd worden
-     * @throws PoiException als er sql excepties zijn
      */
     @Test
     public void testCorrecteSortering() {
@@ -76,7 +75,6 @@ public class MapperTest {
 
     /**
      * Test correct ophalen van de vestigingen
-     * @throws PoiException als er sql excepties worden opgegooid
      */
     /*
      @  @contract ophalenVestigingen {
