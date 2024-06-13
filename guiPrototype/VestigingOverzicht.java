@@ -70,6 +70,7 @@ public class VestigingOverzicht extends JPanel {
 		if (!vestigingKlantOverzicht.containsKey(plaats)) {
 			vestigingKlantOverzicht.put(plaats, new VestigingKlantOverzicht(vestigingKlantData));
 		}
+		VestigingOverzicht.this.add(vestigingKlantOverzicht.get(plaats), BorderLayout.CENTER);
 	}
 	
 	/**
@@ -82,7 +83,6 @@ public class VestigingOverzicht extends JPanel {
 			JButton selectedButton = (JButton) e.getSource();
 			String plaats = selectedButton.getText();
 			toonVestigingKlanten(plaats);
-			VestigingOverzicht.this.add(vestigingKlantOverzicht.get(plaats), BorderLayout.CENTER);
 			VestigingOverzicht.this.revalidate();
 			VestigingOverzicht.this.repaint();
 		}
