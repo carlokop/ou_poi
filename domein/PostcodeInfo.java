@@ -8,6 +8,13 @@ import exceptions.PoiExceptionCode;
  * Bevat informatie over een postcode en regelt en valideert postcode informatie
  */
 public class PostcodeInfo {
+	
+	public static final double LAT_MAX = 90;
+	public static final double LAT_MIN = -90;
+	public static final double LNG_MAX = 180;
+	public static final double LNG_MIN = -180;
+	public static final double MAX_AFSTAND = Math.sqrt(Math.pow(PostcodeInfo.LAT_MAX - PostcodeInfo.LAT_MIN, 2) + Math.pow(PostcodeInfo.LNG_MAX - PostcodeInfo.LNG_MIN, 2));
+	
 	private String postcode;
 	private String plaatsnaam;
 	private double lat;
