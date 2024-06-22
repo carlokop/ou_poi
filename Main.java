@@ -20,7 +20,7 @@ public class Main {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				Bedrijf b = new Bedrijf();
+				Bedrijf b = new Bedrijf(); // bedrijf propageert PoiException naar boven naar main
 				Bedrijfssimulatie bs = new Bedrijfssimulatie();
 				Controller facade = new Controller(b, bs);
 				Gui gui = new Gui(facade);
