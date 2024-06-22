@@ -19,15 +19,13 @@ public class Bedrijfssimulatie extends Bedrijf implements ModelBedrijfssimulatie
 	private Map<Klant, Entry<Collection<Vestiging>, Collection<Vestiging>>> klantenChecklist;
 	
 	public Bedrijfssimulatie() throws PoiException {
-		
 			validate();
-			vestigingen = new ArrayList<Vestiging>(Bedrijf.getVestigingen());
 			initKlantenChecklist();
 	}
 	
 	@Override
 	public void startSimulatie() {
-		// TODO Auto-generated method stub
+		vestigingen = new ArrayList<Vestiging>(Bedrijf.getVestigingen());
 		
 	}
 	@Override
@@ -61,5 +59,17 @@ public class Bedrijfssimulatie extends Bedrijf implements ModelBedrijfssimulatie
 //				klantenChecklist.put();
 			}
 		}
+	}
+	
+	public void resetKlantenCheckList() {
+		
+	}
+	
+	public void initVestigingenChecklist() {
+		
+	}
+	
+	public void resetVestigingenChecklist() {
+		
 	}
 }

@@ -14,7 +14,7 @@ import observerPatroon.Subject;
  * Beheert vervolgens alle vestigingen en regelt de communocatie met de mapper
  */
 public class Bedrijf extends Subject implements ModelBedrijf {
-	private static Collection<Vestiging> vestigingen; // TODO: aanpassen in de modellen
+	private static Collection<Vestiging> vestigingen; 	// TODO: aanpassen in de modellen
 	private static Mapper m;							// TODO: aanpassen in de modellen
 	
 	/*
@@ -27,7 +27,15 @@ public class Bedrijf extends Subject implements ModelBedrijf {
 	 * @throws PoiException bij DB fout
 	 */
 	public Bedrijf() throws PoiException {
-		Bedrijf.m = new Mapper();
+		if(m == null) {
+			Bedrijf.m = new Mapper();
+			Bedrijf.vestigingen = m.getVestigingen();
+		}
+	}
+	
+	//TODO: ZIE MAIN COMMENTAAR
+	public Bedrijf(Mapper m) throws PoiException {
+		Bedrijf.m = m;
 		Bedrijf.vestigingen = m.getVestigingen();
 	}
 	

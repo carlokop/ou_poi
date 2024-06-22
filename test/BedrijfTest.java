@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import domein.Bedrijf;
+import exceptions.PoiException;
 
 /**
  * Test voor bedrijf
@@ -23,7 +24,12 @@ class BedrijfTest {
    */
   @BeforeAll
   static void setup() {
-      b = new Bedrijf();
+      try {
+		b = new Bedrijf();
+	} catch (PoiException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
   }
 
   /**

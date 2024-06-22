@@ -2,8 +2,6 @@ package controller;
 
 import java.util.Collection;
 
-import domein.Vestiging;
-
 /**
  * Markeer interface
  */
