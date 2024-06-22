@@ -3,7 +3,7 @@ package domein;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import controller.Model;
+import controller.ModelBedrijf;
 import data.Mapper;
 import exceptions.PoiException;
 import observerPatroon.Subject;
@@ -12,8 +12,8 @@ import observerPatroon.Subject;
  * Deze klasse stelt het bedrijf voor
  * Beheert vervolgens alle vestigingen en regelt de communocatie met de mapper
  */
-public class Bedrijf extends Subject implements Model{
-	private Collection<Vestiging> vestigingen;
+public class Bedrijf extends Subject implements ModelBedrijf{
+	private static Collection<Vestiging> vestigingen; // TODO: aanpassen in de modellen
 	private Mapper m;
 	
 	/**
@@ -23,7 +23,7 @@ public class Bedrijf extends Subject implements Model{
 	public Bedrijf() {
 		try {
 			m = new Mapper();
-			vestigingen = m.getVestigingen();
+			Bedrijf.vestigingen = m.getVestigingen();
 		} catch (PoiException e) {
 			e.printStackTrace();
 		}
@@ -38,11 +38,15 @@ public class Bedrijf extends Subject implements Model{
         Collection<String> lijstPlaatsenNamen = new ArrayList<>();
 
         // lvp, lijst vestiging plaatsen
-        for(Vestiging v: vestigingen) {
+        for(Vestiging v: Bedrijf.vestigingen) {
             lijstPlaatsenNamen.add(v.getPlaats());
         }
         return lijstPlaatsenNamen;
     }
+	
+	private void setVestigingPlaats() {
+		//TODO
+	}
 	
 	/**
 	 * Haalt een lijst van de id's van klanten op
@@ -56,7 +60,7 @@ public class Bedrijf extends Subject implements Model{
         Collection<Klant> klantCache = null;
 
         // select from collection vestigingen
-        for(Vestiging v: vestigingen) {
+        for(Vestiging v: Bedrijf.vestigingen) {
             if(v.getPlaats() == plaats) {
                 vestigingSelectie = v;
                 break;
@@ -74,4 +78,12 @@ public class Bedrijf extends Subject implements Model{
         
         return vestigingKlantenData;
     }
+	
+	private void setVestigingKlanten() {
+		//TODO
+	}
+	
+	public static Collection<Vestiging> getVestigingen() {
+		return Bedrijf.vestigingen;
+	}
 }

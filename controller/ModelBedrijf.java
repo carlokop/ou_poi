@@ -2,10 +2,12 @@ package controller;
 
 import java.util.Collection;
 
+import domein.Vestiging;
+
 /**
  * Markeer interface
  */
-public interface Model {
+public interface ModelBedrijf {
 
 	/**
 	 * geeft een lijst met plaatsnamen van vestigingen
@@ -21,5 +23,4 @@ public interface Model {
 	 * @return lijst met klant id's
 	 */
 	public Collection<String> getVestigingKlanten(String plaats);
-
 }

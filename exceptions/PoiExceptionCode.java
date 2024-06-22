@@ -12,6 +12,8 @@ public enum PoiExceptionCode {
 	CONNECTION_SHUTDOWN_ERR("Het sluiten van de database verbinding is niet geslaagd"),
 	MAPPER_DATA_BUILD_ERR("Er heeft een fout plaatsgevonden bij het opbouwen van de data voor de modellen"),
 
+	BEDRIJFSSIM_BEDRIJF_VESTIGINGEN_NULL("Bedrijf heeft geen lijst met vestigingen"),
+	
 	KLANTENLIJST_NULL("Klantenlijst wijst naar null"),
 	KLANTNUMMER_NIET_POSITIEF("Klantknummer moet een positief getal zijn"),
 	

@@ -13,7 +13,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import controller.Facade;
+import controller.Controller;
 import observerPatroon.Observer;
 
 /**
@@ -23,7 +23,7 @@ public class Gui extends JFrame implements Observer {
 
 	private static final long serialVersionUID = 1L;
 
-	private Facade fc = null;
+	private Controller fc = null;
 	private Container pane;
 	private Component header, footer;
 	private Component vestigingOverzicht;
@@ -32,7 +32,7 @@ public class Gui extends JFrame implements Observer {
 	 * Initialiseert en stelt de contentpane in
 	 * @param fc facade controller
 	 */
-	public Gui(Facade fc) {
+	public Gui(Controller fc) {
 		super();
 		this.fc = fc;
 		pane = getContentPane();

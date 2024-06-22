@@ -6,16 +6,19 @@ import java.util.Collection;
  * Facade controller
  * regelt communicatie tussen de GUI en de domeinlaag
  */
-public class Facade {
+public class Controller {
 	
-	private Model m;
+	private ModelBedrijf mb;
+	private ModelBedrijfssimulatie mbs;
 	
 	/**
-	 * Inistantieert de facade en stelt het model in
-	 * @param m    model
+	 * TODO: Aanpassen voor het model van de simulatie
+	 * Instantieert de facade en stelt het model in
+	 * @param mb    model
 	 */
-	public Facade(Model m){
-		this.m = m;
+	public Controller(ModelBedrijf mb, ModelBedrijfssimulatie mbs){
+		this.mb = mb;
+		this.mbs = mbs;
 	}
 
 	/**
@@ -23,7 +26,7 @@ public class Facade {
 	 * @return lijst met plaatsnamen
 	 */
 	public Collection<String> getVestigingPlaatsen() {
-	  return m.getVestigingPlaatsen();
+	  return mb.getVestigingPlaatsen();
 	}
 	
 	/**
@@ -32,7 +35,10 @@ public class Facade {
 	 * @return lijst met klant id's 
 	 */
 	public Collection<String> getVestigingKlanten(String plaats) {
-	  return m.getVestigingKlanten(plaats);
+	  return mb.getVestigingKlanten(plaats);
 	}
 
+	public void startSimulatie() {
+		mbs.startSimulatie();
+	}
 }

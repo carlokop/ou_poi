@@ -1,52 +1,56 @@
 package domein;
 
 import java.util.Collection;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Map.Entry;
 
 import exceptions.PoiException;
 import exceptions.PoiExceptionCode;
 
 /**
- * Bevat informatie van een vestigiging en beheert de klanten van die vestiging
+ * Bevat informatie van een vestiging en beheert de klanten van die vestiging
  */
 public class Vestiging {
-
+	
 	private Collection<Klant> klanten;
 	private PostcodeInfo postcodeInfo;
 	private String plaats;
 
 	/**
-     * Maakt een nieuwe vestiging
-     * 
-     * @param plaats   vestiging plaatsnaam
-     * @param postcode postcode instantie
-     * @param klanten  collectieobject met klanten
-     * @throws PoiException bij ongeldige parameters
-     */
-    /*@
-     @ @contract happy {
-     @   @requires plaats != null of lege string
-     @   @requires postcode != null
-     @   @requires klanten != null && klanten.size() >= 0
-     @   @ensures \result is een klanten instantie 
-     @ }
-     @ @contract ongeldigeplaats {
-     @   @requires plaats == null
-     @   @signals PoiException, PoiExceptionCode.PLAATSNAAM_NULL
-     @ }
-     @ @contract plaats_leeg {
-     @   @requires plaats == lege string of alleen spaties
-     @   @signals PoiException, PoiExceptionCode. ("Plaats mag niet leeg zijn") 
-     @ }
-     @ @contract postcode_null {
-     @   @requires postcode == null
-     @   @signals PoiException, PoiExceptionCode.POSTCODE_NULL
-     @ }
-     @ @contract klanten_null {
-     @   @requires klanten == null
-     @   @signals PoiException, PoiExceptionCode.KLANTENLIJST_NULL 
-     @ }
-     @ 
-     */
+	 * Maakt een nieuwe vestiging
+	 * 
+	 * @param plaats   vestiging plaatsnaam
+	 * @param postcode postcode instantie
+	 * @param klanten  collectieobject met klanten
+	 * @throws PoiException bij ongeldige parameters
+	 */
+	/*
+	 * @
+	 * @ @contract happy {
+	 * @ @requires plaats != null of lege string
+	 * @ @requires postcode != null
+	 * @ @requires klanten != null && klanten.size() >= 0
+	 * @ @ensures \result is een klanten instantie
+	 * @ }
+	 * @ @contract ongeldigeplaats {
+	 * @ @requires plaats == null
+	 * @ @signals PoiException, PoiExceptionCode.PLAATSNAAM_NULL
+	 * @ }
+	 * @ @contract plaats_leeg {
+	 * @ @requires plaats == lege string of alleen spaties
+	 * @ @signals PoiException, PoiExceptionCode. ("Plaats mag niet leeg zijn")
+	 * @ }
+	 * @ @contract postcode_null {
+	 * @ @requires postcode == null
+	 * @ @signals PoiException, PoiExceptionCode.POSTCODE_NULL
+	 * @ }
+	 * @ @contract klanten_null {
+	 * @ @requires klanten == null
+	 * @ @signals PoiException, PoiExceptionCode.KLANTENLIJST_NULL
+	 * @ }
+	 * @
+	 */
 	public Vestiging(String plaats, PostcodeInfo postcode, Collection<Klant> klanten) throws PoiException {
 		validate(plaats, postcode, klanten);
 		this.plaats = plaats;
@@ -55,23 +59,24 @@ public class Vestiging {
 	}
 
 	/**
-     * Helper die valideert of een geldige plaats of postcode is opgegeven
-     * Controleert hierbij op nullwaarden en lege strings
-     * @param plaats plaatsnaam
-     * @param postcode postcode instantie 
-     * @param klanten klantenlijst (mag leeg zijn)
-     * @throws PoiException als een ongeldige string is opgegeven
-     */
+	 * Helper die valideert of een geldige plaats of postcode is opgegeven
+	 * Controleert hierbij op nullwaarden en lege strings
+	 * 
+	 * @param plaats   plaatsnaam
+	 * @param postcode postcode instantie
+	 * @param klanten  klantenlijst (mag leeg zijn)
+	 * @throws PoiException als een ongeldige string is opgegeven
+	 */
 	public static void validate(String plaats, PostcodeInfo postcode, Collection<Klant> klanten) throws PoiException {
 		// test plaats is niet null
 		if (plaats == null) {
 			throw new PoiException(PoiExceptionCode.PLAATSNAAM_NULL, plaats);
 		}
-		
-		if(plaats.isEmpty()) {
+
+		if (plaats.isEmpty()) {
 			throw new PoiException(PoiExceptionCode.PLAATSNAAM_LEEG, plaats);
 		}
-		
+
 		// test plaats is niet leeg of allen maar spaties
 		if (plaats.isBlank()) {
 			throw new PoiException(PoiExceptionCode.PLAATSNAAM_ALLEEN_SPATIES, plaats);
@@ -91,49 +96,84 @@ public class Vestiging {
 		double klantMinAfstand;
 		PostcodeInfo klantPci;
 
-		Vestiging dichtsteVestiging = null;
+		Vestiging dichtsteVestiging = geslotenVestiging;
 		double vestigingAfstand;
 		PostcodeInfo vestigingPCI;
 
 		switch (openVestigingen.size()) {
-		case 0: // gewoon vestiging legen
+		case 0: // gewoon vestiging legen, hulpcase optimalisatie
 			geslotenVestiging.clearKlanten();
 			break;
-		case 1: // eenvoudige verplaatsing
+		case 1: // eenvoudige verplaatsing, hulpcase optimalisatie
 			dichtsteVestiging = openVestigingen.iterator().next();
 			for (Klant k : klanten) {
 				dichtsteVestiging.addKlant(k);
 			}
 			geslotenVestiging.clearKlanten();
 			break;
-		default:// berekenen dichtste vestiging
-			if (openVestigingen.size() == 0) {
-				for (Klant k : klanten) {
-					klantPci = k.getPostcodeInfo();
-					klantMinAfstand = PostcodeInfo.MAX_AFSTAND;
-					for (Vestiging v : openVestigingen) {
-						vestigingPCI = v.getPostcodeInfo();
-						vestigingAfstand = getAfstand(klantPci, vestigingPCI);
-						if (klantMinAfstand > vestigingAfstand) {
-							klantMinAfstand = vestigingAfstand;
-							dichtsteVestiging = v;
-						}
+		default:// berekenen dichtste vestiging, deze methode alleen is in principe genoeg.
+			for (Klant k : klanten) {
+				klantPci = k.getPostcodeInfo();
+				klantMinAfstand = PostcodeInfo.MAX_AFSTAND;
+				for (Vestiging v : openVestigingen) {
+					vestigingPCI = v.getPostcodeInfo();
+					vestigingAfstand = getAfstand(klantPci, vestigingPCI);
+					if (klantMinAfstand > vestigingAfstand) {
+						klantMinAfstand = vestigingAfstand;
+						dichtsteVestiging = v;
 					}
-					dichtsteVestiging.addKlant(k);
 				}
+				dichtsteVestiging.addKlant(k);
 			}
 			break;
 		}
 	}
 
-	public static void migratieOpenenVestiging(Vestiging geopendeVestiging, Collection<Vestiging> openVestigingen) {
+	public static void migratieOpenenVestiging(
+			Vestiging geopendeVestiging, 
+			Collection<Vestiging> openVestigingen, 
+			Collection<Vestiging> bedrijfVestigingenLijst, // oorspronkelijke lijst uit non-simulatie
+			Map<Klant, Entry<Vestiging, Vestiging>> klantenChecklist) {
+		
+		Vestiging vOrigineel = Vestiging.select(geopendeVestiging, bedrijfVestigingenLijst);
+		Collection<Klant> kOrigineel = vOrigineel.getKlanten();
 
+		for(Klant k:kOrigineel) {
+//			if(k.) {
+//				
+//			}
+		}
+		
+		switch(openVestigingen.size()) {
+		
+		case 0: break;
+		
+		case 1: break;
+		
+		default: break;
+			
+		}
 	}
 
+	/**
+	 * Zoekt naar een bepaalde vestiging uit een lijst van vestigingen, de gevraagde instantie kan op inhoud verschillen.
+	 * @param vestKeuze
+	 * @param vestigingen
+	 * @return
+	 */
+	public static Vestiging select(Vestiging vestKeuze, Collection<Vestiging> vestigingen){
+		for(Vestiging v:vestigingen) {
+			if(v == vestKeuze) {
+				return v;
+			}
+		}
+		return null;
+	}
+	
 	public static double getAfstand(PostcodeInfo pciA, PostcodeInfo pciB) {
 		return Math.sqrt(Math.pow(pciA.getLat() - pciB.getLat(), 2) + Math.pow(pciA.getLat() - pciB.getLat(), 2));
 	}
-	
+
 	/**
 	 * Geeft de plaatsnaam
 	 *
@@ -144,9 +184,10 @@ public class Vestiging {
 	}
 
 	/**
-     * Geeft de postcode instantie
-     * @return de postcodeInfo instantie
-     */
+	 * Geeft de postcode instantie
+	 * 
+	 * @return de postcodeInfo instantie
+	 */
 	public PostcodeInfo getPostcodeInfo() {
 		return postcodeInfo;
 	}
@@ -160,8 +201,40 @@ public class Vestiging {
 		return klanten;
 	}
 
+	public void addKlant(Klant k) {
+		this.klanten.add(k);
+	}
+
+	public void removeKlant(Klant k) {
+		this.klanten.remove(k);
+	}
+
+	public void clearKlanten() {
+		this.klanten.clear();
+	}
+
 	/**
-	 * Geeft de string representatie van de plaats en het aantal klanten 
+	 * In dit project is de plaatsnaam voldoende identificerend
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof Vestiging)) {
+			return false;
+		}
+		Vestiging v = (Vestiging) obj;
+		return v.getPlaats() == this.plaats;
+	}
+
+	/**
+     * Geeft de hashcode van een vestiging
+     */
+	@Override
+	public int hashCode() {
+		return Objects.hash(plaats);
+	}
+	
+	/**
+	 * Geeft de string representatie van de plaats en het aantal klanten
 	 */
 	@Override
 	public String toString() {

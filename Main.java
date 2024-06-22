@@ -1,7 +1,8 @@
 import javax.swing.SwingUtilities;
 
-import controller.Facade;
+import controller.Controller;
 import domein.Bedrijf;
+import domein.Bedrijfssimulatie;
 import guiPrototype.Gui;
 
 /**
@@ -19,10 +20,12 @@ public class Main {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				Bedrijf bedrijf = new Bedrijf();
-				Facade facade = new Facade(bedrijf);
+				Bedrijf b = new Bedrijf();
+				Bedrijfssimulatie bs = new Bedrijfssimulatie();
+				Controller facade = new Controller(b, bs);
 				Gui gui = new Gui(facade);
-				bedrijf.attach(gui);
+				b.attach(gui);
+				bs.attach(gui);
 			}
 		});
 	}

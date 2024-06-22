@@ -11,7 +11,7 @@ import java.util.HashMap;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import controller.Facade;
+import controller.Controller;
 
 /**
  * Vestiging overzichtcomponent
@@ -19,14 +19,14 @@ import controller.Facade;
 public class VestigingOverzicht extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private Facade fc;
+	private Controller fc;
 	private HashMap<String, Component> vestigingKlantOverzicht;
 
 	/**
 	 * Initialiseert het overzicht met vestigingen
 	 * @param fc de facade controller
 	 */
-	VestigingOverzicht(Facade fc) {
+	VestigingOverzicht(Controller fc) {
 		this.setLayout(new BorderLayout());
 		this.fc = fc;
 		this.vestigingKlantOverzicht = new HashMap<>();
