@@ -7,13 +7,21 @@ import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.border.EmptyBorder;
+
 import controller.Controller;
+import exceptions.PoiExceptionCode;
 import observerPatroon.Observer;
 
 /**
@@ -25,7 +33,8 @@ public class Gui extends JFrame implements Observer {
 
 	private Controller fc = null;
 	private Container pane;
-	private Component header, footer;
+	private Component header;
+	private JPanel footer;
 	private Component vestigingOverzicht;
 
 	/**
@@ -38,6 +47,18 @@ public class Gui extends JFrame implements Observer {
 		pane = getContentPane();
 		init();
 	}
+	
+	/**
+	 * Toont gui met kritische foutmelding die het systeem afsluit
+	 * Deze constructor aanroepen als er in main exepties ontstaan 
+	 * @param error de foutmelding
+	 */
+	public Gui(PoiExceptionCode error) {
+      super();
+      pane = getContentPane();
+      init();
+      toonNotificatie(error.getErrMessage(),true, "Applicatie afsluiten");
+  }
 
 	/**
 	 * Initialiseert de contentpane met een header, footer en een gedeelte in het midden
@@ -57,7 +78,14 @@ public class Gui extends JFrame implements Observer {
 		footer = createFooter();
 		pane.add(footer, BorderLayout.SOUTH);
 
-		vestigingOverzicht = new VestigingOverzicht(fc);
+		//als in main exepties zijn is fc null en ontstaan NullPointerExcepties in vestigingOverzicht
+		if(fc != null) {
+		  vestigingOverzicht = new VestigingOverzicht(fc);
+		}
+		
+				
+		this.pane.revalidate();
+        this.pane.repaint();
 	}
 
 	/**
@@ -87,8 +115,8 @@ public class Gui extends JFrame implements Observer {
 	 * Voegt een footer toe aan de content pane met een sluit button
 	 * @return de footer
 	 */
-	private Component createFooter() {
-		JPanel footer = new JPanel();
+	private JPanel createFooter() {
+		footer = new JPanel();
 		footer.setLayout(new FlowLayout(FlowLayout.LEFT));
 
 		JButton sluitbtn = new JButton("Huidige activiteit stoppen.");
@@ -97,6 +125,7 @@ public class Gui extends JFrame implements Observer {
 		sluitbtn.addActionListener(new stopActiviteitListener());
 
 		footer.add(sluitbtn);
+		footer.setVisible(false);
 		return footer;
 	}
 
@@ -108,6 +137,7 @@ public class Gui extends JFrame implements Observer {
 		public void actionPerformed(ActionEvent e) {
 		    stopActiviteit();
 			pane.add(vestigingOverzicht, BorderLayout.WEST);
+			footer.setVisible(true);
 			Gui.this.pane.revalidate();
 			Gui.this.pane.repaint();
 		}
@@ -152,6 +182,7 @@ public class Gui extends JFrame implements Observer {
 		if (cCache != null) {
 			this.pane.remove(cCache);
 		}
+		footer.setVisible(false);
 		this.pane.revalidate();
 		this.pane.repaint();
 	}
@@ -163,4 +194,74 @@ public class Gui extends JFrame implements Observer {
 	public void update() {
 		// Taak 5
 	}
-}
+	
+	/**
+	* TODO heeft nog geen functie
+	* Toont sluitbare notificatie
+	* @param bericht het bericht in de notificatie
+	*/
+	private void toonNotificatie(String bericht) {
+	    toonNotificatie(bericht, false, "mmkay");
+	}
+	
+	/**
+	 * Toont een foutmelding op het scherm
+	 * Er wordt om bevestiging gevraagd en sluit daarna de applicatie af
+	 * @param bericht  de string met de foutmelding
+	 * @param sluitAf  true sluit de applicatie af
+	 * @param btnText  de tekst in de button
+	 */
+  	private void toonNotificatie(String bericht, boolean sluitAf, String btnText) {
+      // Maak de dialog
+      JDialog notificatieDialog = new JDialog();
+      notificatieDialog.setTitle("Foutmelding");
+      notificatieDialog.setLayout(new BorderLayout());
+      notificatieDialog.setSize(300, 125);
+      notificatieDialog.setVisible(true);
+      //dit even opgezocht zag er niet fraai uit
+      notificatieDialog.getRootPane().setBorder(new EmptyBorder(10, 10, 10, 10));
+      notificatieDialog.setLocationRelativeTo(pane);
+    
+      //bericht
+      JTextArea notificatieLabel = new JTextArea(bericht);
+      notificatieDialog.add(notificatieLabel, BorderLayout.CENTER);
+      notificatieLabel.setBackground(null);
+      //dit even opgezocht zag er niet fraai uit
+      notificatieLabel.setLineWrap(true); 
+      notificatieLabel.setWrapStyleWord(true);
+    
+      //sluitknop
+      JButton sluitKnop = new JButton(btnText);
+      notificatieDialog.add(sluitKnop, BorderLayout.SOUTH);
+      
+      //sluit de applicatie als je op de sluitknop klikt
+      sluitKnop.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+          notificatieDialog.dispose();
+          if(sluitAf) {
+            System.exit(ABORT);
+          }
+        }
+      });
+      
+      //sluit de applicatie af als je het sluit kruisje gebruikt
+      notificatieDialog.addWindowListener(new WindowAdapter() {
+        @Override
+        public void windowClosing(WindowEvent e) {
+          notificatieDialog.dispose();
+          if(sluitAf) {
+            System.exit(ABORT);
+          }
+        }
+      });
+      
+  
+  }
+	
+  
+	
+	
+	
+	
+}  //class

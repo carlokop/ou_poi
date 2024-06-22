@@ -1,12 +1,15 @@
 package guiPrototype;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -21,6 +24,7 @@ public class VestigingOverzicht extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private Controller fc;
 	private HashMap<String, Component> vestigingKlantOverzicht;
+	private List<JButton> VestigingLijst = new ArrayList<>();
 
 	/**
 	 * Initialiseert het overzicht met vestigingen
@@ -45,10 +49,17 @@ public class VestigingOverzicht extends JPanel {
 		toonVestigingKlantenListener tvkListener = new toonVestigingKlantenListener();
 		
 		for (String plaats : vestigingPlaatsData) {
-			JButton knop = new JButton(plaats);
-			jpVestigingLijst.add(knop);
-			knop.addActionListener(tvkListener);
+		  JButton knop = new JButton(plaats);
+		  VestigingLijst.add(knop);
+		  jpVestigingLijst.add(knop);
+		  knop.addActionListener(tvkListener);
 		}
+		
+//		for (String plaats : vestigingPlaatsData) {
+//			JButton knop = new JButton(plaats);
+//			jpVestigingLijst.add(knop);
+//			knop.addActionListener(tvkListener);
+//		}
 		this.add(jpVestigingLijst, BorderLayout.WEST);
 	}
 
@@ -83,8 +94,22 @@ public class VestigingOverzicht extends JPanel {
 			JButton selectedButton = (JButton) e.getSource();
 			String plaats = selectedButton.getText();
 			toonVestigingKlanten(plaats);
+			selectedButton.setFocusPainted(false);
+			
+			//geeft alleen de geselecteerde button een kleur
+			for(JButton button: VestigingLijst) {
+			  button.setBackground(null);
+			  button.setForeground(null);
+			}
+			selectedButton.setBackground(Color.BLUE);
+			selectedButton.setForeground(Color.WHITE);
+			
 			VestigingOverzicht.this.revalidate();
 			VestigingOverzicht.this.repaint();
 		}
 	}
+	
+	
+	
+	
 }

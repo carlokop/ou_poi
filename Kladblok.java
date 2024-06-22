@@ -6,10 +6,15 @@ import java.util.Collection;
 
 import org.firebirdsql.jdbc.FBResultSet;
 
+import controller.Controller;
 import data.Mapper;
 import data.Queries;
+import domein.Bedrijf;
+import domein.Bedrijfssimulatie;
 import domein.Vestiging;
 import exceptions.PoiException;
+import exceptions.PoiExceptionCode;
+import guiPrototype.Gui;
 
 /**
  * Deze klasse is geen onderdeel van het op te leveren systeem en dient slechts voor het testen van output
@@ -86,6 +91,25 @@ public class Kladblok {
 	  }
 
 	}
+	
+	public void taak5carlo() {
+	  Gui gui = null;
+	  try {
+	    Bedrijf b = new Bedrijf(); // bedrijf propageert PoiException naar boven naar main
+        Controller facade = new Controller(b, null);
+        gui = new Gui(facade);
+        b.attach(gui);
+        
+      } catch(Exception e) {
+        /**
+         * ToDo hier moet naar gekeken worden
+         * Wat als er een andere fout ontstaat?
+         */
+        gui = new Gui(PoiExceptionCode.CONNECTION_ESTABLISH_ERR);
+        System.out.println("Ging iets fout: "+e.getMessage());
+      }
+	  
+	}
 
 	/**
      * Initialiseert het kladblok
@@ -93,8 +117,9 @@ public class Kladblok {
      */
 	public static void main(String[] args) {
 		Kladblok k = new Kladblok();
-		k.connect();
+		//k.connect();
 		//k.blad();
-		k.printVestigingen();
+		k.taak5carlo();
+		//k.printVestigingen();
 	  }
 }
