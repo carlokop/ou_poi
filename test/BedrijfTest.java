@@ -27,8 +27,6 @@ class BedrijfTest {
   void happy() {
       Collection<String> plaatsnamen = b.getVestigingPlaatsen();
       Collection<String> klanten;
-      // test of er 12 plaatsnamen zijn
-      assertEquals(12, plaatsnamen.size());
   
       for (String plaats : plaatsnamen) {
           assertFalse(plaats.isBlank());

@@ -73,4 +73,6 @@ public class Bedrijf extends Subject implements Model{
         
         return vestigingKlantenData;
     }
+	
+	
 }

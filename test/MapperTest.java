@@ -42,6 +42,12 @@ public class MapperTest {
 		}
 	}
 
+<<<<<<< Updated upstream
+=======
+	 /**
+     * test of of vestigingen correct gesorteerd worden
+     */
+>>>>>>> Stashed changes
     @Test
     public void testCorrecteSortering() throws PoiException {
     	Collection<Vestiging> vestigingen = m.getVestigingen();

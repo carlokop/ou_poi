@@ -107,13 +107,24 @@ public class Gui8 extends JFrame implements Observer {
 	class VestigingMenuItemLuisteraar implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
+<<<<<<< Updated upstream:guiPrototype/Gui8.java
 			clearViews();
 			pane.add(vestigingOverzicht, BorderLayout.WEST);
 			Gui8.this.pane.revalidate();
 			Gui8.this.pane.repaint();
+=======
+		    stopActiviteit();
+		    startInzageVestiging();
+			Gui.this.pane.revalidate();
+			Gui.this.pane.repaint();
+>>>>>>> Stashed changes:guiPrototype/Gui.java
 		}
 	}
 
+	private void startInzageVestiging(){
+		pane.add(vestigingOverzicht, BorderLayout.WEST);
+	}
+	
 	/**
 	 * Dit is voor taak 5 wordt later geimplementeerd
 	 */
