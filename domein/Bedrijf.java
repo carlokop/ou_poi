@@ -10,23 +10,41 @@ import observerPatroon.Subject;
 
 /**
  * Deze klasse stelt het bedrijf voor
+ * Bedrijf is een singleton
  * Beheert vervolgens alle vestigingen en regelt de communocatie met de mapper
  */
 public class Bedrijf extends Subject implements ModelBedrijf{
 	private static Collection<Vestiging> vestigingen; // TODO: aanpassen in de modellen
-	private Mapper m;
+	private static Bedrijf instance = null;
+	private static Mapper m;
 	
+	/*
+	 * John deze constructor dient voor singleton private te zijn zodat je 
+	 * geen instanties kunt maken ander dan via getInstance
+	 */
 	/**
 	 * Initialiseert een bedrijf
 	 * maakt een associatie met de mapper en vestigingen 
+	 * @throws PoiException bij DB fout
 	 */
-	public Bedrijf() {
-		try {
-			m = new Mapper();
-			Bedrijf.vestigingen = m.getVestigingen();
-		} catch (PoiException e) {
-			e.printStackTrace();
-		}
+	private Bedrijf() throws PoiException {
+		Bedrijf.m = new Mapper();
+		Bedrijf.vestigingen = m.getVestigingen();
+	}
+	
+	/*
+	 * JOHN ROEP DEZE METHODE AAN OM DE INSTANTIE TE KRIJGEN
+	 */
+	/**
+	 * Geeft de instantie van bedrijf
+	 * @return de bedrijf instantie
+	 * @throws PoiException bij DB fouten
+	 */
+	public static Bedrijf getInstance() throws PoiException {
+	  if(instance == null) {
+	    instance = new Bedrijf();
+	  }
+	  return instance;
 	}
 	
 	/**
