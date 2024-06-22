@@ -3,7 +3,7 @@ package controller;
 import java.util.Collection;
 
 /**
- * Facade controller
+ * Controller
  * regelt communicatie tussen de GUI en de domeinlaag
  */
 public class Controller {
@@ -13,8 +13,9 @@ public class Controller {
 	
 	/**
 	 * TODO: Aanpassen voor het model van de simulatie
-	 * Instantieert de facade en stelt het model in
-	 * @param mb    model
+	 * Instantieert de controller en stelt het model in
+	 * @param mb  ModelBedrijf
+	 * @param mbs ModelBedrijfssimulatie
 	 */
 	public Controller(ModelBedrijf mb, ModelBedrijfssimulatie mbs){
 		this.mb = mb;

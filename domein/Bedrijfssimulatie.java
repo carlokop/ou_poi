@@ -18,14 +18,11 @@ public class Bedrijfssimulatie extends Bedrijf implements ModelBedrijfssimulatie
 	// houdt de oorspronkelijke vestiging(en) bij en de huidige
 	private Map<Klant, Entry<Collection<Vestiging>, Collection<Vestiging>>> klantenChecklist;
 	
-	public Bedrijfssimulatie(){
-		try {
+	public Bedrijfssimulatie() throws PoiException {
+		
 			validate();
 			vestigingen = new ArrayList<Vestiging>(Bedrijf.getVestigingen());
 			initKlantenChecklist();
-		} catch (PoiException e) {
-			e.printStackTrace();
-		}
 	}
 	
 	@Override
