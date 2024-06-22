@@ -17,10 +17,6 @@ public class Bedrijf extends Subject implements ModelBedrijf {
 	private static Collection<Vestiging> vestigingen; 	// TODO: aanpassen in de modellen
 	private static Mapper m;							// TODO: aanpassen in de modellen
 	
-	/*
-	 * John deze constructor dient voor singleton private te zijn zodat je 
-	 * geen instanties kunt maken ander dan via getInstance
-	 */
 	/**
 	 * Initialiseert een bedrijf
 	 * maakt een associatie met de mapper en vestigingen 
