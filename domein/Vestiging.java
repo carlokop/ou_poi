@@ -86,6 +86,54 @@ public class Vestiging {
 		}
 	}
 
+	public static void migratieSluitenVestiging(Vestiging geslotenVestiging, Collection<Vestiging> openVestigingen) {
+		Collection<Klant> klanten = geslotenVestiging.getKlanten();
+		double klantMinAfstand;
+		PostcodeInfo klantPci;
+
+		Vestiging dichtsteVestiging = null;
+		double vestigingAfstand;
+		PostcodeInfo vestigingPCI;
+
+		switch (openVestigingen.size()) {
+		case 0: // gewoon vestiging legen
+			geslotenVestiging.clearKlanten();
+			break;
+		case 1: // eenvoudige verplaatsing
+			dichtsteVestiging = openVestigingen.iterator().next();
+			for (Klant k : klanten) {
+				dichtsteVestiging.addKlant(k);
+			}
+			geslotenVestiging.clearKlanten();
+			break;
+		default:// berekenen dichtste vestiging
+			if (openVestigingen.size() == 0) {
+				for (Klant k : klanten) {
+					klantPci = k.getPostcodeInfo();
+					klantMinAfstand = PostcodeInfo.MAX_AFSTAND;
+					for (Vestiging v : openVestigingen) {
+						vestigingPCI = v.getPostcodeInfo();
+						vestigingAfstand = getAfstand(klantPci, vestigingPCI);
+						if (klantMinAfstand > vestigingAfstand) {
+							klantMinAfstand = vestigingAfstand;
+							dichtsteVestiging = v;
+						}
+					}
+					dichtsteVestiging.addKlant(k);
+				}
+			}
+			break;
+		}
+	}
+
+	public static void migratieOpenenVestiging(Vestiging geopendeVestiging, Collection<Vestiging> openVestigingen) {
+
+	}
+
+	public static double getAfstand(PostcodeInfo pciA, PostcodeInfo pciB) {
+		return Math.sqrt(Math.pow(pciA.getLat() - pciB.getLat(), 2) + Math.pow(pciA.getLat() - pciB.getLat(), 2));
+	}
+	
 	/**
 	 * Geeft de plaatsnaam
 	 *

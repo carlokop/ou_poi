@@ -35,7 +35,7 @@ public class PostcodeInfo {
      @           cijfers dan 2 letters
      @   @requires plaats is not null en trim(plaats) != ""
      @   @requires -90 > lat > 90
-     @   @requires -180 > len > 180
+     @   @requires -180 > lng > 180
      @   @ensures /result 
      @ }
      @ @contract null waarden {
@@ -46,9 +46,9 @@ public class PostcodeInfo {
      @   @requires plaatsnaam is een lege string
      @   @signals PoiException, PoiExceptionCode.PLAATSNAAM_LEEG
      @ }
-     @ @contract lat of len out of range {
+     @ @contract lat of lng out of range {
      @   @requires lat < -90 || lat > 90
-     @   @requires len < -180 || lat > 180
+     @   @requires lng < -180 || lat > 180
      @   @signals PoiException, PoiExceptionCode.GGCOORDS_LAT_OVERSCHRIJDING 
      @ }
      */
