@@ -10,7 +10,6 @@ import controller.Controller;
 import data.Mapper;
 import data.Queries;
 import domein.Bedrijf;
-import domein.Bedrijfssimulatie;
 import domein.Vestiging;
 import exceptions.PoiException;
 import exceptions.PoiExceptionCode;

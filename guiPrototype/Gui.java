@@ -36,6 +36,9 @@ public class Gui extends JFrame implements Observer {
 	private Component header;
 	private JPanel footer;
 	private Component vestigingOverzicht;
+	private JPanel vizualizer;
+	private static final int PANE_WIDTH = 1200;
+	private static final int PANE_HEIGHT = 520;
 
 	/**
 	 * Initialiseert en stelt de contentpane in
@@ -59,6 +62,22 @@ public class Gui extends JFrame implements Observer {
       init();
       toonNotificatie(error.getErrMessage(),true, "Applicatie afsluiten");
   }
+	
+	/**
+     * Gets the width in px of the content pane
+     * @return the width
+     */
+    public static int getPaneWidth() {
+      return PANE_WIDTH;
+    }
+    
+    /**
+     * Gets the height in px of the content pane
+     * @return the height
+     */
+    public static int getPaneHeight() {
+      return PANE_HEIGHT;
+    }
 
 	/**
 	 * Initialiseert de contentpane met een header, footer en een gedeelte in het midden
@@ -67,7 +86,7 @@ public class Gui extends JFrame implements Observer {
 	public void init() {
 		setVisible(true);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setSize(600, 500);
+		setSize(PANE_WIDTH, PANE_HEIGHT);
 		setTitle("Practicum Ontwerpen en implementeren");
 		pane.setBackground(Color.white);
 		pane.setLayout(new BorderLayout());
@@ -76,16 +95,11 @@ public class Gui extends JFrame implements Observer {
 		pane.add(header, BorderLayout.NORTH);
 
 		footer = createFooter();
-		pane.add(footer, BorderLayout.SOUTH);
-
-		//als in main exepties zijn is fc null en ontstaan NullPointerExcepties in vestigingOverzicht
-		if(fc != null) {
-		  vestigingOverzicht = new VestigingOverzicht(fc);
-		}
-		
-				
-		this.pane.revalidate();
+		pane.add(footer, BorderLayout.SOUTH);       
+                
+        this.pane.revalidate();
         this.pane.repaint();
+
 	}
 
 	/**
@@ -136,6 +150,9 @@ public class Gui extends JFrame implements Observer {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 		    stopActiviteit();
+	        if(vestigingOverzicht == null && fc != null) {
+	          vestigingOverzicht = new VestigingOverzicht(fc);
+	        }
 			pane.add(vestigingOverzicht, BorderLayout.WEST);
 			footer.setVisible(true);
 			Gui.this.pane.revalidate();
@@ -145,11 +162,20 @@ public class Gui extends JFrame implements Observer {
 
 	/**
 	 * Dit is voor taak 5 wordt later geimplementeerd
+	 * Zorgt dat het frame voor het simuleren om vestigingen te sluiten en heropenen
 	 */
 	class VestigingenSluitenMenuItemLuisteraar implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 		  stopActiviteit();
+		  
+		  if(vizualizer == null && fc != null) {
+    		  vizualizer= new Visualizer(fc);
+		  }
+		  
+		  pane.add(vizualizer,BorderLayout.CENTER);
+		  footer.setVisible(true);
+
 		}
 	}
 

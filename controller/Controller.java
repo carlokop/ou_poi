@@ -1,12 +1,14 @@
 package controller;
 
 import java.util.Collection;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Controller
  * regelt communicatie tussen de GUI en de domeinlaag
  */
-public class Controller {
+public class Controller implements VisualizerControllerInterface {
 	
 	private ModelBedrijf mb;
 	private ModelBedrijfssimulatie mbs;
@@ -42,4 +44,50 @@ public class Controller {
 	public void startSimulatie() {
 		mbs.startSimulatie();
 	}
-}
+	
+	//TODO implementeren voor vizualizer
+	@Override
+	public void barClicked(String naam, Integer aantal) {
+	   System.out.println(naam + "  " + aantal);   
+	}
+
+	//TODO implementeren voor vizualizer
+	@Override
+	public Map<String, Integer> getBarInfo() {  
+  	    Map<String,Integer> map = new TreeMap<>();
+        map.put("Hogezand", 60);// dit wordt een bar met naam "aap" en relatieve hoogt 100
+        map.put("Veendam", 76);
+        map.put("Stadskanaal", 54);
+        map.put("Delfzijl", 45);
+        map.put("Zuidhorn", 88);
+        map.put("Groningen", 156);
+        map.put("Bolsward", 76);
+        map.put("Leeuwarden", 103);
+        map.put("Heerenveen", 95);
+        map.put("Dokkum", 75);
+        map.put("Sneek", 84);
+        map.put("Drachten", 92);
+        return map;
+	}
+	
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+} //class
+
+
+
+
+
