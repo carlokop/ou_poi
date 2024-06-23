@@ -6,6 +6,7 @@ import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Map;
+import observerPatroon.Observer;
 import java.util.Set;
 
 import javax.swing.JPanel;
@@ -21,7 +22,7 @@ import controller.VisualizerControllerInterface;
  * @author Medewerker OU
  *
  */
-public class Visualizer extends JPanel  {
+public class Visualizer extends JPanel implements Observer {
 
 	// intermediair tussen vizualizer (gui) en domein klassen
 	private VisualizerControllerInterface contr;
@@ -138,6 +139,12 @@ public class Visualizer extends JPanel  {
 //		drawBars(contr.getBarInfo());
 //
 //	}
+
+    @Override
+    public void update() {
+      drawBars(contr.getBarInfo());
+    
+    }
 
 	
 }

@@ -47,8 +47,18 @@ public class Controller implements VisualizerControllerInterface {
 	
 	//TODO implementeren voor vizualizer
 	@Override
-	public void barClicked(String naam, Integer aantal) {
-	   System.out.println(naam + "  " + aantal);   
+	public void barClicked(String plaatsnaam, Integer aantal_klanten) {
+	   //we moeten testen of ergens afvangen dat plaatsnaam niet null is of iets waar geen vestiging van is
+	   //testen of afdwingen dat aantal_klanten niet null of negatief kan zijn
+	   if(aantal_klanten == 0) {
+	     mbs.openVestiging(plaatsnaam);
+	     System.out.println("Heropen vestiging: "+plaatsnaam + "  " + aantal_klanten);
+	     
+	     //wat als er geen vestiging wordt gevonden?
+	   } else {
+	     System.out.println("Sluit vestiging: "+plaatsnaam + "  " + aantal_klanten);
+	     mbs.sluitVestiging(plaatsnaam);
+	   }
 	}
 
 	//TODO implementeren voor vizualizer
