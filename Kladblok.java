@@ -10,6 +10,7 @@ import controller.Controller;
 import data.Mapper;
 import data.Queries;
 import domein.Bedrijf;
+import domein.Bedrijfssimulatie;
 import domein.Vestiging;
 import exceptions.PoiException;
 import exceptions.PoiExceptionCode;
@@ -95,6 +96,7 @@ public class Kladblok {
 	  Gui gui = null;
 	  try {
 	    Bedrijf b = new Bedrijf(); // bedrijf propageert PoiException naar boven naar main
+	    //Bedrijfssimulatie bs = new Bedrijfssimulatie();
         Controller facade = new Controller(b, null);
         gui = new Gui(facade);
         b.attach(gui);
