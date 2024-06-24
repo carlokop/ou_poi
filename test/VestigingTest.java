@@ -100,21 +100,34 @@ class VestigingTest {
 	}
 	
 	/**
-	 * Test implementatie van regel: "Klanten van een
-	 * vestiging die wordt gesloten gaan naar de – voor de klant – dichtstbijzijnde open
-	 * vestiging."
+	 * Let op: Deze testresultaten zijn databasespecifiek.
+	 * Test implementatie corresponderende methode
 	 */
 	@Test
 	void migratieSluitenTest() {
 		testVestigingen = new ArrayList<>(Bedrijf.getVestigingen());
+		assert(testVestigingen.size() > 1);
+
 		tvIterator = testVestigingen.iterator();
-		
-		assert(tvIterator.hasNext());
 		vestiging = testVestigingen.iterator().next();
+		Collection<Klant> KlantenLijst = new ArrayList<>(vestiging.getKlanten());
+		testVestigingen.remove(vestiging);
+
 		Vestiging.migratieSluitenVestiging(vestiging, testVestigingen);
-		//TODO: 
+		Vestiging dichtsteVestiging;
+		
+		assertEquals(vestiging.getKlanten().size(), 0);
+		for(Klant k: KlantenLijst) {
+			dichtsteVestiging = Vestiging.getKlantDichtsteVestiging(k, testVestigingen);
+			assert(dichtsteVestiging.getKlanten().contains(k));
+		}
 	}
 
+	/**
+	 * TODO:
+	 * Let op: Deze testresultaten zijn databasespecifiek.
+	 * Test implementatie corresponderende methode
+	 */
 	@Test
 	void migratieOpenenTest() {
 		testVestigingen = new ArrayList<>(Bedrijf.getVestigingen());
