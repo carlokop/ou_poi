@@ -107,9 +107,9 @@ public class Vestiging {
 			Map<Klant, Entry<Collection<Vestiging>, Collection<Vestiging>>> klantenChecklist
 			) {
 		Collection<Klant> klanten = geslotenVestiging.getKlanten();
-		Vestiging dichtsteVestiging = geslotenVestiging;
 		Entry<Collection<Vestiging>, Collection<Vestiging>> klantEntry;
-		
+		Vestiging dichtsteVestiging;
+
 		if (openVestigingen.size() > 0) {
 			// berekenen dichtste vestiging, deze methode alleen is in principe genoeg, 
 			// size 0,1 zijn optimalisaties
@@ -118,10 +118,13 @@ public class Vestiging {
 				dichtsteVestiging = getKlantDichtsteVestiging(k, openVestigingen);
 				// werk klantchecklist bij 
 				klantEntry = klantenChecklist.get(k);
-				klantEntry.getValue().remove(geslotenVestiging);
-				klantEntry.getValue().add(dichtsteVestiging);
+				klantEntry.getValue().remove(geslotenVestiging); //verwijder gesloten uit lijst van huidige vestigingen
+				klantEntry.getValue().add(dichtsteVestiging);	 //voeg dichtste toe aan lijst van huidige vestigingen
 				// voer migratie uit, klanten verwijderen gebeurt op het einde
-				dichtsteVestiging.addKlant(k);
+				// controleer op duplicaten, kan voorkomen bij klanten met meerdere vestigingen
+				if(!dichtsteVestiging.getKlanten().contains(k)) {
+					dichtsteVestiging.addKlant(k);
+				}
 			}
 		}
 		// achteraf gesloten vestiging legen, handelt ook case size = 0 af
@@ -148,7 +151,6 @@ public class Vestiging {
 		Collection<Klant> kOrigineel = vOrigineel.getKlanten();
 		Entry<Collection<Vestiging>, Collection<Vestiging>> klantEntry;
 		Collection<Vestiging> klantHuidigeVestigingen, klantOrigineleVestigingen;
-		Vestiging klantHuidigeVestiging;
 		
 		// migreer klanten en werk gelijk checklist bij
 		for (Klant k : kOrigineel) {
@@ -156,6 +158,7 @@ public class Vestiging {
 			klantHuidigeVestigingen = klantEntry.getValue();
 			klantOrigineleVestigingen = klantEntry.getKey();
 			for(Vestiging hv: klantHuidigeVestigingen) {
+				//TODO: Duplicaten migratie naar zelfde vestiging, 2 instanties worden 1
 				if (!klantOrigineleVestigingen.contains(hv)) {
 					// checklist bijwerken
 					klantHuidigeVestigingen.remove(hv);

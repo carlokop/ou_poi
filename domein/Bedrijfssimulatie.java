@@ -49,6 +49,7 @@ public class Bedrijfssimulatie extends Bedrijf implements ModelBedrijfssimulatie
 		// Zet status vestiging op gesloten
 		vestigingenChecklist.replace(geslotenVestiging, false);
 		
+		// Compileer lijst van open vestigingen waarmee gerekend wordt
 		Set<Entry<Vestiging, Boolean>> cleSet = vestigingenChecklist.entrySet();
 		for(Entry<Vestiging, Boolean> cle : cleSet) {
 			if(cle.getValue()) {
@@ -70,6 +71,10 @@ public class Bedrijfssimulatie extends Bedrijf implements ModelBedrijfssimulatie
 			throw new PoiException(PoiExceptionCode.BEDRIJFSSIM_BEDRIJF_VESTIGINGEN_NULL, null);
 		}
 	} 
+	
+	public Collection<Vestiging> getSimVestigingen() {
+		return this.vestigingen;
+	}
 	
 	public void initKlantenChecklist() {
 		klantenChecklist = new HashMap<>();
@@ -96,7 +101,7 @@ public class Bedrijfssimulatie extends Bedrijf implements ModelBedrijfssimulatie
 		Entry<Collection<Vestiging>, Collection<Vestiging>> klantEntry;
 		Set<Klant> klanten = klantenChecklist.keySet();
 		for(Klant k: klanten) {
-			klantEntry = klantenChecklist.get(k);
+			klantEntry = klantenChecklist.get(k); // lijst met oorspronkelijke vestiging(en)
 			klantEntry.setValue(klantEntry.getKey());
 //			klantenChecklist.put(k, klantEntry); // misschien niet nodig als de entry via referentie in map wordt bijgewerkt
 		}
