@@ -1,7 +1,6 @@
 package gui.VestigingAnyOverzichtPlugin.visualizer;
 
 import java.util.Map;
-import java.util.TreeMap;
 
 /**
  * Voorbeeld van een implementatie klasse

@@ -26,57 +26,36 @@ public class Vestiging {
 	 * @throws PoiException bij ongeldige parameters
 	 */
 	/*
-	 * @
+	 * @contract happy {
+	 * @requires plaats != null of lege string
+	 * @requires postcode != null
+	 * @requires klanten != null && klanten.size() >= 0
+	 * @ensures \result is een klanten instantie
+	 * }
 	 * 
-	 * @ @contract happy {
+	 * @contract ongeldigeplaats {
+	 * @requires plaats == null
+	 * @signals PoiException, PoiExceptionCode.PLAATSNAAM_NULL
+	 * }
 	 * 
-	 * @ @requires plaats != null of lege string
+	 * @contract plaats_leeg {
+	 * @requires plaats == lege string of alleen spaties
+	 * @signals PoiException, PoiExceptionCode. ("Plaats mag niet leeg zijn")
+	 * }
 	 * 
-	 * @ @requires postcode != null
+	 * @contract postcode_null {
+	 * @requires postcode == null
+	 * @signals PoiException, PoiExceptionCode.POSTCODE_NULL
+	 * }
 	 * 
-	 * @ @requires klanten != null && klanten.size() >= 0
-	 * 
-	 * @ @ensures \result is een klanten instantie
-	 * 
-	 * @ }
-	 * 
-	 * @ @contract ongeldigeplaats {
-	 * 
-	 * @ @requires plaats == null
-	 * 
-	 * @ @signals PoiException, PoiExceptionCode.PLAATSNAAM_NULL
-	 * 
-	 * @ }
-	 * 
-	 * @ @contract plaats_leeg {
-	 * 
-	 * @ @requires plaats == lege string of alleen spaties
-	 * 
-	 * @ @signals PoiException, PoiExceptionCode. ("Plaats mag niet leeg zijn")
-	 * 
-	 * @ }
-	 * 
-	 * @ @contract postcode_null {
-	 * 
-	 * @ @requires postcode == null
-	 * 
-	 * @ @signals PoiException, PoiExceptionCode.POSTCODE_NULL
-	 * 
-	 * @ }
-	 * 
-	 * @ @contract klanten_null {
-	 * 
-	 * @ @requires klanten == null
-	 * 
-	 * @ @signals PoiException, PoiExceptionCode.KLANTENLIJST_NULL
-	 * 
-	 * @ }
-	 * 
-	 * @
+	 * @contract klanten_null {
+	 * @requires klanten == null
+	 * @signals PoiException, PoiExceptionCode.KLANTENLIJST_NULL
+	 * }
 	 */
 	public Vestiging(String plaats, PostcodeInfo postcode, Collection<Klant> klanten) throws PoiException {
 		validate(plaats, postcode, klanten);
-		this.plaats = plaats;
+		this.plaats = plaats; //TODO duplicatie hier en pci, is plaats overbodig?
 		this.postcodeInfo = postcode;
 		this.klanten = klanten;
 	}
@@ -115,12 +94,12 @@ public class Vestiging {
 	}
 
 	/**
-	 * Sluit een vestiging en voer de corresponderende migratie uit "Klanten van een
+	 * Sluit een vestiging en voer de corresponderende migratieregel uit: "Klanten van een
 	 * vestiging die wordt gesloten gaam de – voor de klant – dichtstbijzijnde open
 	 * vestiging."
 	 * 
-	 * @param geslotenVestiging
-	 * @param openVestigingen
+	 * @param geslotenVestiging Vestiging die aangemerkt wordt voor sluiting
+	 * @param openVestigingen	Open vestigingen waar klanten naar toe kunnen, kan leeg zijn.
 	 */
 	public static void migratieSluitenVestiging(Vestiging geslotenVestiging, Collection<Vestiging> openVestigingen) {
 		Collection<Klant> klanten = geslotenVestiging.getKlanten();
@@ -161,13 +140,14 @@ public class Vestiging {
 	}
 
 	/**
-	 * TODO: Afmaken "Als een vestiging weer wordt geopend, dan gaan alle
+	 * Open een vestiging en voer de corresponderende migratieregel uit:
+	 * "Als een vestiging weer wordt geopend, dan gaan alle
 	 * oorspronkelijke klanten van deze vestiging weer terug naar deze vestiging."
 	 * 
-	 * @param geopendeVestiging
-	 * @param openVestigingen
-	 * @param bedrijfVestigingenLijst
-	 * @param klantenChecklist
+	 * @param geopendeVestiging 		Vestiging aangemerkt voor opening
+	 * @param openVestigingen			Vestigingen die nog open zijn
+	 * @param bedrijfVestigingenLijst	Oorspronkelijke lijst van vestigingen, versnelt selectie oorspronkelijke klanten
+	 * @param klantenChecklist			Hulplijst voor versnelde migratie
 	 */
 	public static void migratieOpenenVestiging(Vestiging geopendeVestiging, Collection<Vestiging> openVestigingen,
 			Collection<Vestiging> bedrijfVestigingenLijst, // oorspronkelijke lijst uit non-simulatie
@@ -189,12 +169,12 @@ public class Vestiging {
 	}
 
 	/**
-	 * Zoekt naar een bepaalde vestiging uit een lijst van vestigingen, de gevraagde
+	 * Zoekt naar een bepaalde vestiging uit een lijst van alternatieve vestigingen, de gevraagde
 	 * instantie kan op inhoud verschillen.
 	 * 
-	 * @param vestKeuze
-	 * @param vestigingen
-	 * @return
+	 * @param vestKeuze		Vestigingkeus die gezocht wordt in alternatieve lijst
+	 * @param vestigingen	Lijst van instanties waarin een vestiging met equals gelijkheid gezocht wordt
+	 * @return 				Gevonden instantie met equals gelijkheid
 	 */
 	public static Vestiging select(Vestiging vestKeuze, Collection<Vestiging> vestigingen) {
 		for (Vestiging v : vestigingen) {
@@ -206,7 +186,7 @@ public class Vestiging {
 	}
 
 	public static double getAfstand(PostcodeInfo pciA, PostcodeInfo pciB) {
-		return Math.sqrt(Math.pow(pciA.getLat() - pciB.getLat(), 2) + Math.pow(pciA.getLat() - pciB.getLat(), 2));
+		return Math.sqrt(Math.pow(pciA.getLat() - pciB.getLat(), 2) + Math.pow(pciA.getLng() - pciB.getLng(), 2));
 	}
 
 	/**

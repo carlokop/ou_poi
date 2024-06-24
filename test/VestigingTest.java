@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -23,9 +24,8 @@ import exceptions.PoiExceptionCode;
  */
 class VestigingTest {
 
-	private static Bedrijf testBedrijf;
 	private static Collection<Vestiging> testVestigingen;
-	private static Iterator tvIterator;
+	private static Iterator<Vestiging> tvIterator;
 	private static Vestiging vestiging = null;
 	private static PostcodeInfo postcode = null;
 	private static ArrayList<Klant> klantenlijst = null;
@@ -38,8 +38,7 @@ class VestigingTest {
 	@BeforeAll
 	static void setup() {
 		try {
-			testBedrijf = new Bedrijf();
-			
+			new Bedrijf();
 			postcode = new PostcodeInfo("8701GH", "Bolsward", 53.0673994187339, 5.5274963648489);
 			klantenlijst = new ArrayList<>();
 			klantenlijst.add(new Klant(123, postcode));
@@ -51,11 +50,60 @@ class VestigingTest {
 		}
 	}
 
+	/**
+	 * Test correctheid van corresponderende methode voor het opzoeken vd dichtstbijzijnde vestiging
+	 */
 	@Test
 	void klantDichtsteVestigingTest() {
-		//TODO: 
+		try {
+			Vestiging vestigingResultaat;
+			Vestiging vestiging0 = new Vestiging("A", new PostcodeInfo("0000AA", "A", -10, -10), new ArrayList<>());
+			Vestiging vestiging1 = new Vestiging("B", new PostcodeInfo("0000BB", "B", 10, 10), new ArrayList<>());
+			Vestiging vestiging2 = new Vestiging("C", new PostcodeInfo("0000CC", "C", 0, 0), new ArrayList<>());
+			Vestiging vestiging3 = new Vestiging("D", new PostcodeInfo("0000DD", "D", -10, 10), new ArrayList<>());
+			Vestiging vestiging4 = new Vestiging("E", new PostcodeInfo("0000EE", "E", 10, -10), new ArrayList<>());
+			Klant klant1 = new Klant(1, new PostcodeInfo("1234AB", "Willekeurig", 11, 11));
+			Klant klant2 = new Klant(2, new PostcodeInfo("1234AB", "Willekeurig", -11, 11));
+			Klant klant3 = new Klant(3, new PostcodeInfo("1234AB", "Willekeurig", 11, -11));
+			Klant klant4 = new Klant(4, new PostcodeInfo("1234AB", "Willekeurig", 0, 0));
+			Klant klant5 = new Klant(5, new PostcodeInfo("1234AB", "Willekeurig", 5, 5));
+
+			// Zelfde afstand naar 2 of meer vestiging, selecteert de eerste van de vestigingen die deze ziet
+			vestigingResultaat = Vestiging.getKlantDichtsteVestiging(klant4, new ArrayList<Vestiging>(List.of(vestiging0,vestiging1,vestiging3,vestiging4)));
+			assertEquals(vestigingResultaat, vestiging0);
+			vestigingResultaat = Vestiging.getKlantDichtsteVestiging(klant4, new ArrayList<Vestiging>(List.of(vestiging1,vestiging3,vestiging4,vestiging0)));
+			assertEquals(vestigingResultaat, vestiging1);
+			
+			// Selecteert dichtste afstand uit selectie
+			vestigingResultaat = Vestiging.getKlantDichtsteVestiging(klant5, new ArrayList<Vestiging>(List.of(vestiging2,vestiging1,vestiging0)));
+			assertEquals(vestigingResultaat, vestiging2);
+			
+			// Selectie uit 1 enkele vestiging moet dezelfde vestiging opleveren
+			vestigingResultaat = Vestiging.getKlantDichtsteVestiging(klant5, new ArrayList<Vestiging>(List.of(vestiging0)));
+			assertEquals(vestigingResultaat, vestiging0);
+			
+			// Selecteert dichtste afstand uit alle vestigingen
+			vestigingResultaat = Vestiging.getKlantDichtsteVestiging(klant1, new ArrayList<Vestiging>(List.of(vestiging0,vestiging1,vestiging2, vestiging3,vestiging4)));
+			assertEquals(vestigingResultaat, vestiging1);
+			vestigingResultaat = Vestiging.getKlantDichtsteVestiging(klant2, new ArrayList<Vestiging>(List.of(vestiging0,vestiging1,vestiging2, vestiging3,vestiging4)));
+			assertEquals(vestigingResultaat, vestiging3);
+			vestigingResultaat = Vestiging.getKlantDichtsteVestiging(klant3, new ArrayList<Vestiging>(List.of(vestiging0,vestiging1,vestiging2, vestiging3,vestiging4)));
+			assertEquals(vestigingResultaat, vestiging4);
+			
+			// Bij geen opgegeven vestiging retourneer null als gevonden dichtsbijzijnde vestiging
+			vestigingResultaat = Vestiging.getKlantDichtsteVestiging(klant1, new ArrayList<Vestiging>());
+			assertEquals(vestigingResultaat, null);
+		} catch (PoiException e) {
+			// Aanmaak testobjecten mislukt.
+			fail(e.getMessage());
+		}
 	}
 	
+	/**
+	 * Test implementatie van regel: "Klanten van een
+	 * vestiging die wordt gesloten gaan naar de – voor de klant – dichtstbijzijnde open
+	 * vestiging."
+	 */
 	@Test
 	void migratieSluitenTest() {
 		testVestigingen = new ArrayList<>(Bedrijf.getVestigingen());
@@ -69,7 +117,7 @@ class VestigingTest {
 
 	@Test
 	void migratieOpenenTest() {
-		testVestigingen = new ArrayList<>(testBedrijf.getVestigingen());
+		testVestigingen = new ArrayList<>(Bedrijf.getVestigingen());
 		tvIterator = testVestigingen.iterator();
 		
 		assert(tvIterator.hasNext());

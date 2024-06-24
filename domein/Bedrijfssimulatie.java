@@ -21,7 +21,6 @@ public class Bedrijfssimulatie extends Bedrijf implements ModelBedrijfssimulatie
 	
 	public Bedrijfssimulatie() throws PoiException {
 			setupSimulatie();
-			new ArrayList<Vestiging>(Bedrijf.getVestigingen());
 //			initKlantenChecklist();
 //			initVestigingenChecklist();
 	}
