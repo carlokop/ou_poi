@@ -105,8 +105,17 @@ public class Kladblok {
         bs.attach(gui);
 
         
+<<<<<<< HEAD
       } catch(Exception e) {
         gui = new Gui(e.getMessage());
+=======
+      } catch(PoiException e) {
+        /**
+         * ToDo hier moet naar gekeken worden
+         * Wat als er een andere fout ontstaat?
+         */
+        gui = new Gui(PoiExceptionCode.CONNECTION_ESTABLISH_ERR);
+>>>>>>> branch 'master' of https://github.com/carlokop/ou_poi.git
         System.out.println("Ging iets fout: "+e.getMessage());
       }
 	  

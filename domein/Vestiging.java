@@ -92,7 +92,7 @@ public class Vestiging {
 			throw new PoiException(PoiExceptionCode.KLANTENLIJST_NULL, plaats + ":" + postcode.toString());
 		}
 	}
-
+	
 	/**
 	 * Sluit een vestiging en voer de corresponderende migratieregel uit: "Klanten van een
 	 * vestiging die wordt gesloten gaam de – voor de klant – dichtstbijzijnde open
@@ -101,41 +101,30 @@ public class Vestiging {
 	 * @param geslotenVestiging Vestiging die aangemerkt wordt voor sluiting
 	 * @param openVestigingen	Open vestigingen waar klanten naar toe kunnen, kan leeg zijn.
 	 */
-	public static void migratieSluitenVestiging(Vestiging geslotenVestiging, Collection<Vestiging> openVestigingen) {
+	public static void migratieSluitenVestiging(
+			Vestiging geslotenVestiging, 
+			Collection<Vestiging> openVestigingen, 
+			Map<Klant, Entry<Collection<Vestiging>, Collection<Vestiging>>> klantenChecklist
+			) {
 		Collection<Klant> klanten = geslotenVestiging.getKlanten();
-//		double klantMinAfstand;
-//		PostcodeInfo klantPci;
-
 		Vestiging dichtsteVestiging = geslotenVestiging;
-//		double vestigingAfstand;
-//		PostcodeInfo vestigingPCI;
-
-		if (openVestigingen.size() == 1) {
-			// eenvoudige verplaatsing, case optimalisatie
-			dichtsteVestiging = openVestigingen.iterator().next();
+		Entry<Collection<Vestiging>, Collection<Vestiging>> klantEntry;
+		
+		if (openVestigingen.size() > 0) {
+			// berekenen dichtste vestiging, deze methode alleen is in principe genoeg, 
+			// size 0,1 zijn optimalisaties
 			for (Klant k : klanten) {
-				dichtsteVestiging.addKlant(k);
-			}
-		} else if (openVestigingen.size() > 1) {
-			// berekenen dichtste vestiging, deze methode alleen is in principe genoeg, size
-			// 0,1 zijn optimalisaties
-			for (Klant k : klanten) {
-//				klantPci = k.getPostcodeInfo();
-//				klantMinAfstand = PostcodeInfo.MAX_AFSTAND;
-//				for (Vestiging v : openVestigingen) {
-//					vestigingPCI = v.getPostcodeInfo();
-//					vestigingAfstand = getAfstand(klantPci, vestigingPCI);
-//					if (klantMinAfstand > vestigingAfstand) {
-//						klantMinAfstand = vestigingAfstand;
-//						dichtsteVestiging = v;
-//					}
-//				}
-				
+				// doe berekening
 				dichtsteVestiging = getKlantDichtsteVestiging(k, openVestigingen);
+				// werk klantchecklist bij 
+				klantEntry = klantenChecklist.get(k);
+				klantEntry.getValue().remove(geslotenVestiging);
+				klantEntry.getValue().add(dichtsteVestiging);
+				// voer migratie uit, klanten verwijderen gebeurt op het einde
 				dichtsteVestiging.addKlant(k);
 			}
 		}
-		// gewoon vestiging legen, ook een case 0 optimalisatie
+		// achteraf gesloten vestiging legen, handelt ook case size = 0 af
 		geslotenVestiging.clearKlanten();
 	}
 
@@ -149,21 +138,32 @@ public class Vestiging {
 	 * @param bedrijfVestigingenLijst	Oorspronkelijke lijst van vestigingen, versnelt selectie oorspronkelijke klanten
 	 * @param klantenChecklist			Hulplijst voor versnelde migratie
 	 */
-	public static void migratieOpenenVestiging(Vestiging geopendeVestiging, Collection<Vestiging> openVestigingen,
+	public static void migratieOpenenVestiging(
+			Vestiging geopendeVestiging, 
+			Collection<Vestiging> openVestigingen,
 			Collection<Vestiging> bedrijfVestigingenLijst, // oorspronkelijke lijst uit non-simulatie
-			Map<Klant, Entry<Vestiging, Vestiging>> klantenChecklist) {
-
+			Map<Klant, Entry<Collection<Vestiging>, Collection<Vestiging>>> klantenChecklist
+			) {
 		Vestiging vOrigineel = Vestiging.select(geopendeVestiging, bedrijfVestigingenLijst);
 		Collection<Klant> kOrigineel = vOrigineel.getKlanten();
-		Entry<Vestiging, Vestiging> klantDossier;
-		Vestiging KlantHuidigeVestiging;
-
+		Entry<Collection<Vestiging>, Collection<Vestiging>> klantEntry;
+		Collection<Vestiging> klantHuidigeVestigingen, klantOrigineleVestigingen;
+		Vestiging klantHuidigeVestiging;
+		
+		// migreer klanten en werk gelijk checklist bij
 		for (Klant k : kOrigineel) {
-			klantDossier = klantenChecklist.get(k);
-			KlantHuidigeVestiging = klantDossier.getValue();
-			if (!KlantHuidigeVestiging.equals(vOrigineel)) {
-				geopendeVestiging.addKlant(k);
-				KlantHuidigeVestiging.removeKlant(k);
+			klantEntry = klantenChecklist.get(k);
+			klantHuidigeVestigingen = klantEntry.getValue();
+			klantOrigineleVestigingen = klantEntry.getKey();
+			for(Vestiging hv: klantHuidigeVestigingen) {
+				if (!klantOrigineleVestigingen.contains(hv)) {
+					// checklist bijwerken
+					klantHuidigeVestigingen.remove(hv);
+					klantHuidigeVestigingen.add(vOrigineel);
+					// migratie uitvoeren
+					geopendeVestiging.addKlant(k);
+					hv.removeKlant(k);
+				}
 			}
 		}
 	}
@@ -179,6 +179,22 @@ public class Vestiging {
 	public static Vestiging select(Vestiging vestKeuze, Collection<Vestiging> vestigingen) {
 		for (Vestiging v : vestigingen) {
 			if (v == vestKeuze) {
+				return v;
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * Zoekt naar een bepaalde vestiging uit een lijst van vestigingen.
+	 * 
+	 * @param vestKeuze		Vestigingkeus die gezocht wordt in alternatieve lijst
+	 * @param vestigingen	Lijst van instanties waarin een vestiging met zelfde plaatsnaam
+	 * @return 				Gevonden instantie met zelfde plaatsnaam
+	 */
+	public static Vestiging select(String vestKeuze, Collection<Vestiging> vestigingen) {
+		for (Vestiging v : vestigingen) {
+			if (v.getPlaats() == vestKeuze) {
 				return v;
 			}
 		}
