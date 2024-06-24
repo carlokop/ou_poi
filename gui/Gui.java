@@ -19,6 +19,7 @@ import controller.Controller;
 import exceptions.PoiExceptionCode;
 import gui.Main.Footer;
 import gui.Main.Header;
+import gui.Main.Notificatie;
 import gui.VestigingAnyOverzichtPlugin.visualizer.Visualizer;
 import gui.VestigingOverzicht.VestigingOverzicht;
 import observerOU.Observer;
@@ -62,11 +63,12 @@ public class Gui extends JFrame implements Observer {
 	 * Deze constructor aanroepen als er in main exepties ontstaan 
 	 * @param error de foutmelding
 	 */
-	public Gui(PoiExceptionCode error) {
+	public Gui(String error) {
       super();
       pane = getContentPane();
       init();
-      toonNotificatie(error.getErrMessage(),true, "Applicatie afsluiten"); //TODO onnodige koppeling met Exception, string is genoeg?
+      JDialog notificatie = new Notificatie(error, true, "Applicatie afsluiten");
+      notificatie.setLocationRelativeTo(pane);
   }
 	
 	/**
@@ -188,68 +190,5 @@ public class Gui extends JFrame implements Observer {
 		// Taak 5
 	}
 	
-	/**
-	* TODO heeft nog geen functie
-	* Toont sluitbare notificatie
-	* @param bericht het bericht in de notificatie
-	*/
-	private void toonNotificatie(String bericht) {
-	    toonNotificatie(bericht, false, "mmkay");
-	}
-	
-	/**
-	 * Toont een foutmelding op het scherm
-	 * Er wordt om bevestiging gevraagd en sluit daarna de applicatie af
-	 * @param bericht  de string met de foutmelding
-	 * @param sluitAf  true sluit de applicatie af
-	 * @param btnText  de tekst in de button
-	 */
-  	private void toonNotificatie(String bericht, boolean sluitAf, String btnText) {
-      // Maak de dialog
-      JDialog notificatieDialog = new JDialog();
-      notificatieDialog.setTitle("Foutmelding");
-      notificatieDialog.setLayout(new BorderLayout());
-      notificatieDialog.setSize(300, 125);
-      notificatieDialog.setVisible(true);
-      //dit even opgezocht zag er niet fraai uit
-      notificatieDialog.getRootPane().setBorder(new EmptyBorder(10, 10, 10, 10));
-      notificatieDialog.setLocationRelativeTo(pane);
-    
-      //bericht
-      JTextArea notificatieLabel = new JTextArea(bericht);
-      notificatieDialog.add(notificatieLabel, BorderLayout.CENTER);
-      notificatieLabel.setBackground(null);
-      //dit even opgezocht zag er niet fraai uit
-      notificatieLabel.setLineWrap(true); 
-      notificatieLabel.setWrapStyleWord(true);
-    
-      //sluitknop
-      JButton sluitKnop = new JButton(btnText);
-      notificatieDialog.add(sluitKnop, BorderLayout.SOUTH);
-      
-      //sluit de applicatie als je op de sluitknop klikt
-      sluitKnop.addActionListener(new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-          notificatieDialog.dispose();
-          if(sluitAf) {
-            System.exit(ABORT);
-          }
-        }
-      });
-      
-      //sluit de applicatie af als je het sluit kruisje gebruikt
-      notificatieDialog.addWindowListener(new WindowAdapter() {
-        @Override
-        public void windowClosing(WindowEvent e) {
-          notificatieDialog.dispose();
-          if(sluitAf) {
-            System.exit(ABORT);
-          }
-        }
-      });
-      
- 
-  }
 	
 }
