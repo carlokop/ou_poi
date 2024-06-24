@@ -11,6 +11,7 @@ import controller.Controller;
 import data.Mapper;
 import data.Queries;
 import domein.Bedrijf;
+import domein.Bedrijfssimulatie;
 import domein.Vestiging;
 import exceptions.PoiException;
 import exceptions.PoiExceptionCode;
@@ -95,18 +96,17 @@ public class Kladblok {
 	public void taak5carlo() {
 	  Gui gui = null;
 	  try {
+	    
 	    Bedrijf b = new Bedrijf(); // bedrijf propageert PoiException naar boven naar main
-	    //Bedrijfssimulatie bs = new Bedrijfssimulatie();
-        Controller facade = new Controller(b, null);
+        Bedrijfssimulatie bs = new Bedrijfssimulatie();
+        Controller facade = new Controller(b, bs);
         gui = new Gui(facade);
         b.attach(gui);
+        bs.attach(gui);
+
         
       } catch(Exception e) {
-        /**
-         * ToDo hier moet naar gekeken worden
-         * Wat als er een andere fout ontstaat?
-         */
-        gui = new Gui(PoiExceptionCode.CONNECTION_ESTABLISH_ERR);
+        gui = new Gui(e.getMessage());
         System.out.println("Ging iets fout: "+e.getMessage());
       }
 	  

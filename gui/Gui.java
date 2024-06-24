@@ -6,21 +6,13 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-
-import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
-import javax.swing.JTextArea;
-import javax.swing.border.EmptyBorder;
-
 import controller.Controller;
-import exceptions.PoiExceptionCode;
 import gui.Main.Footer;
 import gui.Main.Header;
 import gui.Main.Notificatie;
-import gui.VestigingAnyOverzichtPlugin.visualizer.Visualizer;
+import Kladblok.Visualizer;
 import gui.VestigingOverzicht.VestigingOverzicht;
 import observerOU.Observer;
 import observerOU.Subject;
@@ -42,9 +34,8 @@ public class Gui extends JFrame implements Observer {
 	
 	// Domeingui
 	private Component vestigingOverzicht;
-	private Component vestigingSimulatieOverzicht;
-	
-	private Visualizer visualizer; // visualizer is een subcomponent van een domeingui, deze hoort niet gedeclareerd te worden hier
+	private Component vestigingSimulatieOverzicht; //dit gebruiken we denk ik niet
+	private Visualizer visualizer;
 	
 
 	/**
@@ -138,13 +129,11 @@ public class Gui extends JFrame implements Observer {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 		  stopActiviteit();
-//		  if(visualizer == null && fc != null) {
-//    		  visualizer= new Visualizer(fc); 
-//		  }
-//		  
-//		  pane.add(visualizer,BorderLayout.CENTER);
-//		  footer.setVisible(true);
-
+		  if(visualizer == null && fc != null) {  //bugfix voor excepties bij creatie waarbij gebruikers de notificatie negeren en toch het menu gebruiken
+		    visualizer= new Visualizer(fc); 
+		    pane.add(visualizer,BorderLayout.CENTER);
+		    footer.setVisible(true);
+		  }
 		}
 	}
 
