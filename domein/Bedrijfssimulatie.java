@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import controller.ModelBedrijfssimulatie;
 import exceptions.PoiException;
@@ -21,6 +22,7 @@ public class Bedrijfssimulatie extends Bedrijf implements ModelBedrijfssimulatie
 	public Bedrijfssimulatie() throws PoiException {
 			validate();
 			initKlantenChecklist();
+			initVestigingenChecklist();
 	}
 	
 	@Override
@@ -28,15 +30,18 @@ public class Bedrijfssimulatie extends Bedrijf implements ModelBedrijfssimulatie
 		vestigingen = new ArrayList<Vestiging>(Bedrijf.getVestigingen());
 		
 	}
+	
 	@Override
 	public void sluitVestiging(String plaats) {
 		// TODO Auto-generated method stub
-		
+		Collection<Vestiging> openVestigingen = new ArrayList<Vestiging>();
+		Vestiging.migratieSluitenVestiging(null, vestigingen);
 	}
+	
 	@Override
 	public void openVestiging(String plaats) {
 		// TODO Auto-generated method stub
-		
+		Vestiging.migratieOpenenVestiging(null, vestigingen, vestigingen, null);
 	}
 
 	@Override
@@ -56,20 +61,31 @@ public class Bedrijfssimulatie extends Bedrijf implements ModelBedrijfssimulatie
 			klanten = v.getKlanten();
 			for(Klant k : klanten) {
 				klantEntry = Map.entry(new ArrayList<>(), new ArrayList<>());
-//				klantenChecklist.put();
+				klantenChecklist.put(k, klantEntry);
 			}
 		}
 	}
 	
 	public void resetKlantenCheckList() {
-		
+		Entry<Collection<Vestiging>, Collection<Vestiging>> klantEntry;
+		Set<Klant> klanten = klantenChecklist.keySet();
+		for(Klant k: klanten) {
+			klantEntry = klantenChecklist.get(k);
+			klantEntry.setValue(klantEntry.getKey());
+//			klantenChecklist.put(k, klantEntry); // misschien niet nodig als de entry via referentie in map wordt bijgewerkt
+		}
 	}
 	
 	public void initVestigingenChecklist() {
-		
+		vestigingenChecklist = new HashMap<Vestiging, Boolean>();
+		for(Vestiging v: vestigingen) {
+			vestigingenChecklist.put(v, false);
+		}
 	}
 	
 	public void resetVestigingenChecklist() {
-		
+		for(Vestiging v: vestigingen) {
+			vestigingenChecklist.replace(v, false);
+		}
 	}
 }
