@@ -5,10 +5,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import domein.Bedrijf;
 import domein.Klant;
 import domein.PostcodeInfo;
 import domein.Vestiging;
@@ -20,30 +23,63 @@ import exceptions.PoiExceptionCode;
  */
 class VestigingTest {
 
+	private static Bedrijf testBedrijf;
+	private static Collection<Vestiging> testVestigingen;
+	private static Iterator tvIterator;
 	private static Vestiging vestiging = null;
 	private static PostcodeInfo postcode = null;
 	private static ArrayList<Klant> klantenlijst = null;
 	private static PoiException pe;
 	
+
 	/**
-	   * Initialiseert het postcodeinfo object en een lijstje met drie klanten
-	   */
+	 * Initialiseert het postcodeinfo object en een lijstje met drie klanten
+	 */
 	@BeforeAll
-	static void setup()  {
-	  try {
-		postcode = new PostcodeInfo("8701GH", "Bolsward", 53.0673994187339, 5.5274963648489);
-		klantenlijst = new ArrayList<>();
-		klantenlijst.add(new Klant(123, postcode));
-		klantenlijst.add(new Klant(124, postcode));
-		klantenlijst.add(new Klant(125, postcode));
-	  } catch(PoiException e) {
-	    fail(e.getMessage());
-	  }
+	static void setup() {
+		try {
+			testBedrijf = new Bedrijf();
+			
+			postcode = new PostcodeInfo("8701GH", "Bolsward", 53.0673994187339, 5.5274963648489);
+			klantenlijst = new ArrayList<>();
+			klantenlijst.add(new Klant(123, postcode));
+			klantenlijst.add(new Klant(124, postcode));
+			klantenlijst.add(new Klant(125, postcode));
+
+		} catch (PoiException e) {
+			fail(e.getMessage());
+		}
+	}
+
+	@Test
+	void klantDichtsteVestigingTest() {
+		//TODO: 
+	}
+	
+	@Test
+	void migratieSluitenTest() {
+		testVestigingen = new ArrayList<>(Bedrijf.getVestigingen());
+		tvIterator = testVestigingen.iterator();
+		
+		assert(tvIterator.hasNext());
+		vestiging = testVestigingen.iterator().next();
+		Vestiging.migratieSluitenVestiging(vestiging, testVestigingen);
+		//TODO: 
+	}
+
+	@Test
+	void migratieOpenenTest() {
+		testVestigingen = new ArrayList<>(testBedrijf.getVestigingen());
+		tvIterator = testVestigingen.iterator();
+		
+		assert(tvIterator.hasNext());
+		vestiging = testVestigingen.iterator().next();
+		//TODO: 
 	}
 
 	/**
-	   * Test happy path
-	   */
+	 * Test happy path
+	 */
 	@Test
 	void happy() {
 		ArrayList<Klant> klantenlijst = new ArrayList<>();
@@ -81,18 +117,17 @@ class VestigingTest {
 	}
 
 	/**
-	* Test of er ongeldige invoer is
-	* Nulls, lege stringen of alleen spaties
-	*/
+	 * Test op ongeldige invoer Nulls, lege stringen of alleen spaties
+	 */
 	@Test
 	void foutiveInvoer() {
-		
+
 		// plaats null
 		pe = assertThrows(PoiException.class, () -> {
 			new Vestiging(null, postcode, klantenlijst);
 		});
 		assertEquals(pe.getErrCode(), PoiExceptionCode.PLAATSNAAM_NULL);
-		
+
 		// plaats lege string
 		pe = assertThrows(PoiException.class, () -> {
 			new Vestiging("", postcode, klantenlijst);

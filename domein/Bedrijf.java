@@ -50,10 +50,6 @@ public class Bedrijf extends Subject implements ModelBedrijf {
         return lijstPlaatsenNamen;
     }
 	
-	private void setVestigingPlaats() {
-		//TODO
-	}
-	
 	/**
 	 * Haalt een lijst van de id's van klanten op
 	 * @param plaats ook wel vestiginglocatie
@@ -84,10 +80,6 @@ public class Bedrijf extends Subject implements ModelBedrijf {
         
         return vestigingKlantenData;
     }
-	
-	private void setVestigingKlanten() {
-		//TODO
-	}
 	
 	public static Collection<Vestiging> getVestigingen() {
 		return Bedrijf.vestigingen;

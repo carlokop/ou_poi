@@ -98,8 +98,8 @@ public class Gui extends JFrame implements Observer {
 		pane.setLayout(new BorderLayout());
 
 		header = new Header();
-		((Header) header).attachJMIVestigingenInzage(new VestigingenInzageMenuItemLuisteraar());
-		((Header) header).attachJMIVestigingenSimulatie(new VestigingenSimulatieMenuItemLuisteraar());
+		((Header) header).attachJMIVestigingenInzageListener(new VestigingenInzageMenuItemLuisteraar());
+		((Header) header).attachJMIVestigingenSimulatieListener(new VestigingenSimulatieMenuItemLuisteraar());
 		pane.add(header, BorderLayout.NORTH);
 
 		footer = new Footer();

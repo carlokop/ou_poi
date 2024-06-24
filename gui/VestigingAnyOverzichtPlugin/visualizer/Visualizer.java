@@ -7,11 +7,12 @@ import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Map;
-import java.util.Observable;
-import java.util.Observer;
 import java.util.Set;
 
 import javax.swing.JFrame;
+
+import observerOU.Observer;
+import observerOU.Subject;
 
 /**
  * 
@@ -95,7 +96,7 @@ public class Visualizer extends JFrame implements Observer {
 			int y_pos = 0;
 			bar = new Bar(key, 0, x_pos, y_pos, width_bar, height_bar, Color.BLUE);
 		} else {
-			// // bar in kleur geel met hoogte: schaalfactor * aantal klanten.
+			// bar in kleur geel met hoogte: schaalfactor * aantal klanten.
 			int height_bar = (int) (verticalScaleFactor * value);
 			int y_pos = HEIGHT_PANE - height_bar;
 			bar = new Bar(key, value, x_pos, y_pos, width_bar, height_bar, Color.YELLOW );
@@ -128,9 +129,9 @@ public class Visualizer extends JFrame implements Observer {
 	}
 
 	@Override
-	public void update(Observable o, Object arg) {
-		drawBars(contr.getBarInfo());
-
+	public void update(Subject s, Object arg) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	

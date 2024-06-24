@@ -28,12 +28,12 @@ public class Header extends JMenuBar {
 		this.add(mainMenu);
 	}
 	
-	public void attachJMIVestigingenInzage(ActionListener l){
+	public void attachJMIVestigingenInzageListener(ActionListener l){
 		jmiVestigingenInzage.addActionListener(l);
 
 	}
 	
-	public void attachJMIVestigingenSimulatie(ActionListener l){
+	public void attachJMIVestigingenSimulatieListener(ActionListener l){
 		jmiVestigingenSimulatie.addActionListener(l);
 	}
 }
