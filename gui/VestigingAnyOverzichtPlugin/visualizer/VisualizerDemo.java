@@ -19,7 +19,7 @@ public class VisualizerDemo {
     map.put("roos", 300);
     map.put("mies", 0);
     VisualizerControllerInterface  contr = new VisualizerController();
-    Visualizer vis= new Visualizer(map,contr);
+    VisualizerOld vis= new VisualizerOld(map,contr);
     vis.setVisible(true);
    
   }

@@ -12,7 +12,7 @@ import controller.Controller;
 import gui.Main.Footer;
 import gui.Main.Header;
 import gui.Main.Notificatie;
-import Kladblok.Visualizer;
+import gui.VestigingAnyOverzichtPlugin.visualizer.Visualizer;
 import gui.VestigingOverzicht.VestigingOverzicht;
 import observerOU.Observer;
 import observerOU.Subject;
