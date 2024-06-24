@@ -6,7 +6,7 @@ import java.util.Collection;
 import controller.ModelBedrijf;
 import data.Mapper;
 import exceptions.PoiException;
-import observerPatroon.Subject;
+import observerOU.Subject;
 
 /**
  * Deze klasse stelt het bedrijf voor

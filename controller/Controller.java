@@ -44,7 +44,7 @@ public class Controller implements VisualizerControllerInterface {
 	}
 
 	public void startSimulatie() {
-		mbs.startSimulatie();
+		mbs.setupSimulatie();
 	}
 	
 	

@@ -21,7 +21,8 @@ import gui.Main.Footer;
 import gui.Main.Header;
 import gui.VestigingAnyOverzichtPlugin.visualizer.Visualizer;
 import gui.VestigingOverzicht.VestigingOverzicht;
-import observerPatroon.Observer;
+import observerOU.Observer;
+import observerOU.Subject;
 
 /**
  * Standaardframe van de Grafische userinterface
@@ -183,7 +184,7 @@ public class Gui extends JFrame implements Observer {
 	 * Updates wijzigingen in de observers
 	 */
 	@Override
-	public void update() {
+	public void update(Subject s, Object arg) {
 		// Taak 5
 	}
 	
@@ -251,9 +252,4 @@ public class Gui extends JFrame implements Observer {
  
   }
 	
-  
-	
-	
-	
-	
-}  //class
+}
