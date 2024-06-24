@@ -4,6 +4,8 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.TreeMap;
 
+import gui.VestigingAnyOverzichtPlugin.visualizer.VisualizerControllerInterface;
+
 /**
  * Controller
  * regelt communicatie tussen de GUI en de domeinlaag
@@ -45,7 +47,9 @@ public class Controller implements VisualizerControllerInterface {
 		mbs.startSimulatie();
 	}
 	
-	//TODO implementeren voor vizualizer
+	
+	
+	//TODO implementeren voor visualizer
 	@Override
 	public void barClicked(String plaatsnaam, Integer aantal_klanten) {
 	   //we moeten testen of ergens afvangen dat plaatsnaam niet null is of iets waar geen vestiging van is
@@ -61,10 +65,10 @@ public class Controller implements VisualizerControllerInterface {
 	   }
 	}
 
-	//TODO implementeren voor vizualizer
+	//TODO implementeren voor visualizer
 	@Override
 	public Map<String, Integer> getBarInfo() {  
-  	    Map<String,Integer> map = new TreeMap<>();
+  	    Map<String,Integer> map = new TreeMap<>(); // TreeMap?
         map.put("Hogezand", 60);// dit wordt een bar met naam "aap" en relatieve hoogt 100
         map.put("Veendam", 76);
         map.put("Stadskanaal", 54);

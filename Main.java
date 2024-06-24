@@ -4,7 +4,7 @@ import controller.Controller;
 import domein.Bedrijf;
 import domein.Bedrijfssimulatie;
 import exceptions.PoiException;
-import guiPrototype.Gui;
+import gui.Gui;
 
 /**
  * Startup klasse

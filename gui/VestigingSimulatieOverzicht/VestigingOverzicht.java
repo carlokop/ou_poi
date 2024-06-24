@@ -1,4 +1,4 @@
-package guiPrototype;
+package gui.VestigingSimulatieOverzicht;
 
 import java.awt.BorderLayout;
 import java.awt.Color;

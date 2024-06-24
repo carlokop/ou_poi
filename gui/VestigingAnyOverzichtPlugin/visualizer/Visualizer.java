@@ -1,18 +1,17 @@
-package guiPrototype;
+package gui.VestigingAnyOverzichtPlugin.visualizer;
 
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Map;
-import observerPatroon.Observer;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Set;
 
-import javax.swing.JPanel;
-
-import controller.VisualizerControllerInterface;
-
+import javax.swing.JFrame;
 
 /**
  * 
@@ -22,51 +21,45 @@ import controller.VisualizerControllerInterface;
  * @author Medewerker OU
  *
  */
-public class Visualizer extends JPanel implements Observer {
+public class Visualizer extends JFrame implements Observer {
 
-	// intermediair tussen vizualizer (gui) en domein klassen
+	// intermediair tussen visualizer (gui) en domein klassen
 	private VisualizerControllerInterface contr;
 
 	private static final long serialVersionUID = 1L;
-	private static final int MARGIN = 10; 
-    private static final int HGAP = 10;  
-	private final int WIDTH_FRAME;
-	private final int HEIGHT_FRAME; 
-	private final int WIDTH_PANE;
-	private final int HEIGHT_PANE;
-	
+	private static final int WIDTH_FRAME = 1200; // px was 820 // 1000
+	private static final int HEIGHT_FRAME = 520; // px was 520
+	private static final int MARGIN = 10; // px
+	private static final String TITLE = "Data visualizer";
+	private int WIDTH_PANE = WIDTH_FRAME - 2 * MARGIN;
+	private int HEIGHT_PANE = HEIGHT_FRAME - 3 * MARGIN;
+	private static final int HGAP = 10;  // Horizontale ruimte tussen de bars
+	private Container pane = null;
 
 	/**
 	 * Creeert een visualizer (staafdiagram) op grond van een map
 	 * 
-	 * @param map      de map
-	 * @param contr    de controller
+	 * @param map de map
+	 * @param contr de controller
 	 */
-	public Visualizer(VisualizerControllerInterface contr) {
+	public Visualizer(Map<String, Integer> map, VisualizerControllerInterface contr) {
 		super();
 		this.contr = contr;
-		WIDTH_FRAME = Gui.getPaneWidth();
-        HEIGHT_FRAME = Gui.getPaneHeight();
-		WIDTH_PANE = Gui.getPaneWidth() - 2 * MARGIN;
-		HEIGHT_PANE = Gui.getPaneHeight() - 3 * MARGIN;
 		initialize();
-		
-		//haal data op uit de domeinlaag
-        Map<String,Integer> map = contr.getBarInfo();
-		
-		
 		drawBars(map);
 	}
 
 	private void initialize() {
-		setBounds(MARGIN, MARGIN, WIDTH_PANE, HEIGHT_PANE);
-		setBackground(Color.BLUE);
-		setSize(WIDTH_FRAME, HEIGHT_FRAME);
+		pane = this.getContentPane();
+		pane.setBounds(MARGIN, MARGIN, WIDTH_PANE, HEIGHT_PANE);
+		pane.setBackground(Color.BLUE);
+		setTitle(TITLE);
+		this.setSize(WIDTH_FRAME, HEIGHT_FRAME);
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		this.setLocation((int) Math.round((dim.width - WIDTH_FRAME) / 2)
 				        ,(int) Math.round((dim.height - HEIGHT_FRAME) / 2)
 				        );
-		setLayout(null);
+		pane.setLayout(null);
 	}
 
 	/**
@@ -76,7 +69,7 @@ public class Visualizer extends JPanel implements Observer {
 	 * 
 	 */
 	private void drawBars(Map<String, Integer> map) {
-	    removeAll();
+		pane.removeAll();
 		int size = map.size();
 		int total_hgap = (size + 1) * HGAP;
 		int width_bar = (WIDTH_PANE - total_hgap) / size;
@@ -108,7 +101,7 @@ public class Visualizer extends JPanel implements Observer {
 			bar = new Bar(key, value, x_pos, y_pos, width_bar, height_bar, Color.YELLOW );
 		}
 		bar.addMouseListener(new BarLuisteraar());
-		this.add(bar);
+		pane.add(bar);
 	}
 
 	/**
@@ -134,17 +127,11 @@ public class Visualizer extends JPanel implements Observer {
 		}
 	}
 
-//	@Override
-//	public void update(Observable o, Object arg) {
-//		drawBars(contr.getBarInfo());
-//
-//	}
+	@Override
+	public void update(Observable o, Object arg) {
+		drawBars(contr.getBarInfo());
 
-    @Override
-    public void update() {
-      drawBars(contr.getBarInfo());
-    
-    }
+	}
 
 	
 }

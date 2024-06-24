@@ -1,10 +1,9 @@
-package guiPrototype;
+package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
-import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -13,15 +12,15 @@ import java.awt.event.WindowEvent;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 
 import controller.Controller;
 import exceptions.PoiExceptionCode;
+import gui.Main.Footer;
+import gui.Main.Header;
+import gui.VestigingAnyOverzichtPlugin.visualizer.Visualizer;
+import gui.VestigingOverzicht.VestigingOverzicht;
 import observerPatroon.Observer;
 
 /**
@@ -31,14 +30,20 @@ public class Gui extends JFrame implements Observer {
 
 	private static final long serialVersionUID = 1L;
 
+	// Hoofdgui
 	private Controller fc = null;
 	private Container pane;
 	private Component header;
-	private JPanel footer;
-	private Component vestigingOverzicht;
-	private JPanel vizualizer;
+	private Component footer;
 	private static final int PANE_WIDTH = 1200;
 	private static final int PANE_HEIGHT = 520;
+	
+	// Domeingui
+	private Component vestigingOverzicht;
+	private Component vestigingSimulatieOverzicht;
+	
+	private Visualizer visualizer; // visualizer is een subcomponent van een domeingui, deze hoort niet gedeclareerd te worden hier
+	
 
 	/**
 	 * Initialiseert en stelt de contentpane in
@@ -60,7 +65,7 @@ public class Gui extends JFrame implements Observer {
       super();
       pane = getContentPane();
       init();
-      toonNotificatie(error.getErrMessage(),true, "Applicatie afsluiten");
+      toonNotificatie(error.getErrMessage(),true, "Applicatie afsluiten"); //TODO onnodige koppeling met Exception, string is genoeg?
   }
 	
 	/**
@@ -91,10 +96,13 @@ public class Gui extends JFrame implements Observer {
 		pane.setBackground(Color.white);
 		pane.setLayout(new BorderLayout());
 
-		header = createHeader();
+		header = new Header();
+		((Header) header).attachJMIVestigingenInzage(new VestigingenInzageMenuItemLuisteraar());
+		((Header) header).attachJMIVestigingenSimulatie(new VestigingenSimulatieMenuItemLuisteraar());
 		pane.add(header, BorderLayout.NORTH);
 
-		footer = createFooter();
+		footer = new Footer();
+		((Footer) footer).attachStopActivityListener(new stopActiviteitListener());
 		pane.add(footer, BorderLayout.SOUTH);       
                 
         this.pane.revalidate();
@@ -103,50 +111,9 @@ public class Gui extends JFrame implements Observer {
 	}
 
 	/**
-	 * Voegt header met hoofdmenu toe aan de contentpane
-	 * @return de header
-	 */
-	private Container createHeader() {
-		JMenuBar headermenu = new JMenuBar();
-		headermenu.setLayout(new FlowLayout(FlowLayout.LEFT));
-		headermenu.setBackground(new Color(163, 175, 192));
-		JMenu mainMenu = new JMenu("Activiteit");
-		JMenuItem jmiInzageVestiging = new JMenuItem("Start Inzage Vestiging");
-		JMenuItem jmiVestigingenSluiten = new JMenuItem("Vestigingen sluiten");
-
-		mainMenu.add(jmiInzageVestiging);
-		mainMenu.add(jmiVestigingenSluiten);
-
-		jmiInzageVestiging.addActionListener(new VestigingMenuItemLuisteraar());
-		jmiVestigingenSluiten.addActionListener(new VestigingenSluitenMenuItemLuisteraar());
-
-		headermenu.add(mainMenu);
-
-		return headermenu;
-	}
-
-	/**
-	 * Voegt een footer toe aan de content pane met een sluit button
-	 * @return de footer
-	 */
-	private JPanel createFooter() {
-		footer = new JPanel();
-		footer.setLayout(new FlowLayout(FlowLayout.LEFT));
-
-		JButton sluitbtn = new JButton("Huidige activiteit stoppen.");
-		sluitbtn.setBackground(Color.RED);
-		sluitbtn.setForeground(Color.WHITE);
-		sluitbtn.addActionListener(new stopActiviteitListener());
-
-		footer.add(sluitbtn);
-		footer.setVisible(false);
-		return footer;
-	}
-
-	/**
 	 * Handler voor tonen van kiesvestiging taak
 	 */
-	class VestigingMenuItemLuisteraar implements ActionListener {
+	class VestigingenInzageMenuItemLuisteraar implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 		    stopActiviteit();
@@ -164,17 +131,16 @@ public class Gui extends JFrame implements Observer {
 	 * Dit is voor taak 5 wordt later geimplementeerd
 	 * Zorgt dat het frame voor het simuleren om vestigingen te sluiten en heropenen
 	 */
-	class VestigingenSluitenMenuItemLuisteraar implements ActionListener {
+	class VestigingenSimulatieMenuItemLuisteraar implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 		  stopActiviteit();
-		  
-		  if(vizualizer == null && fc != null) {
-    		  vizualizer= new Visualizer(fc);
-		  }
-		  
-		  pane.add(vizualizer,BorderLayout.CENTER);
-		  footer.setVisible(true);
+//		  if(visualizer == null && fc != null) {
+//    		  visualizer= new Visualizer(fc); 
+//		  }
+//		  
+//		  pane.add(visualizer,BorderLayout.CENTER);
+//		  footer.setVisible(true);
 
 		}
 	}
@@ -191,7 +157,7 @@ public class Gui extends JFrame implements Observer {
 
 	/***
 	 * Maakt de layout m.u.v. de header en footer leeg 
-	 * Dit sluit alle actieve use cases en brengt de GUI terug naar de begintoestant
+	 * Dit sluit alle actieve use cases en brengt de GUI terug naar de begintoestand
 	 */
 	public void stopActiviteit() {
 		BorderLayout bLayout = (BorderLayout) this.pane.getLayout();
@@ -282,7 +248,7 @@ public class Gui extends JFrame implements Observer {
         }
       });
       
-  
+ 
   }
 	
   

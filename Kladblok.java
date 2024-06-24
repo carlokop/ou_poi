@@ -14,7 +14,7 @@ import domein.Bedrijfssimulatie;
 import domein.Vestiging;
 import exceptions.PoiException;
 import exceptions.PoiExceptionCode;
-import guiPrototype.Gui;
+import gui.Gui;
 
 /**
  * Deze klasse is geen onderdeel van het op te leveren systeem en dient slechts voor het testen van output

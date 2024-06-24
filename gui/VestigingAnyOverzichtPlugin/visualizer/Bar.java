@@ -1,4 +1,4 @@
-package guiPrototype.visualizer;
+package gui.VestigingAnyOverzichtPlugin.visualizer;
 
 import java.awt.Color;
 import java.awt.Font;
