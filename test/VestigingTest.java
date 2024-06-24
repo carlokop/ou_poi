@@ -13,6 +13,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import domein.Bedrijf;
+import domein.Bedrijfssimulatie;
 import domein.Klant;
 import domein.PostcodeInfo;
 import domein.Vestiging;
@@ -100,12 +101,14 @@ class VestigingTest {
 	}
 	
 	/**
-	 * Let op: Deze testresultaten zijn databasespecifiek.
 	 * Test implementatie corresponderende methode
 	 */
 	@Test
 	void migratieSluitenTest() {
+		Bedrijfssimulatie bs = new Bedrijfssimulatie();
+		
 		testVestigingen = new ArrayList<>(Bedrijf.getVestigingen());
+		// Minstens 2 vestigingen nodig om deze functie te testen
 		assert(testVestigingen.size() > 1);
 
 		tvIterator = testVestigingen.iterator();

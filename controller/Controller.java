@@ -31,23 +31,21 @@ public class Controller implements VisualizerControllerInterface {
 	 * @return lijst met plaatsnamen
 	 */
 	public Collection<String> getVestigingPlaatsen() {
-	  return mb.getVestigingPlaatsen();
+		return mb.getVestigingPlaatsen();
 	}
 	
 	/**
 	 * Haalt een lijst op met alle klant id's die in de opgegeven vestiging zitten
 	 * @param plaats vestiging plaatsnaam
-	 * @return lijst met klant id's 
+	 * @return lijst met klant id's
 	 */
 	public Collection<String> getVestigingKlanten(String plaats) {
-	  return mb.getVestigingKlanten(plaats);
+		return mb.getVestigingKlanten(plaats);
 	}
 
 	public void startSimulatie() {
 		mbs.setupSimulatie();
 	}
-	
-	
 	
 	//TODO implementeren voor visualizer
 	@Override
@@ -56,11 +54,11 @@ public class Controller implements VisualizerControllerInterface {
 	   //testen of afdwingen dat aantal_klanten niet null of negatief kan zijn
 	   if(aantal_klanten == 0) {
 	     mbs.openVestiging(plaatsnaam);
-	     System.out.println("Heropen vestiging: "+plaatsnaam + "  " + aantal_klanten);
+	     System.out.println("Heropen vestiging: " + plaatsnaam + "  " + aantal_klanten);
 	     
 	     //wat als er geen vestiging wordt gevonden?
 	   } else {
-	     System.out.println("Sluit vestiging: "+plaatsnaam + "  " + aantal_klanten);
+	     System.out.println("Sluit vestiging: " + plaatsnaam + "  " + aantal_klanten);
 	     mbs.sluitVestiging(plaatsnaam);
 	   }
 	}

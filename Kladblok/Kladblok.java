@@ -101,7 +101,7 @@ public class Kladblok {
         gui = new Gui(facade);
         b.attach(gui);
         
-      } catch(Exception e) {
+      } catch(PoiException e) {
         /**
          * ToDo hier moet naar gekeken worden
          * Wat als er een andere fout ontstaat?
