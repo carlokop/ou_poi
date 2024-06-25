@@ -100,13 +100,9 @@ public class Kladblok {
 	    Bedrijf b = new Bedrijf(); // bedrijf propageert PoiException naar boven naar main
         Bedrijfssimulatie bs = new Bedrijfssimulatie();
         Controller facade = new Controller(b, bs);
-        Visualizer visualizer= new Visualizer(facade); 
-        gui = new Gui(facade, visualizer);
+        gui = new Gui(facade);
 //        b.attach(gui);
-        bs.attach(gui);
-        bs.attach(visualizer);
-
-        
+        bs.attach(gui);        
       } catch(Exception e) {
         gui = new Gui(e.getMessage());
         System.out.println("Ging iets fout: "+e.getMessage());

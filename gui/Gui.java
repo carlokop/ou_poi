@@ -41,10 +41,10 @@ public class Gui extends JFrame implements Observer {
 	 * Initialiseert en stelt de contentpane in
 	 * @param fc facade controller
 	 */
-	public Gui(Controller fc, VisualizerController vc) {
+	public Gui(Controller fc) {
 		super();
 		this.fc = fc;
-		this.visualizer = new Visualizer(vc);
+		this.visualizer = new Visualizer(fc);
 		pane = getContentPane();
 		init();
 	}
@@ -173,8 +173,7 @@ public class Gui extends JFrame implements Observer {
 	 */
 	@Override
 	public void update(Subject s, Object arg) {
-		// Taak 5
-	  System.out.println("Visualizer update");
+	  visualizer.update(s, arg);
 	}
 	
 	

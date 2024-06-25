@@ -29,7 +29,7 @@ import observerOU.Subject;
 	public class Visualizer extends JPanel implements Observer {
 
 		// intermediair tussen vizualizer (gui) en domein klassen
-		private VisualizerController contr;
+		private Controller contr;
 
 		private static final long serialVersionUID = 1L;
 		private static final int MARGIN = 10; 
@@ -46,7 +46,7 @@ import observerOU.Subject;
 		 * @param map      de map
 		 * @param vc    de controller
 		 */
-		public Visualizer(VisualizerController vc) {
+		public Visualizer(Controller vc) {
 			super();
 			this.contr = vc;
 

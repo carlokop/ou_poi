@@ -5,7 +5,6 @@ import domein.Bedrijf;
 import domein.Bedrijfssimulatie;
 import exceptions.PoiException;
 import gui.Gui;
-import gui.Plugin.visualizer.VisualizerController;
 
 /**
  * Startup klasse
@@ -34,8 +33,7 @@ public class Main {
 					Bedrijf b = new Bedrijf(); // bedrijf propageert PoiException naar boven naar main
 					Bedrijfssimulatie bs = new Bedrijfssimulatie();
 					Controller facade = new Controller(b, bs);
-					VisualizerController vc = new VisualizerController();
-					Gui gui = new Gui(facade, vc);
+					Gui gui = new Gui(facade);
 					b.attach(gui);
 					bs.attach(gui);
 				} catch (PoiException e) {
