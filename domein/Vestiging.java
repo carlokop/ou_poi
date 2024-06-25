@@ -228,7 +228,11 @@ public class Vestiging {
 	 */
 	public static Vestiging select(String vestKeuze, Collection<Vestiging> vestigingen) {
 		for (Vestiging v : vestigingen) {
+			System.out.println(v.getPlaats() +":"+ vestKeuze);
+
 			if (v.getPlaats().equals(vestKeuze) ) {
+				System.out.println(v.getPlaats() +"HEY");
+
 				return v;
 			}
 		}

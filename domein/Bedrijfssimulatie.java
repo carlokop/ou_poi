@@ -14,7 +14,7 @@ import exceptions.PoiExceptionCode;
 public class Bedrijfssimulatie extends Bedrijf implements ModelBedrijfssimulatie {
 
 	private Collection<Vestiging> vestigingen;
-	// houdt bij of een vestiging open is; true voor open, false voor dicht
+	// houdt bij of een vestiging open is; true voor open, false voor dicht. Deze lijst moet alle instanties behouden
 	private Map<Vestiging, Boolean> vestigingenChecklist;
 	// houdt de oorspronkelijke vestiging(en) bij en de huidige
 	private Map<Klant, Entry<Collection<Vestiging>, Collection<Vestiging>>> klantenChecklist;
@@ -50,7 +50,7 @@ public class Bedrijfssimulatie extends Bedrijf implements ModelBedrijfssimulatie
 	@Override
 	public void sluitVestiging(String plaats) {
 		Vestiging geslotenVestiging = Vestiging.select(plaats, vestigingen);
-
+		
 		// Zet status vestiging op gesloten
 		vestigingenChecklist.replace(geslotenVestiging, false);
 

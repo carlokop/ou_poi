@@ -1,5 +1,6 @@
 package test;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -122,7 +123,7 @@ class VestigingTest {
 			bs = new Bedrijfssimulatie();
 
 			Map<Vestiging, Boolean> vChecklist = bs.getVestigingenChecklist();
-			testVestigingen = bs.getSimVestigingen();
+			testVestigingen = new ArrayList(bs.getSimVestigingen());		// lijst met alle vestigingen
 
 			// Minstens 2 vestigingen nodig om deze functie te testen
 			assert (testVestigingen.size() > 1);
@@ -135,6 +136,7 @@ class VestigingTest {
 			Collection<Klant> KlantenLijst = new ArrayList<>(vestiging.getKlanten());
 			
 			// Voer sluiting uit
+			System.out.println(vestiging.getPlaats());
 			bs.sluitVestiging(vestiging.getPlaats());
 
 			// Bevestig dat voor elke klant van de gesloten vestiging dat deze naar de dichtstbijzijnde vestiging is gegaan.
@@ -144,6 +146,9 @@ class VestigingTest {
 				dichtsteVestiging = Vestiging.getKlantDichtsteVestiging(k, testVestigingen);
 				assert (dichtsteVestiging.getKlanten().contains(k));
 			}
+			
+			assertFalse(vChecklist.get(vestiging));
+			
 		} catch (PoiException e) {
 			fail("Simulatie start mislukt");
 			e.printStackTrace();
@@ -160,6 +165,8 @@ class VestigingTest {
 		testVestigingen = new ArrayList<>(Bedrijf.getVestigingen());
 		tvIterator = testVestigingen.iterator();
 
+		
+		
 		// Gevallen klant bezoekt initieel 1 vestiging
 		
 		
