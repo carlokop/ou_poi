@@ -84,4 +84,14 @@ public class Bedrijf extends Subject implements ModelBedrijf {
 	public static Collection<Vestiging> getVestigingen() {
 		return Bedrijf.vestigingen;
 	}
+	
+	/**
+	 * Retourneert diepe kopie, dit kan of door de mapper (voorwaardelijk) gedaan worden of door de bedrijfsklasse.
+	 * Wordt momenteel uit gemak door de mapper gedaan, dit kan omdat we mogen aannemen dat de database tussentijds niet verandert.
+	 * @return diepe kopie van Vestigingen collectie
+	 * @throws PoiException
+	 */
+	public static Collection<Vestiging> getNewCopy() throws PoiException{
+		return m.getVestigingen();
+	}
 }

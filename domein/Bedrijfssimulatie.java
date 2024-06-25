@@ -28,11 +28,11 @@ public class Bedrijfssimulatie extends Bedrijf implements ModelBedrijfssimulatie
 	/**
 	 * Moet alleen worden aangeroepen bij de init, we willen de gewijzigde data
 	 * behouden bij het heropenen van de view
+	 * @throws PoiException 
 	 */
 	@Override
-	public void setupSimulatie() {
-		vestigingen = new ArrayList<Vestiging>(Bedrijf.getVestigingen());
-		System.out.println("Sym setup:" + vestigingen.size());
+	public void setupSimulatie() throws PoiException {
+		vestigingen = Bedrijf.getNewCopy();
 	}
 
 	public Map<Vestiging, Boolean> getVestigingenChecklist() {
@@ -76,6 +76,7 @@ public class Bedrijfssimulatie extends Bedrijf implements ModelBedrijfssimulatie
 
 		// Zet status vestiging op open
 		vestigingenChecklist.replace(geopendeVestiging, true);
+		System.out.println(Bedrijf.getVestigingen() == null);
 		Vestiging.migratieOpenenVestiging(geopendeVestiging, Bedrijf.getVestigingen(), klantenChecklist);
 	}
 
@@ -98,15 +99,12 @@ public class Bedrijfssimulatie extends Bedrijf implements ModelBedrijfssimulatie
 		for (Vestiging v : vestigingen) {
 			klanten = v.getKlanten();
 			for (Klant k : klanten) {
-				if (klantenChecklist.containsKey(k)) {
-					klantEntry = klantenChecklist.get(k);
-					klantEntry.getKey().add(v); // onthoud oorspronkelijke vestiging(en)
-					klantEntry.getValue().add(v); // onthoud huidige vestiging(en)
-				} else {
-					klantEntry = Map.entry(new ArrayList<>(), new ArrayList<>());
-					klantenChecklist.put(k, klantEntry);
-				}
-
+				if (!klantenChecklist.containsKey(k)) { // maak entry voor klant indien nog niet bestaand
+					klantenChecklist.put(k, Map.entry(new ArrayList<>(), new ArrayList<>()));
+				} 
+				klantEntry = klantenChecklist.get(k);
+				klantEntry.getKey().add(v);	 	// onthoud oorspronkelijke vestiging(en)
+				klantEntry.getValue().add(v);	// onthoud huidige vestiging(en)
 			}
 		}
 	}
@@ -117,7 +115,6 @@ public class Bedrijfssimulatie extends Bedrijf implements ModelBedrijfssimulatie
 		for (Klant k : klanten) {
 			klantEntry = klantenChecklist.get(k); // lijst met oorspronkelijke vestiging(en)
 			klantEntry.setValue(klantEntry.getKey());
-//			klantenChecklist.put(k, klantEntry); // misschien niet nodig als de entry via referentie in map wordt bijgewerkt
 		}
 	}
 

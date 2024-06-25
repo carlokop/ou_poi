@@ -1,6 +1,8 @@
 package domein;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Map.Entry;
@@ -172,10 +174,13 @@ public class Vestiging {
 			Collection<Vestiging> bedrijfVestigingenLijst, // oorspronkelijke lijst uit non-simulatie
 			Map<Klant, Entry<Collection<Vestiging>, Collection<Vestiging>>> klantenChecklist
 			) {
-		Vestiging vOrigineel = Vestiging.select(geopendeVestiging, bedrijfVestigingenLijst);
+		Vestiging vOrigineel = Vestiging.select(geopendeVestiging.getPlaats(), bedrijfVestigingenLijst); 
 		Collection<Klant> kOrigineel = vOrigineel.getKlanten();
 		Entry<Collection<Vestiging>, Collection<Vestiging>> klantEntry;
 		Collection<Vestiging> klantHuidigeVestigingen, klantOrigineleVestigingen; // vestigingen die de klant nu bezoekt, oorspronkelijk bezocht
+		Collection<Vestiging> removeList;
+		Iterator<Vestiging> removeListIt;
+		Vestiging removeListVestiging;
 		
 		// migreer klanten en werk gelijk checklist bij
 		for (Klant k : kOrigineel) {
@@ -189,36 +194,24 @@ public class Vestiging {
 			
 			// registreer klant van niet originele vestiging of wachtend naar originele vestiging
 			if(klantHuidigeVestigingen.size() > klantOrigineleVestigingen.size()) {
+				removeList = new ArrayList<>(); // om concurrent modification exception tegen te gaan
 				for(Vestiging hv: klantHuidigeVestigingen) {
 					if (!klantOrigineleVestigingen.contains(hv)) {
-						// checklist bijwerken
-						klantHuidigeVestigingen.remove(hv);
-						// migratie uitvoeren
-						hv.removeKlant(k);
+						// checklist bijwerkingen onthouden
+						removeList.add(hv);
 					}
+				}
+				removeListIt = removeList.iterator();
+				while(removeListIt.hasNext()) {
+					removeListVestiging = removeListIt.next();
+					klantHuidigeVestigingen.remove(removeListVestiging);
+					removeListVestiging.removeKlant(k);
 				}
 			}
 			
 		}
 	}
 
-	/**
-	 * Zoekt naar een bepaalde vestiging uit een lijst van alternatieve vestigingen, de gevraagde
-	 * instantie kan op inhoud verschillen.
-	 * 
-	 * @param vestKeuze		Vestigingkeus die gezocht wordt in alternatieve lijst
-	 * @param vestigingen	Lijst van instanties waarin een vestiging met equals gelijkheid gezocht wordt
-	 * @return 				Gevonden instantie met equals gelijkheid
-	 */
-	public static Vestiging select(Vestiging vestKeuze, Collection<Vestiging> vestigingen) {
-		for (Vestiging v : vestigingen) {
-			if (v.equals(vestKeuze)) {
-				return v;
-			}
-		}
-		return null;
-	}
-	
 	/**
 	 * Zoekt naar een bepaalde vestiging uit een lijst van vestigingen.
 	 * 
@@ -228,11 +221,7 @@ public class Vestiging {
 	 */
 	public static Vestiging select(String vestKeuze, Collection<Vestiging> vestigingen) {
 		for (Vestiging v : vestigingen) {
-			System.out.println(v.getPlaats() +":"+ vestKeuze);
-
 			if (v.getPlaats().equals(vestKeuze) ) {
-				System.out.println(v.getPlaats() +"HEY");
-
 				return v;
 			}
 		}
@@ -332,7 +321,7 @@ public class Vestiging {
 	 */
 	@Override
 	public String toString() {
-		return plaats + " : " + klanten.size();
+		return plaats + ":" + klanten.size();
 	}
 
 }

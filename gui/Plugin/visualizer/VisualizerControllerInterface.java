@@ -1,4 +1,4 @@
-package gui.VestigingAnyOverzichtPlugin.visualizer;
+package gui.Plugin.visualizer;
 
 import java.util.Map;
 

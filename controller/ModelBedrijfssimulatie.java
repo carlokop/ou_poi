@@ -7,7 +7,7 @@ import exceptions.PoiException;
  */
 public interface ModelBedrijfssimulatie extends ModelBedrijf{
 	
-	public abstract void setupSimulatie();
+	public abstract void setupSimulatie() throws PoiException;
 	
 	public abstract void sluitVestiging(String plaats);
 	

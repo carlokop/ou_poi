@@ -12,7 +12,7 @@ import controller.Controller;
 import gui.Main.Footer;
 import gui.Main.Header;
 import gui.Main.Notificatie;
-import gui.VestigingAnyOverzichtPlugin.visualizer.Visualizer;
+import gui.Plugin.visualizer.Visualizer;
 import gui.VestigingOverzicht.VestigingOverzicht;
 import observerOU.Observer;
 import observerOU.Subject;

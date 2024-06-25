@@ -4,7 +4,8 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.TreeMap;
 
-import gui.VestigingAnyOverzichtPlugin.visualizer.VisualizerControllerInterface;
+import exceptions.PoiException;
+import gui.Plugin.visualizer.VisualizerControllerInterface;
 
 /**
  * Controller
@@ -43,7 +44,7 @@ public class Controller implements VisualizerControllerInterface {
 		return mb.getVestigingKlanten(plaats);
 	}
 
-	public void startSimulatie() {
+	public void startSimulatie() throws PoiException {
 		mbs.setupSimulatie();
 	}
 	

@@ -1,7 +1,9 @@
 package test;
 
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -10,6 +12,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -112,12 +116,22 @@ class VestigingTest {
 	}
 
 	/**
-	 * Test implementatie corresponderende methodes; 
+	 * Test implementatie corresponderende methodes voor 0 of 1 vestiging; 
+	 * sluitVestiging(...) van klasse Bedrijfssimulatie en
+	 * migratieSluitenVestiging(...) van klasse Vestiging
+	 */
+	@Test 
+	void migratieSluiten01VestigingTest() {
+		//TODO
+	}
+	
+	/**
+	 * Test implementatie corresponderende methodes voor 2 of meer vestigingen; 
 	 * sluitVestiging(...) van klasse Bedrijfssimulatie en
 	 * migratieSluitenVestiging(...) van klasse Vestiging
 	 */
 	@Test
-	void migratieSluitenTest() {
+	void migratieSluiten2VestigingenOfMeerTest() {
 		Bedrijfssimulatie bs;
 		try {
 			bs = new Bedrijfssimulatie();
@@ -125,7 +139,7 @@ class VestigingTest {
 			Map<Vestiging, Boolean> vChecklist = bs.getVestigingenChecklist();
 			testVestigingen = new ArrayList(bs.getSimVestigingen());		// lijst met alle vestigingen
 
-			// Minstens 2 vestigingen nodig om deze functie te testen
+			// Minstens 2 vestigingen nodig om de migratie binnen de functie te testen
 			assert (testVestigingen.size() > 1);
 
 			// Kies vestiging om te sluiten, en verwijder deze uit de lijst met open vestigingen
@@ -156,24 +170,97 @@ class VestigingTest {
 	}
 
 	/**
-	 * Test implementatie corresponderende methodes;
-	 * openVestiging(...) van klasse Bedrijfssimulatie en
-	 * migratieOpenenVestiging(...) van klasse Vestiging	 
+	 * 	Test implementatie corresponderende methodes;
+	 * 	openVestiging(...) van klasse Bedrijfssimulatie en
+	 *	migratieOpenenVestiging(...) van klasse Vestiging	
+	 * 
+	 *  Hierin wordt het sluiten van alle vestigingen getest en het openen van 1 vestiging
 	 */
 	@Test
-	void migratieOpenenTest() {
-		testVestigingen = new ArrayList<>(Bedrijf.getVestigingen());
-		tvIterator = testVestigingen.iterator();
+	void migratieOpenenKlant1InitieleVestigingTest() {
+		Bedrijfssimulatie bs;
 
-		
-		
-		// Gevallen klant bezoekt initieel 1 vestiging
-		
-		
-		// Gevallen klant bezoek initieel 2 vestigingen
-		assert (tvIterator.hasNext());
-		vestiging = testVestigingen.iterator().next();
-		// TODO:
+		try {
+			bs = new Bedrijfssimulatie();
+			testVestigingen = bs.getSimVestigingen();
+			
+			// Minstens 1 vestigingen nodig om deze functie te testen
+			assert (testVestigingen.size() > 0);
+			
+			tvIterator = testVestigingen.iterator();
+			Map<Klant, Entry<Collection<Vestiging>, Collection<Vestiging>>> kcl = bs.getKlantenChecklist();
+			Collection<Klant> klantenlijst;
+			Klant testKlant = null;
+			Entry<Collection<Vestiging>, Collection<Vestiging>> testKlantEntry = null;
+			Vestiging vestigingTeOpenen;
+			
+			// Van alles gesloten naar 1 geopend
+			
+			// Zoek naar testklant met 1 initiele vestiging
+			for(Entry<Klant, Entry<Collection<Vestiging>, Collection<Vestiging>>> kclEntry: kcl.entrySet()) {
+				if(kclEntry.getValue().getKey().size() == 1) {
+					testKlant = kclEntry.getKey();
+					testKlantEntry = kclEntry.getValue();
+				}
+			}
+			// Verifeer het bestaan van deze klant
+			assertNotNull(testKlant);
+			
+			// Sluit vestigingen en controleer dat deze ook leeg zijn
+			while(tvIterator.hasNext()) {
+				vestiging = tvIterator.next();
+				bs.sluitVestiging(vestiging.getPlaats());
+				assertEquals(vestiging.getKlanten().size(), 0);
+			}			
+			
+			// Controleer dat de checklist is bijgewerkt
+			Map<Vestiging, Boolean> vcl = bs.getVestigingenChecklist();
+			for( Entry<Vestiging, Boolean> vclEntry:vcl.entrySet()) {
+				assertFalse(vclEntry.getValue());
+			}
+			
+			// Controleer dat de klant geen huidige vestigingen heeft
+			assertEquals(testKlantEntry.getValue().size(), 0);
+			
+			// Open een vestiging waar de klant initieel bij zat
+			vestigingTeOpenen = testKlantEntry.getKey().iterator().next();
+			bs.openVestiging(vestigingTeOpenen.getPlaats());
+			
+			// Controleer dat de vestiging de originele klanten weer heeft
+			Vestiging vOrigineel = Vestiging.select(vestigingTeOpenen.getPlaats(), Bedrijf.getVestigingen());
+			assertEquals(vestigingTeOpenen.getKlanten().size(), vOrigineel.getKlanten().size() );
+			for(Klant k: vOrigineel.getKlanten()) {
+				assertTrue(vestigingTeOpenen.getKlanten().contains(k));
+			}
+			
+			// Controleer de checklists:
+			assertEquals(testKlantEntry.getValue().size(), 1);
+
+			// Vestiging checklist
+			for(Entry<Vestiging, Boolean> vclEntry:vcl.entrySet()) {
+				if(vclEntry.getKey().equals(vestigingTeOpenen)) {
+					// alleen geopende vestiging is true
+					assertTrue(vclEntry.getValue());
+					assertEquals(vclEntry.getKey(), vestigingTeOpenen);
+				} else {
+					assertFalse(vclEntry.getValue());
+				}
+			}
+			
+			// Klant checklist
+			for(Entry<Klant, Entry<Collection<Vestiging>, Collection<Vestiging>>> kclEntry:kcl.entrySet()) {
+				if(vestigingTeOpenen.getKlanten().contains(kclEntry.getKey())) {
+					assertTrue(kclEntry.getValue().getKey().contains(vestigingTeOpenen)); 	// originele vestigingen bevat geopende vestiging
+					assertTrue(kclEntry.getValue().getValue().contains(vestigingTeOpenen));	// huidige vestiging bevat geopende vestiging
+				} else {
+					assertFalse(kclEntry.getValue().getKey().contains(vestigingTeOpenen)); 	// originele vestigingen bevat niet geopende vestiging
+					assertFalse(kclEntry.getValue().getValue().contains(vestigingTeOpenen));// huidige vestiging bevat niet geopende vestiging
+				}
+			}
+			
+		} catch (PoiException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
