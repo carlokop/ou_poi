@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.TreeMap;
 
+import domein.Vestiging;
 import exceptions.PoiException;
 import gui.Plugin.visualizer.VisualizerControllerInterface;
 
@@ -64,23 +65,13 @@ public class Controller implements VisualizerControllerInterface {
 	   }
 	}
 
-	//TODO implementeren voor visualizer
+	/**
+	 * Geeft een map met key value pairs plaatsnaam en het aantal klanten in die plaats
+	 * @return lijst met plaatsnamen met het aantal klanten
+	 */
 	@Override
 	public Map<String, Integer> getBarInfo() {  
-  	    Map<String,Integer> map = new TreeMap<>(); // TreeMap?
-        map.put("Hogezand", 60);// dit wordt een bar met naam "aap" en relatieve hoogt 100
-        map.put("Veendam", 76);
-        map.put("Stadskanaal", 54);
-        map.put("Delfzijl", 45);
-        map.put("Zuidhorn", 88);
-        map.put("Groningen", 156);
-        map.put("Bolsward", 76);
-        map.put("Leeuwarden", 103);
-        map.put("Heerenveen", 95);
-        map.put("Dokkum", 75);
-        map.put("Sneek", 84);
-        map.put("Drachten", 92);
-        return map;
+        return mbs.getSimVestigingenMap();
 	}
 	
 	

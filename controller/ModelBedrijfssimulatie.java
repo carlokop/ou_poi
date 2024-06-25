@@ -1,5 +1,7 @@
 package controller;
 
+import java.util.Map;
+
 import exceptions.PoiException;
 
 /**
@@ -15,5 +17,10 @@ public interface ModelBedrijfssimulatie extends ModelBedrijf{
 	
 	// Controleert preconditie dat Bedrijf geinitialiseerd is en dus dat de klassenparameters toegekend zijn.
 	public abstract void validate() throws PoiException;
+
+   /*
+    * Maakt lijst met aantal klanten per vestiging 
+    */
+   public abstract Map<String, Integer> getSimVestigingenMap();
 	
 }

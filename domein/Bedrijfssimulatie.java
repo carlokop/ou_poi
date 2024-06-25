@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 import controller.ModelBedrijfssimulatie;
 import exceptions.PoiException;
@@ -64,6 +66,7 @@ public class Bedrijfssimulatie extends Bedrijf implements ModelBedrijfssimulatie
 		}
 
 		Vestiging.migratieSluitenVestiging(geslotenVestiging, openVestigingen, klantenChecklist);
+		notifyObservers(plaats);
 	}
 
 	/**
@@ -78,6 +81,7 @@ public class Bedrijfssimulatie extends Bedrijf implements ModelBedrijfssimulatie
 		vestigingenChecklist.replace(geopendeVestiging, true);
 		System.out.println(Bedrijf.getVestigingen() == null);
 		Vestiging.migratieOpenenVestiging(geopendeVestiging, Bedrijf.getVestigingen(), klantenChecklist);
+		notifyObservers(plaats);
 	}
 
 	@Override
@@ -130,4 +134,22 @@ public class Bedrijfssimulatie extends Bedrijf implements ModelBedrijfssimulatie
 			vestigingenChecklist.replace(v, true);
 		}
 	}
+	
+	/**
+	 * Geeft een map terug met de geupdate plaatsnamen en het aantal klanten in die vestiging
+	 * @return map met plaatsnaam en aantal klanten
+	 */
+	public Map<String, Integer> getSimVestigingenMap() {
+	    Map<String, Integer> map  = new TreeMap<>();
+	    for(Vestiging v: this.vestigingen) {
+	      String plaatsnaam = v.getPlaats();
+	      int aantal_klanten = v.getKlanten().size();
+	      map.put(plaatsnaam, aantal_klanten);
+	    }
+	    return map;
+	}
+	
+	
+	
+	
 }
