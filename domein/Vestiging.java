@@ -192,6 +192,8 @@ public class Vestiging {
 			klantHuidigeVestigingen.add(geopendeVestiging);
 			geopendeVestiging.addKlant(k);
 			
+			//TODO: Alternatieve interpretatie migratie?
+			
 			// registreer klant van niet originele vestiging of wachtend naar originele vestiging
 			if(klantHuidigeVestigingen.size() > klantOrigineleVestigingen.size()) {
 				removeList = new ArrayList<>(); // om concurrent modification exception tegen te gaan
@@ -209,6 +211,7 @@ public class Vestiging {
 				}
 			}
 			
+			//TODO: ...
 		}
 	}
 

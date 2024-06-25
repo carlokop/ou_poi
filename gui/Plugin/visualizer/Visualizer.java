@@ -29,7 +29,7 @@ import observerOU.Subject;
 	public class Visualizer extends JPanel implements Observer {
 
 		// intermediair tussen vizualizer (gui) en domein klassen
-		private Controller contr;
+		private VisualizerController contr;
 
 		private static final long serialVersionUID = 1L;
 		private static final int MARGIN = 10; 
@@ -44,11 +44,11 @@ import observerOU.Subject;
 		 * Creeert een visualizer (staafdiagram) op grond van een map
 		 * 
 		 * @param map      de map
-		 * @param contr    de controller
+		 * @param vc    de controller
 		 */
-		public Visualizer(Controller contr) {
+		public Visualizer(VisualizerController vc) {
 			super();
-			this.contr = contr;
+			this.contr = vc;
 
 			WIDTH_FRAME = Gui.getPaneWidth();
 	        HEIGHT_FRAME = Gui.getPaneHeight();
@@ -57,7 +57,7 @@ import observerOU.Subject;
 			initialize();
 			
 			//haal data op uit de domeinlaag
-	        Map<String,Integer> map = contr.getBarInfo();
+	        Map<String,Integer> map = vc.getBarInfo();
 			
 			
 			drawBars(map);

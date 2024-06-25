@@ -13,6 +13,7 @@ import gui.Main.Footer;
 import gui.Main.Header;
 import gui.Main.Notificatie;
 import gui.Plugin.visualizer.Visualizer;
+import gui.Plugin.visualizer.VisualizerController;
 import gui.VestigingOverzicht.VestigingOverzicht;
 import observerOU.Observer;
 import observerOU.Subject;
@@ -34,18 +35,16 @@ public class Gui extends JFrame implements Observer {
 	
 	// Domeingui
 	private Component vestigingOverzicht;
-	private Component vestigingSimulatieOverzicht; //dit gebruiken we denk ik niet
 	private Visualizer visualizer;
 	
-
 	/**
 	 * Initialiseert en stelt de contentpane in
 	 * @param fc facade controller
 	 */
-	public Gui(Controller fc, Visualizer visualizer) {
+	public Gui(Controller fc, VisualizerController vc) {
 		super();
 		this.fc = fc;
-		this.visualizer = visualizer;
+		this.visualizer = new Visualizer(vc);
 		pane = getContentPane();
 		init();
 	}
