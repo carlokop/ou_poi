@@ -14,7 +14,6 @@ import domein.Bedrijf;
 import domein.Bedrijfssimulatie;
 import domein.Vestiging;
 import exceptions.PoiException;
-import exceptions.PoiExceptionCode;
 import gui.Gui;
 
 /**

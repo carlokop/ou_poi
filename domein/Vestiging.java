@@ -9,7 +9,9 @@ import exceptions.PoiException;
 import exceptions.PoiExceptionCode;
 
 /**
- * Bevat informatie van een vestiging en beheert de klanten van die vestiging
+ * Bevat informatie van een vestiging en beheert de klanten van die vestiging.
+ * Klanten hebben status "wachtend" als deze geen vestigingen hebben die ze kunnen bezoeken.
+ * Deze klanten hebben lege lijst van huidige vestigingen die ze kunnen bezoeken.
  */
 public class Vestiging {
 
@@ -118,11 +120,13 @@ public class Vestiging {
 				dichtsteVestiging = getKlantDichtsteVestiging(k, openVestigingen);
 				// werk klantchecklist bij 
 				klantEntry = klantenChecklist.get(k);
-				klantEntry.getValue().remove(geslotenVestiging); //verwijder gesloten uit lijst van huidige vestigingen
-				klantEntry.getValue().add(dichtsteVestiging);	 //voeg dichtste toe aan lijst van huidige vestigingen
+				klantEntry.getValue().remove(geslotenVestiging); 		//verwijder gesloten uit lijst van huidige vestigingen
+				if(!klantEntry.getValue().contains(dichtsteVestiging)) {//voeg dichtste toe aan lijst van huidige vestigingen
+					klantEntry.getValue().add(dichtsteVestiging); 
+				}
 				// voer migratie uit, klanten verwijderen gebeurt op het einde
 				// controleer op duplicaten, kan voorkomen bij klanten met meerdere vestigingen
-				if(!dichtsteVestiging.getKlanten().contains(k)) {
+				if(!dichtsteVestiging.getKlanten().contains(k)) {// checklist houdt wel duplicate entry in lijst bij, maar er is slechts in de 
 					dichtsteVestiging.addKlant(k);
 				}
 			}
@@ -143,31 +147,37 @@ public class Vestiging {
 	 */
 	public static void migratieOpenenVestiging(
 			Vestiging geopendeVestiging, 
-			Collection<Vestiging> openVestigingen,
 			Collection<Vestiging> bedrijfVestigingenLijst, // oorspronkelijke lijst uit non-simulatie
 			Map<Klant, Entry<Collection<Vestiging>, Collection<Vestiging>>> klantenChecklist
 			) {
 		Vestiging vOrigineel = Vestiging.select(geopendeVestiging, bedrijfVestigingenLijst);
 		Collection<Klant> kOrigineel = vOrigineel.getKlanten();
 		Entry<Collection<Vestiging>, Collection<Vestiging>> klantEntry;
-		Collection<Vestiging> klantHuidigeVestigingen, klantOrigineleVestigingen;
+		Collection<Vestiging> klantHuidigeVestigingen, klantOrigineleVestigingen; // vestigingen die de klant nu bezoekt
 		
 		// migreer klanten en werk gelijk checklist bij
 		for (Klant k : kOrigineel) {
 			klantEntry = klantenChecklist.get(k);
 			klantHuidigeVestigingen = klantEntry.getValue();
 			klantOrigineleVestigingen = klantEntry.getKey();
-			for(Vestiging hv: klantHuidigeVestigingen) {
-				//TODO: Duplicaten migratie naar zelfde vestiging, 2 instanties worden 1
-				if (!klantOrigineleVestigingen.contains(hv)) {
-					// checklist bijwerken
-					klantHuidigeVestigingen.remove(hv);
-					klantHuidigeVestigingen.add(vOrigineel);
-					// migratie uitvoeren
-					geopendeVestiging.addKlant(k);
-					hv.removeKlant(k);
+
+			// registreer huidige vestiging bij klant
+			klantHuidigeVestigingen.add(geopendeVestiging);
+			geopendeVestiging.addKlant(k);
+			
+			// registreer klant van niet originele vestiging of wachtend naar originele vestiging
+			if(klantHuidigeVestigingen.size() > klantOrigineleVestigingen.size()) {
+				for(Vestiging hv: klantHuidigeVestigingen) {
+					//TODO: Duplicaten migratie naar zelfde vestiging, 2 instanties worden 1
+					if (!klantOrigineleVestigingen.contains(hv)) {
+						// checklist bijwerken
+						klantHuidigeVestigingen.remove(hv);
+						// migratie uitvoeren
+						hv.removeKlant(k);
+					}
 				}
 			}
+			
 		}
 	}
 
@@ -181,7 +191,7 @@ public class Vestiging {
 	 */
 	public static Vestiging select(Vestiging vestKeuze, Collection<Vestiging> vestigingen) {
 		for (Vestiging v : vestigingen) {
-			if (v == vestKeuze) {
+			if (v.equals(vestKeuze)) {
 				return v;
 			}
 		}
@@ -197,7 +207,7 @@ public class Vestiging {
 	 */
 	public static Vestiging select(String vestKeuze, Collection<Vestiging> vestigingen) {
 		for (Vestiging v : vestigingen) {
-			if (v.getPlaats() == vestKeuze) {
+			if (v.getPlaats().equals(vestKeuze) ) {
 				return v;
 			}
 		}
