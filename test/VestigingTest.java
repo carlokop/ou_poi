@@ -111,7 +111,9 @@ class VestigingTest {
 	}
 
 	/**
-	 * Test implementatie corresponderende methode
+	 * Test implementatie corresponderende methodes; 
+	 * sluitVestiging(...) van klasse Bedrijfssimulatie en
+	 * migratieSluitenVestiging(...) van klasse Vestiging
 	 */
 	@Test
 	void migratieSluitenTest() {
@@ -125,13 +127,17 @@ class VestigingTest {
 			// Minstens 2 vestigingen nodig om deze functie te testen
 			assert (testVestigingen.size() > 1);
 
-			tvIterator = testVestigingen.iterator();
-			vestiging = testVestigingen.iterator().next();
-			testVestigingen.remove(vestiging);
+			// Kies vestiging om te sluiten, en verwijder deze uit de lijst met open vestigingen
+			vestiging = testVestigingen.iterator().next();	// de te sluiten vestiging
+			testVestigingen.remove(vestiging); 				// lijst met open vestigingen
 
+			// Haal lijst met klanten op van de te sluiten vestiging
 			Collection<Klant> KlantenLijst = new ArrayList<>(vestiging.getKlanten());
+			
+			// Voer sluiting uit
 			bs.sluitVestiging(vestiging.getPlaats());
 
+			// Bevestig dat voor elke klant van de gesloten vestiging dat deze naar de dichtstbijzijnde vestiging is gegaan.
 			Vestiging dichtsteVestiging;
 			assertEquals(vestiging.getKlanten().size(), 0);
 			for (Klant k : KlantenLijst) {
@@ -145,14 +151,19 @@ class VestigingTest {
 	}
 
 	/**
-	 * TODO: Let op: Deze testresultaten zijn databasespecifiek. Test implementatie
-	 * corresponderende methode
+	 * Test implementatie corresponderende methodes;
+	 * openVestiging(...) van klasse Bedrijfssimulatie en
+	 * migratieOpenenVestiging(...) van klasse Vestiging	 
 	 */
 	@Test
 	void migratieOpenenTest() {
 		testVestigingen = new ArrayList<>(Bedrijf.getVestigingen());
 		tvIterator = testVestigingen.iterator();
 
+		// Gevallen klant bezoekt initieel 1 vestiging
+		
+		
+		// Gevallen klant bezoek initieel 2 vestigingen
 		assert (tvIterator.hasNext());
 		vestiging = testVestigingen.iterator().next();
 		// TODO:

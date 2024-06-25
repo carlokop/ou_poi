@@ -108,16 +108,21 @@ public class Vestiging {
 			Collection<Vestiging> openVestigingen, 
 			Map<Klant, Entry<Collection<Vestiging>, Collection<Vestiging>>> klantenChecklist
 			) {
-		Collection<Klant> klanten = geslotenVestiging.getKlanten();
+		Collection<Klant> gvKlanten = geslotenVestiging.getKlanten();
 		Entry<Collection<Vestiging>, Collection<Vestiging>> klantEntry;
 		Vestiging dichtsteVestiging;
 
-		if (openVestigingen.size() > 0) {
-			// berekenen dichtste vestiging, deze methode alleen is in principe genoeg, 
-			// size 0,1 zijn optimalisaties
-			for (Klant k : klanten) {
-				// doe berekening
-				dichtsteVestiging = getKlantDichtsteVestiging(k, openVestigingen);
+		if(openVestigingen.size() == 0) {
+			for (Klant k : gvKlanten) {				
+				// werk klantchecklist bij 
+				klantEntry = klantenChecklist.get(k);
+				klantEntry.getValue().remove(geslotenVestiging); //verwijder uit lijst van huidige vestigingen, wordt leeg als het goed is
+			}
+		}
+		else if(openVestigingen.size() == 1) {
+			dichtsteVestiging = openVestigingen.iterator().next();
+			for (Klant k : gvKlanten) {
+				
 				// werk klantchecklist bij 
 				klantEntry = klantenChecklist.get(k);
 				klantEntry.getValue().remove(geslotenVestiging); 		//verwijder gesloten uit lijst van huidige vestigingen
@@ -126,12 +131,29 @@ public class Vestiging {
 				}
 				// voer migratie uit, klanten verwijderen gebeurt op het einde
 				// controleer op duplicaten, kan voorkomen bij klanten met meerdere vestigingen
+				if(!dichtsteVestiging.getKlanten().contains(k)) {
+					dichtsteVestiging.addKlant(k);
+				}
+			}
+		} 
+		else if (openVestigingen.size() > 1) {
+			for (Klant k : gvKlanten) {
+				// zoek naar dichtste vestiging
+				dichtsteVestiging = getKlantDichtsteVestiging(k, openVestigingen);
+				// werk klantchecklist bij 
+				klantEntry = klantenChecklist.get(k);
+				klantEntry.getValue().remove(geslotenVestiging); 		//verwijder gesloten uit lijst van huidige vestigingen
+				if(!klantEntry.getValue().contains(dichtsteVestiging)) {//voeg dichtste toe aan lijst van huidige vestigingen
+					klantEntry.getValue().add(dichtsteVestiging); 
+				}
+				// voer migratie uit, klanten verwijderen uit gesloten gebeurt op het einde
+				// controleer op duplicaten, kan voorkomen bij klanten met meerdere vestigingen
 				if(!dichtsteVestiging.getKlanten().contains(k)) {// checklist houdt wel duplicate entry in lijst bij, maar er is slechts in de 
 					dichtsteVestiging.addKlant(k);
 				}
 			}
 		}
-		// achteraf gesloten vestiging legen, handelt ook case size = 0 af
+		// achteraf gesloten vestiging legen
 		geslotenVestiging.clearKlanten();
 	}
 
@@ -153,7 +175,7 @@ public class Vestiging {
 		Vestiging vOrigineel = Vestiging.select(geopendeVestiging, bedrijfVestigingenLijst);
 		Collection<Klant> kOrigineel = vOrigineel.getKlanten();
 		Entry<Collection<Vestiging>, Collection<Vestiging>> klantEntry;
-		Collection<Vestiging> klantHuidigeVestigingen, klantOrigineleVestigingen; // vestigingen die de klant nu bezoekt
+		Collection<Vestiging> klantHuidigeVestigingen, klantOrigineleVestigingen; // vestigingen die de klant nu bezoekt, oorspronkelijk bezocht
 		
 		// migreer klanten en werk gelijk checklist bij
 		for (Klant k : kOrigineel) {
@@ -168,7 +190,6 @@ public class Vestiging {
 			// registreer klant van niet originele vestiging of wachtend naar originele vestiging
 			if(klantHuidigeVestigingen.size() > klantOrigineleVestigingen.size()) {
 				for(Vestiging hv: klantHuidigeVestigingen) {
-					//TODO: Duplicaten migratie naar zelfde vestiging, 2 instanties worden 1
 					if (!klantOrigineleVestigingen.contains(hv)) {
 						// checklist bijwerken
 						klantHuidigeVestigingen.remove(hv);
