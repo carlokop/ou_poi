@@ -6,11 +6,14 @@ package gui.Plugin.visualizer;
 	import java.awt.Toolkit;
 	import java.awt.event.MouseAdapter;
 	import java.awt.event.MouseEvent;
-	import java.util.Map;
+import java.util.Collection;
+import java.util.Map;
 	import java.util.Set;
+import java.util.TreeMap;
 
-	import javax.swing.JPanel;
+import javax.swing.JPanel;
 
+import controller.Controller;
 import gui.Gui;
 import observerOU.Observer;
 import observerOU.Subject;
@@ -26,7 +29,7 @@ import observerOU.Subject;
 	public class Visualizer extends JPanel implements Observer {
 
 		// intermediair tussen vizualizer (gui) en domein klassen
-		private VisualizerControllerInterface contr;
+		private Controller contr;
 
 		private static final long serialVersionUID = 1L;
 		private static final int MARGIN = 10; 
@@ -43,9 +46,10 @@ import observerOU.Subject;
 		 * @param map      de map
 		 * @param contr    de controller
 		 */
-		public Visualizer(VisualizerControllerInterface contr) {
+		public Visualizer(Controller contr) {
 			super();
 			this.contr = contr;
+
 			WIDTH_FRAME = Gui.getPaneWidth();
 	        HEIGHT_FRAME = Gui.getPaneHeight();
 			WIDTH_PANE = Gui.getPaneWidth() - 2 * MARGIN;
@@ -136,9 +140,9 @@ import observerOU.Subject;
 		}
 
 		@Override
-		public void update(Subject s, Object arg) {
-			// TODO Auto-generated method stub
-			
+		public void update(Subject s, Object c) {
+		    //update hierna de visualizer
+		    drawBars(contr.getBarInfo());
 		}
 
 //		@Override

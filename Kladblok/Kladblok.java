@@ -15,6 +15,7 @@ import domein.Bedrijfssimulatie;
 import domein.Vestiging;
 import exceptions.PoiException;
 import gui.Gui;
+import gui.Plugin.visualizer.Visualizer;
 
 /**
  * Deze klasse is geen onderdeel van het op te leveren systeem en dient slechts voor het testen van output
@@ -99,9 +100,11 @@ public class Kladblok {
 	    Bedrijf b = new Bedrijf(); // bedrijf propageert PoiException naar boven naar main
         Bedrijfssimulatie bs = new Bedrijfssimulatie();
         Controller facade = new Controller(b, bs);
-        gui = new Gui(facade);
-        b.attach(gui);
+        Visualizer visualizer= new Visualizer(facade); 
+        gui = new Gui(facade, visualizer);
+//        b.attach(gui);
         bs.attach(gui);
+        bs.attach(visualizer);
 
         
       } catch(Exception e) {

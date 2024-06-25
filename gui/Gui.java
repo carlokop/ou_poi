@@ -42,9 +42,10 @@ public class Gui extends JFrame implements Observer {
 	 * Initialiseert en stelt de contentpane in
 	 * @param fc facade controller
 	 */
-	public Gui(Controller fc) {
+	public Gui(Controller fc, Visualizer visualizer) {
 		super();
 		this.fc = fc;
+		this.visualizer = visualizer;
 		pane = getContentPane();
 		init();
 	}
@@ -129,11 +130,8 @@ public class Gui extends JFrame implements Observer {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 		  stopActiviteit();
-		  if(visualizer == null && fc != null) {  //bugfix voor excepties bij creatie waarbij gebruikers de notificatie negeren en toch het menu gebruiken
-		    visualizer= new Visualizer(fc); 
-		    pane.add(visualizer,BorderLayout.CENTER);
-		    footer.setVisible(true);
-		  }
+		  pane.add(visualizer,BorderLayout.CENTER);
+          footer.setVisible(true);
 		}
 	}
 
@@ -177,6 +175,7 @@ public class Gui extends JFrame implements Observer {
 	@Override
 	public void update(Subject s, Object arg) {
 		// Taak 5
+	  System.out.println("Visualizer update");
 	}
 	
 	
