@@ -195,21 +195,21 @@ public class Vestiging {
 			//TODO: Alternatieve interpretatie migratie?
 			
 			// registreer klant van niet originele vestiging of wachtend naar originele vestiging
-			if(klantHuidigeVestigingen.size() > klantOrigineleVestigingen.size()) {
-				removeList = new ArrayList<>(); // om concurrent modification exception tegen te gaan
-				for(Vestiging hv: klantHuidigeVestigingen) {
-					if (!klantOrigineleVestigingen.contains(hv)) {
-						// checklist bijwerkingen onthouden
-						removeList.add(hv);
-					}
-				}
-				removeListIt = removeList.iterator();
-				while(removeListIt.hasNext()) {
-					removeListVestiging = removeListIt.next();
-					klantHuidigeVestigingen.remove(removeListVestiging);
-					removeListVestiging.removeKlant(k);
+//			if(klantHuidigeVestigingen.size() > klantOrigineleVestigingen.size()) {
+			removeList = new ArrayList<>(); // om concurrent modification exception tegen te gaan
+			for(Vestiging hv: klantHuidigeVestigingen) {
+				if (!klantOrigineleVestigingen.contains(hv)) {
+					// checklist bijwerkingen onthouden
+					removeList.add(hv);
 				}
 			}
+			removeListIt = removeList.iterator();
+			while(removeListIt.hasNext()) {
+				removeListVestiging = removeListIt.next();
+				klantHuidigeVestigingen.remove(removeListVestiging);
+				removeListVestiging.removeKlant(k);
+			}
+//			}
 			
 			//TODO: ...
 		}
