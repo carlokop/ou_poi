@@ -6,10 +6,10 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Map;
 
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+
 import controller.Controller;
 import gui.Main.Footer;
 import gui.Main.Header;
@@ -32,7 +32,7 @@ public class Gui extends JFrame implements Observer {
 	private Component header;
 	private Component footer;
 	private static final int PANE_WIDTH = 1200;
-	private static final int PANE_HEIGHT = 1000;
+	private static final int PANE_HEIGHT = 520;
 	
 	// Domeingui
 	private Component vestigingOverzicht;
@@ -79,7 +79,8 @@ public class Gui extends JFrame implements Observer {
     public static int getPaneHeight() {
       return PANE_HEIGHT;
     }
-
+    
+    
 	/**
 	 * Initialiseert de contentpane met een header, footer en een gedeelte in het midden
 	 * In het middelste stuk wordt een vestiging onverzicht geplaatst
@@ -94,6 +95,7 @@ public class Gui extends JFrame implements Observer {
 		pane.setLayout(new BorderLayout());
 
 		header = new Header();
+		
 		((Header) header).attachJMIVestigingenInzageListener(new VestigingenInzageMenuItemLuisteraar());
 		((Header) header).attachJMIVestigingenSimulatieListener(new VestigingenSimulatieMenuItemLuisteraar());
 		pane.add(header, BorderLayout.NORTH);
@@ -138,6 +140,7 @@ public class Gui extends JFrame implements Observer {
           footer.setVisible(true);
 		}
 	}
+	
 
 	/**
 	 * Handler voor de sluit rapport knop
