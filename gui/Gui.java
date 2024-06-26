@@ -6,6 +6,8 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Map;
+
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import controller.Controller;
@@ -31,7 +33,7 @@ public class Gui extends JFrame implements Observer {
 	private Component header;
 	private Component footer;
 	private static final int PANE_WIDTH = 1200;
-	private static final int PANE_HEIGHT = 520;
+	private static final int PANE_HEIGHT = 1000;
 	
 	// Domeingui
 	private Component vestigingOverzicht;
@@ -173,7 +175,24 @@ public class Gui extends JFrame implements Observer {
 	 */
 	@Override
 	public void update(Subject s, Object arg) {
-	  visualizer.update(s, arg);
+	  if(!checkNotificatieLaatsteVestiging(arg)) {
+        visualizer.update(s, arg);
+      }
+	}
+	
+	/**
+	 * Toont een notificatie als een gebruiker de laatste open vestiging wilt sluiten
+	 * @param arg  argumenten verwacht een string
+	 * @return true als er een foutmelding wordt getoond
+	 */
+	private boolean checkNotificatieLaatsteVestiging(Object arg) {
+      if("toonLaatsteNotificatie".equals(arg)) {
+        //toon foutmelding sluiten laatste open vestiging
+        JDialog notificatie = new Notificatie("Je kunt de laatste vestiging niet sluiten er moet tenminste een open vestiging zijn.");
+        notificatie.setLocationRelativeTo(pane);
+        return true;
+      } 
+      return false;
 	}
 	
 	

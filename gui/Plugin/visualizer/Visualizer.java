@@ -134,22 +134,44 @@ import observerOU.Subject;
 
 		class BarLuisteraar extends MouseAdapter {
 			public void mouseClicked(MouseEvent e) {
-				Bar bar = (Bar) e.getSource();
-				contr.barClicked(bar.getName(), bar.getLabelValue());
+			    Bar bar = (Bar) e.getSource();
+			    //if(vestMagSluiten() && bar.getLabelValue() != 0) {
+	              contr.barClicked(bar.getName(), bar.getLabelValue());
+//			    } else {
+//			      contr.stuurBericht();
+//			    } 
 			}
 		}
 
 		@Override
 		public void update(Subject s, Object c) {
 		    //update hierna de visualizer
+//		    Map<String, Integer> map = contr.getBarInfo();
+//		    int aantal =0;
+//		    for (Map.Entry<String, Integer> entry : map.entrySet()) {
+//		      aantal += entry.getValue();
+//		    }
+//		    System.out.println(aantal);
 		    drawBars(contr.getBarInfo());
 		}
+		
+		/**
+		 * Bepaalt op er nog maar een vestiging open is
+		 * @return true als er meer dan 1 open vestiging is
+		 */
+		private boolean vestMagSluiten() {
+		  int aantal_vestigingen_open = 0;
+		  Map<String,Integer> map = contr.getBarInfo();
+		  for (Map.Entry<String, Integer> entry : map.entrySet()) {
+            int aantal = entry.getValue();
+            if(aantal > 0) {
+              aantal_vestigingen_open++;
+            }
+          }
+		  return aantal_vestigingen_open > 1;
+		}
+		
 
-//		@Override
-//		public void update(Observable o, Object arg) {
-//			drawBars(contr.getBarInfo());
-	//
-//		}
 
 		
 }

@@ -51,6 +51,11 @@ public class Bedrijfssimulatie extends Bedrijf implements ModelBedrijfssimulatie
 	 */
 	@Override
 	public void sluitVestiging(String plaats) {
+	    //check en voorkom sluiten laatste open vestiging
+  	    if(aantalOpenVestigingen() == 1) {
+  	      notifyObservers("toonLaatsteNotificatie");
+          return;
+        }
 		Vestiging geslotenVestiging = Vestiging.select(plaats, vestigingen);
 		
 		// Zet status vestiging op gesloten
@@ -67,6 +72,7 @@ public class Bedrijfssimulatie extends Bedrijf implements ModelBedrijfssimulatie
 
 		Vestiging.migratieSluitenVestiging(geslotenVestiging, openVestigingen, klantenChecklist);
 		notifyObservers(plaats);
+		
 	}
 
 	/**
@@ -147,6 +153,20 @@ public class Bedrijfssimulatie extends Bedrijf implements ModelBedrijfssimulatie
 	      map.put(plaatsnaam, aantal_klanten);
 	    }
 	    return map;
+	}
+	
+	/**
+	 * Geeft het aantal open vestigingen
+	 * @return het aantal open vestigingen
+	 */
+	private int aantalOpenVestigingen() {
+      int aantal =0;
+      for (Entry<Vestiging, Boolean> entry : vestigingenChecklist.entrySet()) {
+        if(entry.getValue()) {
+          aantal++;
+        }
+      }
+      return aantal;
 	}
 	
 	
