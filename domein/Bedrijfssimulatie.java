@@ -13,6 +13,9 @@ import controller.ModelBedrijfssimulatie;
 import exceptions.PoiException;
 import exceptions.PoiExceptionCode;
 
+/**
+ * Start een simulatie op basis van de laatste bekende snapshot van bedrijf.
+ */
 public class Bedrijfssimulatie extends Bedrijf implements ModelBedrijfssimulatie {
 
 	private Collection<Vestiging> vestigingen;
@@ -22,7 +25,7 @@ public class Bedrijfssimulatie extends Bedrijf implements ModelBedrijfssimulatie
 	private Map<Klant, Entry<Collection<Vestiging>, Collection<Vestiging>>> klantenChecklist;
 
 	public Bedrijfssimulatie() throws PoiException {
-		setupSimulatie();
+		setupSimulatie(); // bekijk of dit nog overeenkomt met het model
 		initKlantenChecklist();
 		initVestigingenChecklist();
 	}
@@ -32,8 +35,7 @@ public class Bedrijfssimulatie extends Bedrijf implements ModelBedrijfssimulatie
 	 * behouden bij het heropenen van de view
 	 * @throws PoiException 
 	 */
-	@Override
-	public void setupSimulatie() throws PoiException {
+	private void setupSimulatie() throws PoiException {
 		vestigingen = Bedrijf.getNewCopy();
 	}
 
@@ -90,13 +92,13 @@ public class Bedrijfssimulatie extends Bedrijf implements ModelBedrijfssimulatie
 		notifyObservers(plaats);
 	}
 
-	@Override
-	public void validate() throws PoiException {
+	public static void validate() throws PoiException {
 		if (Bedrijf.getVestigingen() == null) {
 			throw new PoiException(PoiExceptionCode.BEDRIJFSSIM_BEDRIJF_VESTIGINGEN_NULL, null);
 		}
 	}
 
+	
 	public Collection<Vestiging> getSimVestigingen() {
 		return this.vestigingen;
 	}
