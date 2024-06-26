@@ -13,7 +13,6 @@ import gui.Main.Footer;
 import gui.Main.Header;
 import gui.Main.Notificatie;
 import gui.Plugin.visualizer.Visualizer;
-import gui.Plugin.visualizer.VisualizerController;
 import gui.VestigingOverzicht.VestigingOverzicht;
 import observerOU.Observer;
 import observerOU.Subject;
@@ -35,6 +34,8 @@ public class Gui extends JFrame implements Observer {
 	
 	// Domeingui
 	private Component vestigingOverzicht;
+	
+	// Plugins
 	private Visualizer visualizer;
 	
 	/**
@@ -44,7 +45,6 @@ public class Gui extends JFrame implements Observer {
 	public Gui(Controller fc) {
 		super();
 		this.fc = fc;
-		this.visualizer = new Visualizer(fc);
 		pane = getContentPane();
 		init();
 	}
@@ -83,6 +83,7 @@ public class Gui extends JFrame implements Observer {
 	 * In het middelste stuk wordt een vestiging onverzicht geplaatst
 	 */
 	public void init() {
+		// native components
 		setVisible(true);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setSize(PANE_WIDTH, PANE_HEIGHT);
@@ -98,7 +99,10 @@ public class Gui extends JFrame implements Observer {
 		footer = new Footer();
 		((Footer) footer).attachStopActivityListener(new stopActiviteitListener());
 		pane.add(footer, BorderLayout.SOUTH);       
-                
+        
+		// plugins
+		this.visualizer = new Visualizer(fc);
+		
         this.pane.revalidate();
         this.pane.repaint();
 
@@ -122,14 +126,13 @@ public class Gui extends JFrame implements Observer {
 	}
 
 	/**
-	 * Dit is voor taak 5 wordt later geimplementeerd
-	 * Zorgt dat het frame voor het simuleren om vestigingen te sluiten en heropenen
+	 * Zorgt dat het frame voor het simuleren om vestigingen te sluiten en heropenen getoond wordt
 	 */
 	class VestigingenSimulatieMenuItemLuisteraar implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 		  stopActiviteit();
-		  pane.add(visualizer,BorderLayout.CENTER);
+		  pane.add(visualizer, BorderLayout.CENTER);
           footer.setVisible(true);
 		}
 	}
@@ -175,6 +178,4 @@ public class Gui extends JFrame implements Observer {
 	public void update(Subject s, Object arg) {
 	  visualizer.update(s, arg);
 	}
-	
-	
 }

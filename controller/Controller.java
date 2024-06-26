@@ -12,7 +12,7 @@ import gui.Plugin.visualizer.VisualizerControllerInterface;
  * Controller
  * regelt communicatie tussen de GUI en de domeinlaag
  */
-public class Controller implements VisualizerControllerInterface {
+public class Controller implements ModelBedrijf, ModelBedrijfssimulatie, VisualizerControllerInterface {
 	
 	private ModelBedrijf mb;
 	private ModelBedrijfssimulatie mbs;
@@ -45,10 +45,6 @@ public class Controller implements VisualizerControllerInterface {
 		return mb.getVestigingKlanten(plaats);
 	}
 
-	public void startSimulatie() throws PoiException {
-		mbs.setupSimulatie();
-	}
-	
 	//TODO implementeren voor visualizer
 	@Override
 	public void barClicked(String plaatsnaam, Integer aantal_klanten) {
@@ -69,9 +65,27 @@ public class Controller implements VisualizerControllerInterface {
 	 * Geeft een map met key value pairs plaatsnaam en het aantal klanten in die plaats
 	 * @return lijst met plaatsnamen met het aantal klanten
 	 */
+	
 	@Override
 	public Map<String, Integer> getBarInfo() {  
         return mbs.getSimVestigingenMap();
+	}
+
+	@Override
+	public void sluitVestiging(String plaats) {
+		mbs.sluitVestiging(plaats);
+		
+	}
+
+	@Override
+	public void openVestiging(String plaats) {
+		mbs.openVestiging(plaats);
+	}
+
+	@Override
+	public Map<String, Integer> getSimVestigingenMap() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	
