@@ -130,10 +130,10 @@ public class Visualizer extends JPanel implements Observer {
 			Bar bar = (Bar) e.getSource();
 
 			// Waarschuw klant en handel naar diens beslissing.
-			if (bar.getLabelValue() != 0) {
+			if (bar.getLabelValue() != 0) { // aanname, vestiging is gesloten als deze 0 klanten heeft
 				if(openVestigingen == 1) {
 					int warnDialogInput = JOptionPane.showConfirmDialog(
-							null,
+							Visualizer.this.getParent(),
 							"Deze actie kan ervoor zorgen dat klanten uit het zicht raken.",
 			                 "U wilt de laatste vestiging sluiten.",
 			                 JOptionPane.OK_CANCEL_OPTION,
