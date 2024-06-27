@@ -155,5 +155,4 @@ public class Visualizer extends JPanel implements Observer {
 	public void update(Subject s, Object c) {
 		drawBars(contr.getBarInfo());
 	}
-
 }
