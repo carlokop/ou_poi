@@ -76,17 +76,16 @@ public class Vestiging {
 	  Collection<Klant> klantenlijst = vestiging.getKlanten();
 	  
 	  //kopieen
-	  PostcodeInfo copy_postcode = p.copy(p);
-	  Collection<Klant> copyklantenlijst = new ArrayList<>();
+	  PostcodeInfo postcodeInfoCopy = p.copy(p);
+	  Collection<Klant> klantenlijstCopy = new ArrayList<>();
 	  
 	  for(Klant k: klantenlijst) {
 	    //maak kopie klant
 	    Klant kl = k.copy(k);
 	    copyklantenlijst.add(kl);
 	  }
-	  
-	  Vestiging copyvestiging = new Vestiging(vestiging.getPlaats(), copy_postcode, copyklantenlijst);
-	  return copyvestiging;
+	 
+	  return new Vestiging(vestiging.getPlaats(), postcodeInfoCopy, klantenlijstCopy);
 	}
 
 	/**
@@ -175,7 +174,7 @@ public class Vestiging {
 				}
 				// voer migratie uit, klanten verwijderen uit gesloten gebeurt op het einde
 				// controleer op duplicaten, kan voorkomen bij klanten met meerdere vestigingen
-				if(!dichtsteVestiging.getKlanten().contains(k)) {// checklist houdt wel duplicate entry in lijst bij, maar er is slechts in de 
+				if(!dichtsteVestiging.getKlanten().contains(k)) {// checklist houdt meerdere vestigingen bij per entry in lijst
 					dichtsteVestiging.addKlant(k);
 				}
 			}
@@ -217,10 +216,7 @@ public class Vestiging {
 			klantHuidigeVestigingen.add(geopendeVestiging);
 			geopendeVestiging.addKlant(k);
 			
-			//TODO: Alternatieve interpretatie migratie?
-			
-			// registreer klant van niet originele vestiging of wachtend naar originele vestiging
-//			if(klantHuidigeVestigingen.size() > klantOrigineleVestigingen.size()) {
+			// verplaats klant bij niet originele vestiging of wachtlijst
 			removeList = new ArrayList<>(); // om concurrent modification exception tegen te gaan
 			for(Vestiging hv: klantHuidigeVestigingen) {
 				if (!klantOrigineleVestigingen.contains(hv)) {
@@ -233,10 +229,7 @@ public class Vestiging {
 				removeListVestiging = removeListIt.next();
 				klantHuidigeVestigingen.remove(removeListVestiging);
 				removeListVestiging.removeKlant(k);
-			}
-//			}
-			
-			//TODO: ...
+			}			
 		}
 	}
 

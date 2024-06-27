@@ -68,7 +68,7 @@ public class Controller implements ModelBedrijf, ModelBedrijfssimulatie, Visuali
 	
 	@Override
 	public Map<String, Integer> getBarInfo() {  
-        return mbs.getSimVestigingenMap();
+        return this.getSimVestigingenMap();
 	}
 
 	@Override
@@ -84,26 +84,10 @@ public class Controller implements ModelBedrijf, ModelBedrijfssimulatie, Visuali
 
 	@Override
 	public Map<String, Integer> getSimVestigingenMap() {
-		// TODO Auto-generated method stub
-		return null;
+		return mbs.getSimVestigingenMap();
 	}
-	
-	
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-} //class
+} 
 
 
 

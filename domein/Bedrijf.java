@@ -93,11 +93,10 @@ public class Bedrijf extends Subject implements ModelBedrijf {
 	public static Collection<Vestiging> getNewCopy() throws PoiException{
 		//return m.getVestigingen();
 	    Collection<Vestiging> copyvestigingen = new ArrayList<>();
-	    
+	    	    
 	    for(Vestiging v:vestigingen) {
 	      copyvestigingen.add(Vestiging.copy(v));
 	    }
-	    
 	    return copyvestigingen;
 	}
 }

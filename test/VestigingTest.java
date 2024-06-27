@@ -115,16 +115,6 @@ class VestigingTest {
 			fail(e.getMessage());
 		}
 	}
-
-	/**
-	 * Test implementatie corresponderende methodes voor 0 of 1 vestiging; 
-	 * sluitVestiging(...) van klasse Bedrijfssimulatie en
-	 * migratieSluitenVestiging(...) van klasse Vestiging
-	 */
-	@Test 
-	void migratieSluiten01VestigingTest() {
-		//TODO
-	}
 	
 	/**
 	 * Test implementatie corresponderende methodes voor 2 of meer vestigingen; 
@@ -138,7 +128,7 @@ class VestigingTest {
 			bs = new Bedrijfssimulatie();
 
 			Map<Vestiging, Boolean> vChecklist = bs.getVestigingenChecklist();
-			testVestigingen = new ArrayList(bs.getSimVestigingen());		// lijst met alle vestigingen
+			testVestigingen = new ArrayList<Vestiging>(bs.getSimVestigingen());		// lijst met alle vestigingen
 
 			// Minstens 2 vestigingen nodig om de migratie binnen de functie te testen
 			assert (testVestigingen.size() > 1);
