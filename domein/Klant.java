@@ -46,7 +46,7 @@ public class Klant implements Comparable<Klant> {
 	 * @param klant            klant instantie om te kopieren
 	 * @throws PoiException    bij fouten bij creatie
 	 */
-	public Klant deepcopy(Klant klant) throws PoiException {
+	public Klant deepCopy(Klant klant) throws PoiException {
 	  PostcodeInfo p = klant.getPostcodeInfo();
 	  PostcodeInfo kloonPostcode = p.copy(p);
 	  return new Klant(klant.getKlantnr(), kloonPostcode);
