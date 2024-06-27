@@ -70,7 +70,7 @@ public class Vestiging {
 	 * @return diepe kloon van vestiging instantie
 	 * @throws PoiException    bij fouten bij creatie
 	 */
-	public static Vestiging deepCopy(Vestiging vestiging) throws PoiException {
+	public static Vestiging copy(Vestiging vestiging) throws PoiException {
 	  //originele objecten
 	  PostcodeInfo p = vestiging.getPostcodeInfo();
 	  Collection<Klant> klantenlijst = vestiging.getKlanten();
@@ -81,8 +81,8 @@ public class Vestiging {
 	  
 	  for(Klant k: klantenlijst) {
 	    //maak kopie klant
-	    Klant kl = k.deepCopy(k);
-	    klantenlijstCopy.add(kl);
+	    Klant kl = k.copy(k);
+	    copyklantenlijst.add(kl);
 	  }
 	 
 	  return new Vestiging(vestiging.getPlaats(), postcodeInfoCopy, klantenlijstCopy);

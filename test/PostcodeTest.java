@@ -1,4 +1,5 @@
 package test;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -201,5 +202,24 @@ public class PostcodeTest {
       });
       assertEquals(pe.getErrCode(), PoiExceptionCode.GGCOORDS_LNG_OVERSCHRIJDING);
   }
+    
+    /**
+     * Tests of het kopieren van het object goed gaat
+     * @throws PoiException 
+     */
+    @Test
+    public void copyTest() throws PoiException {
+      PostcodeInfo postcode = new PostcodeInfo("1000EG", "Amsterdam", 52.377778951201, 4.9055895401203);
+      PostcodeInfo copy = postcode.copy(postcode);
+      
+      //geen referentie
+      assertNotEquals(copy,postcode);
+      
+      //bevat dezelfde inhoud
+      assertEquals("1000EG", copy.getPostcode());
+      assertEquals("Amsterdam", copy.getPlaatsnaam());
+      assertEquals(52.377778951201,copy.getLat());
+      assertEquals(4.9055895401203,copy.getLng());
+    }
 
 }
