@@ -40,6 +40,18 @@ public class Klant implements Comparable<Klant> {
 		this.postcode = postcode;
 
 	}
+	
+	/**
+	 * Maakt diepe kloon van de instantie
+	 * @param klant            klant instantie om te kopieren
+	 * @throws PoiException    bij fouten bij creatie
+	 */
+	public Klant deepcopy(Klant klant) throws PoiException {
+	  PostcodeInfo p = klant.getPostcodeInfo();
+	  PostcodeInfo kloonPostcode = p.copy(p);
+	  return new Klant(klant.getKlantnr(), kloonPostcode);
+	}
+	
 
 	/**
      * Valideert of opgegeven klantnr en postcode een geldige invoer hebben

@@ -64,6 +64,15 @@ public class PostcodeInfo {
 		this.lng = lng;
 		this.lat = lat;
 	}
+	
+	/**
+	 * Maakt een kopie van dit object
+	 * @param p   instantie van postcodeinfo die gekopieerd moet worden
+	 * @throws PoiException als er fouten bij creatie zijn
+	 */
+	public PostcodeInfo copy(PostcodeInfo p) throws PoiException {
+	  return new PostcodeInfo(p.getPostcode(), p.getPlaatsnaam(), p.getLat(), p.getLng());
+    }
 
 	/*
 	 * DEZE METHODE HEBBEN WE WEL GESCHREVEN MAAR WORDT NIET MEER GEBRUIKT
