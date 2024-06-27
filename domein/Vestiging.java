@@ -63,6 +63,31 @@ public class Vestiging {
 		this.postcodeInfo = postcode;
 		this.klanten = klanten;
 	}
+	
+	/**
+	 * Maakt een diepe kloon van vestiging
+	 * @param vestiging    vestiging instantie om te kopieren   
+	 * @return diepe kloon van vestiging instantie
+	 * @throws PoiException    bij fouten bij creatie
+	 */
+	public static Vestiging deepcopy(Vestiging vestiging) throws PoiException {
+	  //originele objecten
+	  PostcodeInfo p = vestiging.getPostcodeInfo();
+	  Collection<Klant> klantenlijst = vestiging.getKlanten();
+	  
+	  //kopieen
+	  PostcodeInfo copy_postcode = p.copy(p);
+	  Collection<Klant> copyklantenlijst = new ArrayList<>();
+	  
+	  for(Klant k: klantenlijst) {
+	    //maak kopie klant
+	    Klant kl = k.deepcopy(k);
+	    copyklantenlijst.add(kl);
+	  }
+	  
+	  Vestiging copyvestiging = new Vestiging(vestiging.getPlaats(), copy_postcode, copyklantenlijst);
+	  return copyvestiging;
+	}
 
 	/**
 	 * Helper die valideert of een geldige plaats of postcode is opgegeven
