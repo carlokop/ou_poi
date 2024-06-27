@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JMenuBar;
 
 import controller.Controller;
 import gui.Main.Footer;
@@ -29,7 +30,7 @@ public class Gui extends JFrame implements Observer {
 	// Hoofdgui
 	private Controller fc = null;
 	private Container pane;
-	private Component header;
+	private JMenuBar header;
 	private Component footer;
 	private static final int PANE_WIDTH = 1200;
 	private static final int PANE_HEIGHT = 520;
@@ -60,7 +61,7 @@ public class Gui extends JFrame implements Observer {
       super();
       pane = getContentPane();
       init();
-      JDialog notificatie = new Notificatie(error, true, "Applicatie afsluiten");
+      JDialog notificatie = new Notificatie(error, true, "Applicatie afsluiten"); // TODO: gebruik optionDialog
       notificatie.setLocationRelativeTo(pane);
   }
 	
@@ -181,23 +182,6 @@ public class Gui extends JFrame implements Observer {
 	 */
 	@Override
 	public void update(Subject s, Object arg) {
-	  if(!checkNotificatieLaatsteVestiging(arg)) {
         visualizer.update(s, arg);
-      }
-	}
-	
-	/**
-	 * Toont een notificatie als een gebruiker de laatste open vestiging wilt sluiten
-	 * @param arg  argumenten verwacht een string
-	 * @return true als er een foutmelding wordt getoond
-	 */
-	private boolean checkNotificatieLaatsteVestiging(Object arg) {
-      if("toonLaatsteNotificatie".equals(arg)) {
-        //toon foutmelding sluiten laatste open vestiging
-        JDialog notificatie = new Notificatie("Je kunt de laatste vestiging niet sluiten er moet tenminste een open vestiging zijn.");
-        notificatie.setLocationRelativeTo(pane);
-        return true;
-      } 
-      return false;
 	}
 }

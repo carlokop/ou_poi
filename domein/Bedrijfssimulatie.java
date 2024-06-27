@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
-import java.util.TreeSet;
 
 import controller.ModelBedrijfssimulatie;
 import exceptions.PoiException;
@@ -53,11 +52,6 @@ public class Bedrijfssimulatie extends Bedrijf implements ModelBedrijfssimulatie
 	 */
 	@Override
 	public void sluitVestiging(String plaats) {
-	    //check en voorkom sluiten laatste open vestiging
-  	    if(aantalOpenVestigingen() == 1) {
-  	      notifyObservers("toonLaatsteNotificatie");
-          return;
-        }
 		Vestiging geslotenVestiging = Vestiging.select(plaats, vestigingen);
 		
 		// Zet status vestiging op gesloten
@@ -73,8 +67,7 @@ public class Bedrijfssimulatie extends Bedrijf implements ModelBedrijfssimulatie
 		}
 
 		Vestiging.migratieSluitenVestiging(geslotenVestiging, openVestigingen, klantenChecklist);
-		notifyObservers(plaats);
-		
+		notifyObservers();
 	}
 
 	/**
@@ -89,7 +82,7 @@ public class Bedrijfssimulatie extends Bedrijf implements ModelBedrijfssimulatie
 		vestigingenChecklist.replace(geopendeVestiging, true);
 		System.out.println(Bedrijf.getVestigingen() == null);
 		Vestiging.migratieOpenenVestiging(geopendeVestiging, Bedrijf.getVestigingen(), klantenChecklist);
-		notifyObservers(plaats);
+		notifyObservers();
 	}
 
 	public static void validate() throws PoiException {
@@ -156,22 +149,4 @@ public class Bedrijfssimulatie extends Bedrijf implements ModelBedrijfssimulatie
 	    }
 	    return map;
 	}
-	
-	/**
-	 * Geeft het aantal open vestigingen
-	 * @return het aantal open vestigingen
-	 */
-	private int aantalOpenVestigingen() {
-      int aantal =0;
-      for (Entry<Vestiging, Boolean> entry : vestigingenChecklist.entrySet()) {
-        if(entry.getValue()) {
-          aantal++;
-        }
-      }
-      return aantal;
-	}
-	
-	
-	
-	
 }

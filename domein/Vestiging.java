@@ -138,7 +138,7 @@ public class Vestiging {
 				}
 			}
 		} 
-		else if (openVestigingen.size() > 1) {
+		else {
 			for (Klant k : gvKlanten) {
 				// zoek naar dichtste vestiging
 				dichtsteVestiging = getKlantDichtsteVestiging(k, openVestigingen);

@@ -249,10 +249,12 @@ class VestigingTest {
 			
 			// Klant checklist
 			for(Entry<Klant, Entry<Collection<Vestiging>, Collection<Vestiging>>> kclEntry:kcl.entrySet()) {
-				if(vestigingTeOpenen.getKlanten().contains(kclEntry.getKey())) {
-					assertTrue(kclEntry.getValue().getKey().contains(vestigingTeOpenen)); 	// originele vestigingen bevat geopende vestiging
+				if(vOrigineel.getKlanten().contains(kclEntry.getKey())) {
+					// originele klant
+					assertTrue(kclEntry.getValue().getKey().contains(vestigingTeOpenen)); 	//  originele vestigingen bevat geopende vestiging
 					assertTrue(kclEntry.getValue().getValue().contains(vestigingTeOpenen));	// huidige vestiging bevat geopende vestiging
 				} else {
+					// niet originele klant
 					assertFalse(kclEntry.getValue().getKey().contains(vestigingTeOpenen)); 	// originele vestigingen bevat niet geopende vestiging
 					assertFalse(kclEntry.getValue().getValue().contains(vestigingTeOpenen));// huidige vestiging bevat niet geopende vestiging
 				}
