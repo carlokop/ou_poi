@@ -34,8 +34,8 @@ public class Visualizer extends JPanel implements Observer {
 	private int WIDTH_FRAME = 1200;
 	private int HEIGHT_FRAME = 520;
 	private int WIDTH_PANE = WIDTH_FRAME - 2 * MARGIN;
-	private int HEIGHT_PANE = HEIGHT_FRAME - 3 * MARGIN - OFFSET_HEADER_FOOTER;
 	private int OFFSET_HEADER_FOOTER = 80;
+	private int HEIGHT_PANE = HEIGHT_FRAME - 3 * MARGIN - OFFSET_HEADER_FOOTER;
 
 	// hulp parameter
 	private int openVestigingen;
