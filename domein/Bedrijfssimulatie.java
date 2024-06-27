@@ -25,8 +25,8 @@ public class Bedrijfssimulatie extends Bedrijf implements ModelBedrijfssimulatie
 
 	public Bedrijfssimulatie() throws PoiException {
 		setupSimulatie(); // bekijk of dit nog overeenkomt met het model
-		initKlantenChecklist();
-		initVestigingenChecklist();
+		setupKlantenChecklist();
+		setupVestigingenChecklist();
 	}
 
 	/**
@@ -96,7 +96,7 @@ public class Bedrijfssimulatie extends Bedrijf implements ModelBedrijfssimulatie
 		return this.vestigingen;
 	}
 
-	public void initKlantenChecklist() {
+	public void setupKlantenChecklist() {
 		klantenChecklist = new HashMap<>();
 		Entry<Collection<Vestiging>, Collection<Vestiging>> klantEntry;
 
@@ -114,28 +114,13 @@ public class Bedrijfssimulatie extends Bedrijf implements ModelBedrijfssimulatie
 		}
 	}
 
-	public void resetKlantenCheckList() {
-		Entry<Collection<Vestiging>, Collection<Vestiging>> klantEntry;
-		Set<Klant> klanten = klantenChecklist.keySet();
-		for (Klant k : klanten) {
-			klantEntry = klantenChecklist.get(k); // lijst met oorspronkelijke vestiging(en)
-			klantEntry.setValue(klantEntry.getKey());
-		}
-	}
-
-	public void initVestigingenChecklist() {
+	public void setupVestigingenChecklist() {
 		vestigingenChecklist = new HashMap<Vestiging, Boolean>();
 		for (Vestiging v : vestigingen) {
 			vestigingenChecklist.put(v, true);
 		}
 	}
 
-	public void resetVestigingenChecklist() {
-		for (Vestiging v : vestigingen) {
-			vestigingenChecklist.replace(v, true);
-		}
-	}
-	
 	/**
 	 * Geeft een map terug met de geupdate plaatsnamen en het aantal klanten in die vestiging
 	 * @return map met plaatsnaam en aantal klanten

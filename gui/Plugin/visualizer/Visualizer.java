@@ -31,10 +31,10 @@ public class Visualizer extends JPanel implements Observer {
 	private static final long serialVersionUID = 1L;
 	private static final int MARGIN = 10;
 	private static final int HGAP = 10;
-	private int WIDTH_FRAME;
-	private int HEIGHT_FRAME;
-	private int WIDTH_PANE;
-	private int HEIGHT_PANE;
+	private int WIDTH_FRAME = 1200;
+	private int HEIGHT_FRAME = 520;
+	private int WIDTH_PANE = WIDTH_FRAME - 2 * MARGIN;
+	private int HEIGHT_PANE = HEIGHT_FRAME - 3 * MARGIN - OFFSET_HEADER_FOOTER;
 	private int OFFSET_HEADER_FOOTER = 80;
 
 	// hulp parameter
@@ -49,12 +49,6 @@ public class Visualizer extends JPanel implements Observer {
 	public Visualizer(Controller vc) {
 		super();
 		this.contr = vc;
-
-		WIDTH_FRAME = 1200;
-		HEIGHT_FRAME = 520;
-		WIDTH_PANE = WIDTH_FRAME - 2 * MARGIN;
-		HEIGHT_PANE = HEIGHT_FRAME - 3 * MARGIN - OFFSET_HEADER_FOOTER;
-
 		initialize();
 		// haal data op uit de domeinlaag
 		Map<String, Integer> map = vc.getBarInfo();
@@ -65,13 +59,15 @@ public class Visualizer extends JPanel implements Observer {
 	private void initialize() {
 		setBounds(MARGIN, MARGIN, WIDTH_PANE, HEIGHT_PANE);
 		setBackground(Color.BLUE);
-		setSize(WIDTH_FRAME, HEIGHT_FRAME);
+		this.setPreferredSize(new Dimension(WIDTH_FRAME, HEIGHT_FRAME));
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-		this.setLocation((int) Math.round((dim.width - WIDTH_FRAME) / 2),
-				(int) Math.round((dim.height - HEIGHT_FRAME) / 2));
+		this.setLocation(
+				(int) Math.round((dim.width - WIDTH_FRAME) / 2),
+				(int) Math.round((dim.height - HEIGHT_FRAME) / 2)
+				);
 		setLayout(null);
 	}
-
+	
 	/**
 	 * Tekent de bars op basis van de map met (key, value) paren. Bars met hoogte 0
 	 * worden getoond als bars met maximale hoogte in de achtergrondkleur.
@@ -133,7 +129,7 @@ public class Visualizer extends JPanel implements Observer {
 		public void mouseClicked(MouseEvent e) {
 			Bar bar = (Bar) e.getSource();
 
-			// check en voorkom sluiten laatste open vestiging
+			// Waarschuw klant en handel naar diens beslissing.
 			if (bar.getLabelValue() != 0) {
 				if(openVestigingen == 1) {
 					int warnDialogInput = JOptionPane.showConfirmDialog(
