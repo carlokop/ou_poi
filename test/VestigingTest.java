@@ -2,6 +2,7 @@ package test;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -340,6 +341,45 @@ class VestigingTest {
 		});
 		assertEquals(pe.getErrCode(), PoiExceptionCode.KLANTENLIJST_NULL);
 
+	}
+	
+	/**
+	 * Test het diep kopieren van vestigingen
+	 * @throws PoiException 
+	 */
+	@Test
+	public void TestCopy() throws PoiException {
+	  PostcodeInfo postcode = new PostcodeInfo("8701GH", "Bolsward", 53.0673994187339, 5.5274963648489);
+	  PostcodeInfo postcode2 = new PostcodeInfo("8771GH", "Anders", 53.067399418, 5.52749545489);
+	  Vestiging vestiging = new Vestiging("Bolsward", postcode, new ArrayList<Klant>());
+	  Klant k1 = new Klant(1,postcode);
+	  Klant k2 = new Klant(1,postcode2);
+	  vestiging.addKlant(k1);
+	  vestiging.addKlant(k2);
+	  Vestiging kopie = Vestiging.copy(vestiging);
+	  
+	  //we hebben twee klanten in de lijst
+	  assertEquals(2,kopie.getKlanten().size());
+	  
+	  //geen referentie
+	  assertNotSame(vestiging,kopie);
+	  assertNotSame(vestiging.getPostcodeInfo(),kopie.getPostcodeInfo());
+	  
+	  ArrayList<Klant> vklanten = (ArrayList<Klant>) vestiging.getKlanten();
+	  ArrayList<Klant> cklanten = (ArrayList<Klant>) kopie.getKlanten();
+	  for(int i=0; i<2; i++) {
+	     assertNotSame(vklanten.get(i), cklanten.get(i));
+	  }
+	  
+	  //zelfde inhoud
+	  assertEquals(vestiging.getPostcodeInfo().getPostcode(), kopie.getPostcodeInfo().getPostcode());
+	  assertEquals(vestiging.getPlaats(), kopie.getPlaats());
+	  for(int i=0; i<2; i++) {
+        assertEquals(vklanten.get(i).getKlantnr(),cklanten.get(i).getKlantnr());
+        assertEquals(vklanten.get(i).getPostcodeInfo().getPostcode(),cklanten.get(i).getPostcodeInfo().getPostcode());
+     }
+	  
+	  
 	}
 
 }

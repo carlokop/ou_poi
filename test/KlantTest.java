@@ -1,5 +1,6 @@
 package test;
 
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -71,5 +72,23 @@ class KlantTest {
       assertEquals(pe.getErrCode(), PoiExceptionCode.POSTCODE_NULL);
 
   }
+    
+    /**
+     * Test of het kopieren van een klant goed gaat
+     * @throws PoiException 
+     */
+    @Test
+    public void klantCkopieTest() throws PoiException {
+      PostcodeInfo postcode = new PostcodeInfo("1000EG", "Amsterdam", 52.377778951201, 4.9055895401203);
+      Klant klant = new Klant(1,postcode);
+      Klant kopie = klant.copy(klant);
+      
+      //geen referentie
+      assertNotSame(klant,kopie);
+      assertNotSame(klant.getPostcodeInfo(),kopie.getPostcodeInfo());
+      //zelfde klantnr
+      assertEquals(1,kopie.getKlantnr());
+      
+    }
 
 }

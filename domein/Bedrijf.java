@@ -86,8 +86,7 @@ public class Bedrijf extends Subject implements ModelBedrijf {
 	}
 	
 	/**
-	 * Retourneert diepe kopie, dit kan of door de mapper (voorwaardelijk) gedaan worden of door de bedrijfsklasse.
-	 * Wordt momenteel uit gemak door de mapper gedaan, dit kan omdat we mogen aannemen dat de database tussentijds niet verandert.
+	 * Retourneert diepe kopie
 	 * @return diepe kopie van Vestigingen collectie
 	 * @throws PoiException
 	 */
@@ -96,7 +95,7 @@ public class Bedrijf extends Subject implements ModelBedrijf {
 	    Collection<Vestiging> copyvestigingen = new ArrayList<>();
 	    
 	    for(Vestiging v:vestigingen) {
-	      copyvestigingen.add(Vestiging.deepcopy(v));
+	      copyvestigingen.add(Vestiging.copy(v));
 	    }
 	    
 	    return copyvestigingen;
