@@ -10,16 +10,19 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import controller.Controller;
+import observer.Observer;
+import observer.Subject;
 
 /**
  * Vestiging overzichtcomponent
  */
-public class VestigingOverzicht extends JPanel {
+public class VestigingOverzicht extends JPanel implements Observer {
 
 	private static final long serialVersionUID = 1L;
 	private Controller fc;
@@ -110,4 +113,10 @@ public class VestigingOverzicht extends JPanel {
 		}
 	}
 
+	@Override
+	public void update(Subject s, Object arg) {
+		for( Entry<String, Component> vEntry: vestigingKlantOverzicht.entrySet()) {
+			((Observer)vEntry.getValue()).update(s, fc.getVestigingKlanten(vEntry.getKey()));;
+		}
+	}
 }

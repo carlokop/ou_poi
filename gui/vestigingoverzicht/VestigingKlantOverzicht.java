@@ -11,13 +11,22 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import observer.Observer;
+import observer.Subject;
+
 /**
  * Klantenoverzicht component
  */
-public class VestigingKlantOverzicht extends JPanel {
+public class VestigingKlantOverzicht extends JPanel implements Observer {
 
 	private static final long serialVersionUID = 1L;
 	Collection<String> klantData;
+	
+	String[] COLUMN_NAMES = {"Rij", "Klantnr"};
+
+	DefaultTableModel tableModel;
+	JTable klantTable;
+	JScrollPane vestigingKlantOverzicht;
 	
 	/**
 	 * Initialiseert een overzicht met klantdata
@@ -48,15 +57,27 @@ public class VestigingKlantOverzicht extends JPanel {
 	 * Dit bevat twee rijen: een rijnummer en de klantnummers van de klanten in gekozen vestiging
 	 */
 	public void createKlantTable() {
-		String[] columnNames = {"Rij", "Klantnr"};
-		DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0);
+		tableModel = new DefaultTableModel(COLUMN_NAMES, 0);
 		Iterator<String> kIt = klantData.iterator();
 		for(int i=0;i<klantData.size();i++) {
 			tableModel.addRow(new String[]{String.valueOf(i), kIt.next()});
 		}
-		JTable klantTable = new JTable(tableModel);
+		klantTable = new JTable(tableModel);
 		JScrollPane vestigingKlantOverzicht = new JScrollPane(klantTable);
 		
 		this.add(vestigingKlantOverzicht, BorderLayout.CENTER);
+	}
+
+	public void updateKlantTable(Collection<String> klantData){
+		Iterator<String> kIt = klantData.iterator();
+		tableModel.setRowCount(0);
+		for(int i=0;i<klantData.size();i++) {
+			tableModel.addRow(new String[]{String.valueOf(i), kIt.next()});
+		}
+	}
+	
+	@Override
+	public void update(Subject s, Object arg) {
+		updateKlantTable((Collection<String>) arg);
 	}
 }

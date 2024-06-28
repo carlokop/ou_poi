@@ -59,7 +59,7 @@ public class Vestiging {
 	 */
 	public Vestiging(String plaats, PostcodeInfo postcode, Collection<Klant> klanten) throws PoiException {
 		validate(plaats, postcode, klanten);
-		this.plaats = plaats; //TODO duplicatie hier en pci, is plaats overbodig?
+		this.plaats = plaats;
 		this.postcodeInfo = postcode;
 		this.klanten = klanten;
 	}
@@ -190,15 +190,15 @@ public class Vestiging {
 	 * 
 	 * @param geopendeVestiging 		Vestiging aangemerkt voor opening
 	 * @param openVestigingen			Vestigingen die nog open zijn
-	 * @param bedrijfVestigingenLijst	Oorspronkelijke lijst van vestigingen, versnelt selectie oorspronkelijke klanten
+	 * @param vestigingenSnapshot	Oorspronkelijke lijst van vestigingen, versnelt selectie oorspronkelijke klanten
 	 * @param klantenChecklist			Hulplijst voor versnelde migratie
 	 */
 	public static void migratieOpenenVestiging(
 			Vestiging geopendeVestiging, 
-			Collection<Vestiging> bedrijfVestigingenLijst, // oorspronkelijke lijst uit non-simulatie
+			Collection<Vestiging> vestigingenSnapshot, // oorspronkelijke lijst uit non-simulatie
 			Map<Klant, Entry<Collection<Vestiging>, Collection<Vestiging>>> klantenChecklist
 			) {
-		Vestiging vOrigineel = Vestiging.select(geopendeVestiging.getPlaats(), bedrijfVestigingenLijst); 
+		Vestiging vOrigineel = Vestiging.select(geopendeVestiging.getPlaats(), vestigingenSnapshot); 
 		Collection<Klant> kOrigineel = vOrigineel.getKlanten();
 		Entry<Collection<Vestiging>, Collection<Vestiging>> klantEntry;
 		Collection<Vestiging> klantHuidigeVestigingen, klantOrigineleVestigingen; // vestigingen die de klant nu bezoekt, oorspronkelijk bezocht

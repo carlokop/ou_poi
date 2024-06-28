@@ -9,35 +9,35 @@ import exceptions.PoiException;
 import gui.simulatie.VisualizerControllerInterface;
 
 /**
- * Controller
- * regelt communicatie tussen de GUI en de domeinlaag
+ * Controller regelt communicatie tussen de GUI en de domeinlaag
  */
-public class Controller implements ModelBedrijf, ModelBedrijfssimulatie, VisualizerControllerInterface {
-	
+public class Controller implements ModelBedrijf, VisualizerControllerInterface {
+
 	private ModelBedrijf mb;
-	private ModelBedrijfssimulatie mbs;
-	
+
 	/**
-	 * TODO: Aanpassen voor het model van de simulatie
-	 * Instantieert de controller en stelt het model in
+	 * TODO: Aanpassen voor het model van de simulatie Instantieert de controller en
+	 * stelt het model in
+	 * 
 	 * @param mb  ModelBedrijf
 	 * @param mbs ModelBedrijfssimulatie
 	 */
-	public Controller(ModelBedrijf mb, ModelBedrijfssimulatie mbs){
+	public Controller(ModelBedrijf mb) {
 		this.mb = mb;
-		this.mbs = mbs;
 	}
 
 	/**
 	 * Haalt alle plaatsnamen van vestigingen op
+	 * 
 	 * @return lijst met plaatsnamen
 	 */
 	public Collection<String> getVestigingPlaatsen() {
 		return mb.getVestigingPlaatsen();
 	}
-	
+
 	/**
 	 * Haalt een lijst op met alle klant id's die in de opgegeven vestiging zitten
+	 * 
 	 * @param plaats vestiging plaatsnaam
 	 * @return lijst met klant id's
 	 */
@@ -47,49 +47,47 @@ public class Controller implements ModelBedrijf, ModelBedrijfssimulatie, Visuali
 
 	@Override
 	public void barClicked(String plaatsnaam, Integer aantal_klanten) {
-	   if(!mbs.isVestigingOpen(plaatsnaam)) {
-	     mbs.openVestiging(plaatsnaam);
-	     System.out.println("Status voor opening:" + plaatsnaam + ", " + aantal_klanten);
-	   } else {
-	     mbs.sluitVestiging(plaatsnaam);
-	     System.out.println("Status voor sluiting:" + plaatsnaam + ", " + aantal_klanten);
-	   }
+		System.out.println("Status voor opening:" + plaatsnaam + ", " + aantal_klanten);
+		if (!mb.isVestigingOpen(plaatsnaam)) {
+			mb.openVestiging(plaatsnaam);
+		} else {
+			System.out.println("Status voor sluiting:" + plaatsnaam + ", " + aantal_klanten);
+
+			mb.sluitVestiging(plaatsnaam);
+		}
 	}
 
 	/**
-	 * Geeft een map met key value pairs plaatsnaam en het aantal klanten in die plaats
+	 * Geeft een map met key value pairs plaatsnaam en het aantal klanten in die
+	 * plaats
+	 * 
 	 * @return lijst met plaatsnamen met het aantal klanten
 	 */
-	
+
 	@Override
-	public Map<String, Integer> getBarInfo() {  
-        return this.getSimVestigingenMap();
+	public Map<String, Integer> getBarInfo() {
+		return this.getVestigingenMap();
 	}
 
 	@Override
 	public void sluitVestiging(String plaats) {
-		mbs.sluitVestiging(plaats);
-		
+		mb.sluitVestiging(plaats);
+
 	}
 
 	@Override
 	public void openVestiging(String plaats) {
-		mbs.openVestiging(plaats);
+		mb.openVestiging(plaats);
 	}
 
 	@Override
-	public Map<String, Integer> getSimVestigingenMap() {
-		return mbs.getSimVestigingenMap();
+	public Map<String, Integer> getVestigingenMap() {
+		return mb.getVestigingenMap();
 	}
 
 	@Override
 	public Boolean isVestigingOpen(String plaatsnaam) {
-		return mbs.isVestigingOpen(plaatsnaam);
+		return mb.isVestigingOpen(plaatsnaam);
 	}
 
-} 
-
-
-
-
-
+}
