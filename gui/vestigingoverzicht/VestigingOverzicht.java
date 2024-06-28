@@ -1,4 +1,4 @@
-package gui.VestigingOverzicht;
+package gui.vestigingoverzicht;
 
 import java.awt.BorderLayout;
 import java.awt.Color;

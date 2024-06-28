@@ -1,4 +1,4 @@
-package gui.Plugin.visualizer;
+package gui.simulatie;
 
 import java.util.Map;
 

@@ -74,7 +74,7 @@ class BedrijfTest {
   @Test
   public void testCopy() throws PoiException {
     ArrayList<Vestiging> vestigingen = (ArrayList<Vestiging>) Bedrijf.getVestigingen();
-    ArrayList<Vestiging> kopie_vestigingen = (ArrayList<Vestiging>) Bedrijf.getNewCopy();
+    ArrayList<Vestiging> kopie_vestigingen = (ArrayList<Vestiging>) Bedrijf.getDeepCopy();
     
     for(int i=0; i<vestigingen.size(); i++ ) {
       //geen referentie

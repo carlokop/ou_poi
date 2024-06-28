@@ -1,4 +1,4 @@
-package gui.Plugin.visualizer;
+package gui.simulatie;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -12,8 +12,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import controller.Controller;
-import observerOU.Observer;
-import observerOU.Subject;
+import observer.Observer;
+import observer.Subject;
 
 /**
  * 
@@ -50,13 +50,13 @@ public class Visualizer extends JPanel implements Observer {
 		super();
 		this.contr = vc;
 		initialize();
-		// haal data op uit de domeinlaag
-		Map<String, Integer> map = vc.getBarInfo();
-		this.openVestigingen = map.size();
-		drawBars(map);
+		drawBars(contr.getBarInfo());
 	}
 
 	private void initialize() {
+		Map<String, Integer> map = contr.getBarInfo();
+		this.openVestigingen = map.size();
+		
 		setBounds(MARGIN, MARGIN, WIDTH_PANE, HEIGHT_PANE);
 		setBackground(Color.BLUE);
 		this.setPreferredSize(new Dimension(WIDTH_FRAME, HEIGHT_FRAME));
@@ -130,7 +130,7 @@ public class Visualizer extends JPanel implements Observer {
 			Bar bar = (Bar) e.getSource();
 
 			// Waarschuw klant en handel naar diens beslissing.
-			if (bar.getLabelValue() != 0) { // aanname, vestiging is gesloten als deze 0 klanten heeft
+			if (contr.isVestigingOpen(bar.getName())) {
 				if(openVestigingen == 1) {
 					int warnDialogInput = JOptionPane.showConfirmDialog(
 							Visualizer.this.getParent(),
@@ -143,7 +143,7 @@ public class Visualizer extends JPanel implements Observer {
 					}
 				}
 				openVestigingen--;
-				contr.barClicked(bar.getName(), bar.getLabelValue());
+				contr.barClicked(bar.getName(), bar.getLabelValue()); //TODO: Semantics en wat is zinnig om te rapporteren?
 			} else {
 				openVestigingen++;
 				contr.barClicked(bar.getName(), bar.getLabelValue());

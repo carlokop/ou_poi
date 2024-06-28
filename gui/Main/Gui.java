@@ -1,4 +1,4 @@
-package gui;
+package gui.Main;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -12,13 +12,10 @@ import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 
 import controller.Controller;
-import gui.Main.Footer;
-import gui.Main.Header;
-import gui.Main.Notificatie;
-import gui.Plugin.visualizer.Visualizer;
-import gui.VestigingOverzicht.VestigingOverzicht;
-import observerOU.Observer;
-import observerOU.Subject;
+import gui.simulatie.Visualizer;
+import gui.vestigingoverzicht.VestigingOverzicht;
+import observer.Observer;
+import observer.Subject;
 
 /**
  * Standaardframe van de Grafische userinterface
@@ -36,10 +33,8 @@ public class Gui extends JFrame implements Observer {
 	private static final int PANE_HEIGHT = 520;
 	
 	// Domeingui
-	private Component vestigingOverzicht;
-	
-	// Plugins
-	private Visualizer visualizer;
+	private Component vestigingOverzicht;	// vest gui
+	private Visualizer visualizer; 			// simulatie gui
 	
 	/**
 	 * Initialiseert en stelt de contentpane in
@@ -64,23 +59,6 @@ public class Gui extends JFrame implements Observer {
       JDialog notificatie = new Notificatie(error, true, "Applicatie afsluiten"); // TODO: gebruik optionDialog
       notificatie.setLocationRelativeTo(pane);
   }
-	
-	/**
-     * Gets the width in px of the content pane
-     * @return the width
-     */
-    public static int getPaneWidth() {
-      return PANE_WIDTH;
-    }
-    
-    /**
-     * Gets the height in px of the content pane
-     * @return the height
-     */
-    public static int getPaneHeight() {
-      return PANE_HEIGHT;
-    }
-    
     
 	/**
 	 * Initialiseert de contentpane met een header, footer en een gedeelte in het midden
@@ -141,7 +119,6 @@ public class Gui extends JFrame implements Observer {
           footer.setVisible(true);
 		}
 	}
-	
 
 	/**
 	 * Handler voor de sluit rapport knop

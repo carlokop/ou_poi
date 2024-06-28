@@ -6,7 +6,7 @@ import java.util.TreeMap;
 
 import domein.Vestiging;
 import exceptions.PoiException;
-import gui.Plugin.visualizer.VisualizerControllerInterface;
+import gui.simulatie.VisualizerControllerInterface;
 
 /**
  * Controller
@@ -45,19 +45,14 @@ public class Controller implements ModelBedrijf, ModelBedrijfssimulatie, Visuali
 		return mb.getVestigingKlanten(plaats);
 	}
 
-	//TODO implementeren voor visualizer
 	@Override
 	public void barClicked(String plaatsnaam, Integer aantal_klanten) {
-	   //we moeten testen of ergens afvangen dat plaatsnaam niet null is of iets waar geen vestiging van is
-	   //testen of afdwingen dat aantal_klanten niet null of negatief kan zijn
-	   if(aantal_klanten == 0) {
+	   if(!mbs.isVestigingOpen(plaatsnaam)) {
 	     mbs.openVestiging(plaatsnaam);
-	     System.out.println("Heropen vestiging: " + plaatsnaam + ";" + aantal_klanten);
-	     
-	     //wat als er geen vestiging wordt gevonden?
+	     System.out.println("Status voor opening:" + plaatsnaam + ", " + aantal_klanten);
 	   } else {
-	     System.out.println("Sluit vestiging: " + plaatsnaam + ";" + aantal_klanten);
 	     mbs.sluitVestiging(plaatsnaam);
+	     System.out.println("Status voor sluiting:" + plaatsnaam + ", " + aantal_klanten);
 	   }
 	}
 
@@ -85,6 +80,11 @@ public class Controller implements ModelBedrijf, ModelBedrijfssimulatie, Visuali
 	@Override
 	public Map<String, Integer> getSimVestigingenMap() {
 		return mbs.getSimVestigingenMap();
+	}
+
+	@Override
+	public Boolean isVestigingOpen(String plaatsnaam) {
+		return mbs.isVestigingOpen(plaatsnaam);
 	}
 
 } 

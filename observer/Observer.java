@@ -1,4 +1,4 @@
-package observerOU;
+package observer;
 
 /**
  * @author ounl

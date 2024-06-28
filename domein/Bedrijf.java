@@ -6,7 +6,7 @@ import java.util.Collection;
 import controller.ModelBedrijf;
 import data.Mapper;
 import exceptions.PoiException;
-import observerOU.Subject;
+import observer.Subject;
 
 /**
  * Deze klasse stelt het bedrijf voor
@@ -14,8 +14,8 @@ import observerOU.Subject;
  * Beheert vervolgens alle vestigingen en regelt de communocatie met de mapper
  */
 public class Bedrijf extends Subject implements ModelBedrijf {
-	private static Collection<Vestiging> vestigingen; 	// TODO: aanpassen in de modellen
-	private static Mapper m;							// TODO: aanpassen in de modellen
+	private static Collection<Vestiging> vestigingen;
+	private static Mapper m;
 	
 	/**
 	 * Initialiseert een bedrijf
@@ -90,7 +90,7 @@ public class Bedrijf extends Subject implements ModelBedrijf {
 	 * @return diepe kopie van Vestigingen collectie
 	 * @throws PoiException
 	 */
-	public static Collection<Vestiging> getNewCopy() throws PoiException{
+	public static Collection<Vestiging> getDeepCopy() throws PoiException{
 		//return m.getVestigingen();
 	    Collection<Vestiging> copyvestigingen = new ArrayList<>();
 	    	    

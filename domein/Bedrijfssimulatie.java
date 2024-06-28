@@ -35,13 +35,18 @@ public class Bedrijfssimulatie extends Bedrijf implements ModelBedrijfssimulatie
 	 * @throws PoiException 
 	 */
 	private void setupSimulatie() throws PoiException {
-		vestigingen = Bedrijf.getNewCopy();
+		vestigingen = Bedrijf.getDeepCopy();
 	}
 
 	public Map<Vestiging, Boolean> getVestigingenChecklist() {
 		return this.vestigingenChecklist;
 	}
 
+	@Override
+	public Boolean isVestigingOpen(String plaatsnaam){
+		return this.vestigingenChecklist.get(Vestiging.select(plaatsnaam, vestigingen));
+	}
+	
 	public Map<Klant, Entry<Collection<Vestiging>, Collection<Vestiging>>> getKlantenChecklist() {
 		return this.klantenChecklist;
 	}
@@ -80,7 +85,6 @@ public class Bedrijfssimulatie extends Bedrijf implements ModelBedrijfssimulatie
 
 		// Zet status vestiging op open
 		vestigingenChecklist.replace(geopendeVestiging, true);
-		System.out.println(Bedrijf.getVestigingen() == null);
 		Vestiging.migratieOpenenVestiging(geopendeVestiging, Bedrijf.getVestigingen(), klantenChecklist);
 		notifyObservers();
 	}

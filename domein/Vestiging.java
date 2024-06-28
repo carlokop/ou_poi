@@ -82,7 +82,7 @@ public class Vestiging {
 	  for(Klant k: klantenlijst) {
 	    //maak kopie klant
 	    Klant kl = k.copy(k);
-	    copyklantenlijst.add(kl);
+	    klantenlijstCopy.add(kl);
 	  }
 	 
 	  return new Vestiging(vestiging.getPlaats(), postcodeInfoCopy, klantenlijstCopy);

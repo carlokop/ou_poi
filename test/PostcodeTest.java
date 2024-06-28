@@ -1,5 +1,6 @@
 package test;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -213,7 +214,7 @@ public class PostcodeTest {
       PostcodeInfo copy = postcode.copy(postcode);
       
       //geen referentie
-      assertNotEquals(copy,postcode);
+      assertNotSame(copy,postcode);
       
       //bevat dezelfde inhoud
       assertEquals("1000EG", copy.getPostcode());
