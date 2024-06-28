@@ -14,7 +14,7 @@ import domein.Bedrijf;
 import domein.Vestiging;
 import exceptions.PoiException;
 import gui.Main.Gui;
-import gui.simulatie.Visualizer;
+import gui.simulatie.VisualizerPanel;
 
 /**
  * Deze klasse is geen onderdeel van het op te leveren systeem en dient slechts voor het testen van output

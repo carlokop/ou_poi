@@ -4,6 +4,7 @@ import controller.Controller;
 import domein.Bedrijf;
 import exceptions.PoiException;
 import gui.Main.Gui;
+import gui.simulatie.Visualizer;
 
 /**
  * Startup klasse
@@ -31,8 +32,10 @@ public class Main {
 					 */
 					Bedrijf b = new Bedrijf(); // bedrijf propageert PoiException naar boven naar main
 					Controller facade = new Controller(b);
+					Visualizer visualizer = new Visualizer(facade);
 					Gui gui = new Gui(facade);
-					b.attach(gui);
+					facade.attach(gui);
+					facade.attach(visualizer);
 				} catch (PoiException e) {
 					e.printStackTrace();
 				} 

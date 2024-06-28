@@ -28,6 +28,7 @@ public class VestigingOverzicht extends JPanel implements Observer {
 	private Controller fc;
 	private HashMap<String, Component> vestigingKlantOverzicht;
 	private List<JButton> VestigingLijst = new ArrayList<>();
+	private VestigingKlantOverzicht vKlantOverzicht;
 
 	/**
 	 * Initialiseert het overzicht met vestigingen
@@ -58,11 +59,6 @@ public class VestigingOverzicht extends JPanel implements Observer {
 			knop.addActionListener(tvkListener);
 		}
 
-//		for (String plaats : vestigingPlaatsData) {
-//			JButton knop = new JButton(plaats);
-//			jpVestigingLijst.add(knop);
-//			knop.addActionListener(tvkListener);
-//		}
 		this.add(jpVestigingLijst, BorderLayout.WEST);
 	}
 
@@ -83,7 +79,8 @@ public class VestigingOverzicht extends JPanel implements Observer {
 		}
 
 		if (!vestigingKlantOverzicht.containsKey(plaats)) {
-			vestigingKlantOverzicht.put(plaats, new VestigingKlantOverzicht(vestigingKlantData));
+		    vKlantOverzicht = new VestigingKlantOverzicht(vestigingKlantData, fc.getActiveVestigingPlaatsnaam());
+			vestigingKlantOverzicht.put(plaats, vKlantOverzicht);
 		}
 		VestigingOverzicht.this.add(vestigingKlantOverzicht.get(plaats), BorderLayout.CENTER);
 	}
@@ -97,8 +94,9 @@ public class VestigingOverzicht extends JPanel implements Observer {
 		public void actionPerformed(ActionEvent e) {
 			JButton selectedButton = (JButton) e.getSource();
 			String plaats = selectedButton.getText();
-			toonVestigingKlanten(plaats);
 			selectedButton.setFocusPainted(false);
+			fc.setActiveVestigingPlaatsnaam(plaats);
+			toonVestigingKlanten(plaats);
 
 			// geeft alleen de geselecteerde button een kleur
 			for (JButton button : VestigingLijst) {
@@ -112,11 +110,22 @@ public class VestigingOverzicht extends JPanel implements Observer {
 			VestigingOverzicht.this.repaint();
 		}
 	}
+	
 
+	/**
+	 * Dit lijkt overbodig deze klasse gebruikt geen observer 
+	 */
 	@Override
 	public void update(Subject s, Object arg) {
+	  System.out.println("wat veranderd");
 		for( Entry<String, Component> vEntry: vestigingKlantOverzicht.entrySet()) {
-			((Observer)vEntry.getValue()).update(s, fc.getVestigingKlanten(vEntry.getKey()));;
+			//((Observer)vEntry.getValue()).update(s, fc.getVestigingKlanten(vEntry.getKey()));
+		  
+		  //ipv de observer update een gewone methode aanroepen observer gebruiken we hier niet
+//		  String plaatsnaam = vEntry.getKey();
+//		  Collection<String> klanten = fc.getVestigingKlanten(vEntry.getKey());
+//		  String activePlaats = fc.getActiveVestigingPlaatsnaam();
+//		  vKlantOverzicht.pasAan(klanten,plaatsnaam,activePlaats);
 		}
 	}
 }

@@ -7,13 +7,16 @@ import java.util.TreeMap;
 import domein.Vestiging;
 import exceptions.PoiException;
 import gui.simulatie.VisualizerControllerInterface;
+import observer.Subject;
 
 /**
  * Controller regelt communicatie tussen de GUI en de domeinlaag
  */
-public class Controller implements ModelBedrijf, VisualizerControllerInterface {
+public class Controller extends Subject implements ModelBedrijf, VisualizerControllerInterface {
 
 	private ModelBedrijf mb;
+	private boolean visualizerActive = false;
+	private String activeVestiging = "";
 
 	/**
 	 * TODO: Aanpassen voor het model van de simulatie Instantieert de controller en
@@ -50,9 +53,11 @@ public class Controller implements ModelBedrijf, VisualizerControllerInterface {
 		if (!mb.isVestigingOpen(plaatsnaam)) {
 		  System.out.println("Status voor opening:" + plaatsnaam + ", " + aantal_klanten);
 			mb.openVestiging(plaatsnaam);
+			notifyObservers();
 		} else {
 			System.out.println("Status voor sluiting:" + plaatsnaam + ", " + aantal_klanten);
 			mb.sluitVestiging(plaatsnaam);
+			notifyObservers();
 		}
 	}
 
@@ -71,12 +76,13 @@ public class Controller implements ModelBedrijf, VisualizerControllerInterface {
 	@Override
 	public void sluitVestiging(String plaats) {
 		mb.sluitVestiging(plaats);
-
+		notifyObservers();
 	}
 
 	@Override
 	public void openVestiging(String plaats) {
 		mb.openVestiging(plaats);
+		notifyObservers();
 	}
 
 	@Override
@@ -85,8 +91,52 @@ public class Controller implements ModelBedrijf, VisualizerControllerInterface {
 	}
 
 	@Override
-	public Boolean isVestigingOpen(String plaatsnaam) {
+	public boolean isVestigingOpen(String plaatsnaam) {
 		return mb.isVestigingOpen(plaatsnaam);
 	}
+	
+	
+	/**
+	 * Sets visualizer state 
+	 * @param isActive  sets of de visualizer getoond moet worden
+	 */
+	@Override
+	public void setVisualizerActive(boolean isActive) {
+	  this.visualizerActive = isActive;
+	  notifyObservers();
+	}
+	
+	/**
+     * gets visualizer state 
+     * @param isActive  sets of de visualizer getoond moet worden
+     */
+	@Override
+    public boolean getVisualizerActive() {
+      return this.visualizerActive;
+    }
+	
+	/**
+     * Sets visualizer state 
+     * @param plaatsnaam  sets of de visualizer getoond moet worden
+     */
+    @Override
+    public void setActiveVestigingPlaatsnaam(String plaatsnaam) {
+      this.activeVestiging = plaatsnaam;
+      notifyObservers();
+    }
+    
+    /**
+     * gets plaatsnaam active vestiging 
+     * @param isActive  sets of de visualizer getoond moet worden
+     */
+    @Override
+    public String getActiveVestigingPlaatsnaam() {
+      return this.activeVestiging;
+    }
+
+
+
+
+
 
 }

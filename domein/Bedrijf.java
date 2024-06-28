@@ -19,7 +19,7 @@ import observer.Subject;
  * Bedrijf is een singleton
  * Beheert vervolgens alle vestigingen en regelt de communocatie met de mapper
  */
-public class Bedrijf extends Subject implements ModelBedrijf {
+public class Bedrijf implements ModelBedrijf {
 	private static Collection<Vestiging> vestigingenSnapshot;
 	private static Collection<Vestiging> vestigingenCrrnt;
 	private static Mapper m;
@@ -157,7 +157,7 @@ public class Bedrijf extends Subject implements ModelBedrijf {
 		}
 
 		Vestiging.migratieSluitenVestiging(geslotenVestiging, openVestigingen, klantenChecklist);
-		notifyObservers();
+		//notifyObservers();
 	}
 	
 	/**
@@ -171,7 +171,7 @@ public class Bedrijf extends Subject implements ModelBedrijf {
 		// Zet status vestiging op open
 		vestigingenChecklist.replace(geopendeVestiging, true);
 		Vestiging.migratieOpenenVestiging(geopendeVestiging, Bedrijf.vestigingenSnapshot, klantenChecklist);
-		notifyObservers();
+		//notifyObservers();
 	}
 
 	public static void validate() throws PoiException {
@@ -186,7 +186,7 @@ public class Bedrijf extends Subject implements ModelBedrijf {
 	}
 
 	@Override
-	public Boolean isVestigingOpen(String plaatsnaam){
+	public boolean isVestigingOpen(String plaatsnaam){
 		return this.vestigingenChecklist.get(Vestiging.select(plaatsnaam, vestigingenCrrnt));
 	}
 	
@@ -208,9 +208,8 @@ public class Bedrijf extends Subject implements ModelBedrijf {
         }
         return copyvestigingen;
     }
-	
-	
-	
+
+   
 	
 	
 

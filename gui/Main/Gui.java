@@ -6,6 +6,8 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Map;
+import java.util.TreeMap;
 
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -13,6 +15,7 @@ import javax.swing.JMenuBar;
 
 import controller.Controller;
 import gui.simulatie.Visualizer;
+import gui.simulatie.VisualizerPanel;
 import gui.vestigingoverzicht.VestigingOverzicht;
 import observer.Observer;
 import observer.Subject;
@@ -34,7 +37,7 @@ public class Gui extends JFrame implements Observer {
 	
 	// Domeingui
 	private Component vestigingOverzicht;	// vest gui
-	private Visualizer visualizer; 			// simulatie gui
+	//private Visualizer visualizer; 			// simulatie gui
 	
 	/**
 	 * Initialiseert en stelt de contentpane in
@@ -43,6 +46,7 @@ public class Gui extends JFrame implements Observer {
 	public Gui(Controller fc) {
 		super();
 		this.fc = fc;
+		//this.visualizer  = visualizer;
 		pane = getContentPane();
 		init();
 	}
@@ -85,7 +89,7 @@ public class Gui extends JFrame implements Observer {
         
 		// plugins
 		vestigingOverzicht = new VestigingOverzicht(fc);
-		visualizer = new Visualizer(fc);
+//		visualizer = new VisualizerPanel(fc);
 		
         this.pane.revalidate();
         this.pane.repaint();
@@ -98,11 +102,9 @@ public class Gui extends JFrame implements Observer {
 	class VestigingenInzageMenuItemLuisteraar implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-		    stopActiviteit();
+		    //stopActiviteit();
 			pane.add(vestigingOverzicht, BorderLayout.WEST);
 			footer.setVisible(true);
-			Gui.this.pane.revalidate();
-			Gui.this.pane.repaint();
 		}
 	}
 
@@ -112,8 +114,8 @@ public class Gui extends JFrame implements Observer {
 	class VestigingenSimulatieMenuItemLuisteraar implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-		  stopActiviteit();
-		  pane.add(visualizer, BorderLayout.CENTER);
+		  //stopActiviteit();
+		  fc.setVisualizerActive(true);
           footer.setVisible(true);
 		}
 	}
@@ -125,6 +127,7 @@ public class Gui extends JFrame implements Observer {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 		  stopActiviteit();
+		  fc.setVisualizerActive(false);
 		}
 	}
 
@@ -157,7 +160,6 @@ public class Gui extends JFrame implements Observer {
 	 */
 	@Override
 	public void update(Subject s, Object arg) {
-        visualizer.update(s, arg);
         ((Observer) vestigingOverzicht).update(s, arg);
 	}
 }

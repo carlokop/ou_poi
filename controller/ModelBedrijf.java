@@ -29,5 +29,7 @@ public interface ModelBedrijf {
 
 	public abstract Map<String, Integer> getVestigingenMap();
 
-	public abstract Boolean isVestigingOpen(String plaatsnaam);
+	public abstract boolean isVestigingOpen(String plaatsnaam);
+
+
 }

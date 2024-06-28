@@ -11,6 +11,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import controller.Controller;
 import observer.Observer;
 import observer.Subject;
 
@@ -20,21 +21,24 @@ import observer.Subject;
 public class VestigingKlantOverzicht extends JPanel implements Observer {
 
 	private static final long serialVersionUID = 1L;
-	Collection<String> klantData;
+	private Collection<String> klantData;
 	
-	String[] COLUMN_NAMES = {"Rij", "Klantnr"};
+	private String[] COLUMN_NAMES = {"Rij", "Klantnr"};
 
-	DefaultTableModel tableModel;
-	JTable klantTable;
-	JScrollPane vestigingKlantOverzicht;
+	private DefaultTableModel tableModel;
+	private Controller fc;
+	private JTable klantTable;
+	private JLabel klantaantal;
+	private String plaatsnaam;
 	
 	/**
 	 * Initialiseert een overzicht met klantdata
 	 * @param klantData lijst met klant id's
 	 */
-	VestigingKlantOverzicht(Collection<String> klantData){
+	VestigingKlantOverzicht(Collection<String> klantData, String plaatsnaam){
 		this.setLayout(new BorderLayout());
 		this.klantData = klantData;
+		this.plaatsnaam = plaatsnaam;
 		createOverview();
 		createKlantTable();
 	}
@@ -46,7 +50,8 @@ public class VestigingKlantOverzicht extends JPanel implements Observer {
 	public void createOverview(){
 		JPanel columnPanel = new JPanel();
 		columnPanel.setLayout(new GridLayout(1, 1, 0, 0));
-		columnPanel.add(new JLabel("Klantaantal: "  + klantData.size()));
+		klantaantal = new JLabel(plaatsnaam + " Klantaantal: "  + klantData.size());
+		columnPanel.add(klantaantal);
 		
 		this.add(columnPanel, BorderLayout.NORTH);
 	}
@@ -74,10 +79,31 @@ public class VestigingKlantOverzicht extends JPanel implements Observer {
 		for(int i=0;i<klantData.size();i++) {
 			tableModel.addRow(new String[]{String.valueOf(i), kIt.next()});
 		}
+		//String plaatsnaam = fc.getActiveVestigingPlaatsnaam();
+        //klantaantal = new JLabel(plaatsnaam + " Klantaantal: "  + klantData.size());
 	}
 	
 	@Override
 	public void update(Subject s, Object arg) {
-		updateKlantTable((Collection<String>) arg);
+		//updateKlantTable((Collection<String>) arg);
+		//System.out.println("plaats: "+fc.getActiveVestigingPlaatsnaam());
 	}
+	
+	
+	/**
+	 * Dit werkt niet goed om een of andere reden wordt de verkeerde active plaats getoond
+	 * @param klanten
+	 * @param plaatsnaam
+	 * @param activePlaats
+	 */
+	public void pasAan(Collection<String> klanten, String plaatsnaam, String activePlaats) {
+//	  System.out.println("pas aan : "+activePlaats);
+//	  updateKlantTable((Collection<String>) klanten);
+//      klantaantal = new JLabel(activePlaats + " Klantaantal: "  + klantData.size());
+
+	}
+	
+	
+	
+	
 }
