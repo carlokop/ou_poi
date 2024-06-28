@@ -2,7 +2,6 @@ import javax.swing.SwingUtilities;
 
 import controller.Controller;
 import domein.Bedrijf;
-import domein.Bedrijfssimulatie;
 import exceptions.PoiException;
 import gui.Main.Gui;
 
@@ -31,11 +30,9 @@ public class Main {
 					 * + Bedrijf kan makkelijker Mapper implementatie uitwisselen
 					 */
 					Bedrijf b = new Bedrijf(); // bedrijf propageert PoiException naar boven naar main
-					Bedrijfssimulatie bs = new Bedrijfssimulatie();
-					Controller facade = new Controller(b, bs);
+					Controller facade = new Controller(b);
 					Gui gui = new Gui(facade);
 					b.attach(gui);
-					bs.attach(gui);
 				} catch (PoiException e) {
 					e.printStackTrace();
 				} 

@@ -11,7 +11,6 @@ import controller.Controller;
 import data.Mapper;
 import data.Queries;
 import domein.Bedrijf;
-import domein.Bedrijfssimulatie;
 import domein.Vestiging;
 import exceptions.PoiException;
 import gui.Main.Gui;
@@ -98,11 +97,9 @@ public class Kladblok {
 	  try {
 	    
 	    Bedrijf b = new Bedrijf(); // bedrijf propageert PoiException naar boven naar main
-        Bedrijfssimulatie bs = new Bedrijfssimulatie();
-        Controller facade = new Controller(b, bs);
+        Controller facade = new Controller(b);
         gui = new Gui(facade);
 //        b.attach(gui);
-        bs.attach(gui);        
       } catch(Exception e) {
         gui = new Gui(e.getMessage());
         System.out.println("Ging iets fout: "+e.getMessage());

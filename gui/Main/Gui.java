@@ -56,7 +56,7 @@ public class Gui extends JFrame implements Observer {
       super();
       pane = getContentPane();
       init();
-      JDialog notificatie = new Notificatie(error, true, "Applicatie afsluiten"); // TODO: gebruik optionDialog
+      JDialog notificatie = new Notificatie(error, true, "Applicatie afsluiten");
       notificatie.setLocationRelativeTo(pane);
   }
     
@@ -84,7 +84,8 @@ public class Gui extends JFrame implements Observer {
 		pane.add(footer, BorderLayout.SOUTH);       
         
 		// plugins
-		this.visualizer = new Visualizer(fc);
+		vestigingOverzicht = new VestigingOverzicht(fc);
+		visualizer = new Visualizer(fc);
 		
         this.pane.revalidate();
         this.pane.repaint();
@@ -98,9 +99,6 @@ public class Gui extends JFrame implements Observer {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 		    stopActiviteit();
-	        if(vestigingOverzicht == null && fc != null) {
-	          vestigingOverzicht = new VestigingOverzicht(fc);
-	        }
 			pane.add(vestigingOverzicht, BorderLayout.WEST);
 			footer.setVisible(true);
 			Gui.this.pane.revalidate();
@@ -160,5 +158,6 @@ public class Gui extends JFrame implements Observer {
 	@Override
 	public void update(Subject s, Object arg) {
         visualizer.update(s, arg);
+        ((Observer) vestigingOverzicht).update(s, arg);
 	}
 }

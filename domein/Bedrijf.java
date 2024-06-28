@@ -2,10 +2,16 @@ package domein;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
+import java.util.Map.Entry;
 
 import controller.ModelBedrijf;
 import data.Mapper;
 import exceptions.PoiException;
+import exceptions.PoiExceptionCode;
 import observer.Subject;
 
 /**
@@ -14,9 +20,15 @@ import observer.Subject;
  * Beheert vervolgens alle vestigingen en regelt de communocatie met de mapper
  */
 public class Bedrijf extends Subject implements ModelBedrijf {
-	private static Collection<Vestiging> vestigingen;
+	private static Collection<Vestiging> vestigingenSnapshot;
+	private static Collection<Vestiging> vestigingenCrrnt;
 	private static Mapper m;
 	
+	// houdt bij of een vestiging open is; true voor open, false voor dicht. Deze lijst moet alle instanties behouden
+		private Map<Vestiging, Boolean> vestigingenChecklist;
+		// houdt de oorspronkelijke vestiging(en) bij en de huidige
+		private Map<Klant, Entry<Collection<Vestiging>, Collection<Vestiging>>> klantenChecklist;
+
 	/**
 	 * Initialiseert een bedrijf
 	 * maakt een associatie met de mapper en vestigingen 
@@ -25,15 +37,19 @@ public class Bedrijf extends Subject implements ModelBedrijf {
 	public Bedrijf() throws PoiException {
 		if(m == null) {
 			Bedrijf.m = new Mapper();
-			Bedrijf.vestigingen = m.getVestigingen();
+			Bedrijf.vestigingenSnapshot = m.getVestigingen();
+			vestigingenCrrnt = vestigingenSnapshot;
 		}
+		
+		setupKlantenChecklist();
+		setupVestigingenChecklist();
 	}
 	
 	//TODO: ZIE MAIN COMMENTAAR
-	public Bedrijf(Mapper m) throws PoiException {
-		Bedrijf.m = m;
-		Bedrijf.vestigingen = m.getVestigingen();
-	}
+//	public Bedrijf(Mapper m) throws PoiException {
+//		Bedrijf.m = m;
+//		Bedrijf.vestigingenSnapshot = m.getVestigingen();
+//	}
 	
 	/**
 	 * Haalt een lijst van de locatienamen op van vestigingen
@@ -44,7 +60,7 @@ public class Bedrijf extends Subject implements ModelBedrijf {
         Collection<String> lijstPlaatsenNamen = new ArrayList<>();
 
         // lvp, lijst vestiging plaatsen
-        for(Vestiging v: Bedrijf.vestigingen) {
+        for(Vestiging v: Bedrijf.vestigingenCrrnt) {
             lijstPlaatsenNamen.add(v.getPlaats());
         }
         return lijstPlaatsenNamen;
@@ -62,7 +78,7 @@ public class Bedrijf extends Subject implements ModelBedrijf {
         Collection<Klant> klantCache = null;
 
         // select from collection vestigingen
-        for(Vestiging v: Bedrijf.vestigingen) {
+        for(Vestiging v: Bedrijf.vestigingenCrrnt) {
             if(v.getPlaats() == plaats) {
                 vestigingSelectie = v;
                 break;
@@ -81,22 +97,101 @@ public class Bedrijf extends Subject implements ModelBedrijf {
         return vestigingKlantenData;
     }
 	
-	public static Collection<Vestiging> getVestigingen() {
-		return Bedrijf.vestigingen;
+	public void setupKlantenChecklist() {
+		klantenChecklist = new HashMap<>();
+		Entry<Collection<Vestiging>, Collection<Vestiging>> klantEntry;
+
+		Collection<Klant> klanten;
+		for (Vestiging v : vestigingenCrrnt) {
+			klanten = v.getKlanten();
+			for (Klant k : klanten) {
+				if (!klantenChecklist.containsKey(k)) { // maak entry voor klant indien nog niet bestaand
+					klantenChecklist.put(k, Map.entry(new ArrayList<>(), new ArrayList<>()));
+				} 
+				klantEntry = klantenChecklist.get(k);
+				klantEntry.getKey().add(v);	 	// onthoud oorspronkelijke vestiging(en)
+				klantEntry.getValue().add(v);	// onthoud huidige vestiging(en)
+			}
+		}
+	}
+
+	public void setupVestigingenChecklist() {
+		vestigingenChecklist = new HashMap<Vestiging, Boolean>();
+		for (Vestiging v : vestigingenCrrnt) {
+			vestigingenChecklist.put(v, true);
+		}
+	}
+
+	/**
+	 * Geeft een map terug met de geupdate plaatsnamen en het aantal klanten in die vestiging
+	 * @return map met plaatsnaam en aantal klanten
+	 */
+	public Map<String, Integer> getVestigingenMap() {
+	    Map<String, Integer> map  = new TreeMap<>();
+	    for(Vestiging v: vestigingenCrrnt) {
+	      String plaatsnaam = v.getPlaats();
+	      int aantal_klanten = v.getKlanten().size();
+	      map.put(plaatsnaam, aantal_klanten);
+	    }
+	    return map;
 	}
 	
 	/**
-	 * Retourneert diepe kopie
-	 * @return diepe kopie van Vestigingen collectie
-	 * @throws PoiException
+	 * Methode werkt vestiging checklist bij, de aanroep naar vestiging werkt de
+	 * klantenchecklist bij.
 	 */
-	public static Collection<Vestiging> getDeepCopy() throws PoiException{
-		//return m.getVestigingen();
-	    Collection<Vestiging> copyvestigingen = new ArrayList<>();
-	    	    
-	    for(Vestiging v:vestigingen) {
-	      copyvestigingen.add(Vestiging.copy(v));
-	    }
-	    return copyvestigingen;
+	@Override
+	public void sluitVestiging(String plaats) {
+		Vestiging geslotenVestiging = Vestiging.select(plaats, vestigingenCrrnt);
+		
+		// Zet status vestiging op gesloten
+		vestigingenChecklist.replace(geslotenVestiging, false);
+
+		// Compileer lijst van open vestigingen waarmee gerekend wordt
+		Collection<Vestiging> openVestigingen = new ArrayList<Vestiging>();
+		Set<Entry<Vestiging, Boolean>> cleSet = vestigingenChecklist.entrySet();
+		for (Entry<Vestiging, Boolean> cle : cleSet) {
+			if (cle.getValue()) {
+				openVestigingen.add(cle.getKey());
+			}
+		}
+
+		Vestiging.migratieSluitenVestiging(geslotenVestiging, openVestigingen, klantenChecklist);
+		notifyObservers();
 	}
+	
+	/**
+	 * Methode werkt vestiging checklist bij, de aanroep naar vestiging werkt de
+	 * klantenchecklist bij.
+	 */
+	@Override
+	public void openVestiging(String plaats) {
+		Vestiging geopendeVestiging = Vestiging.select(plaats, vestigingenCrrnt);
+
+		// Zet status vestiging op open
+		vestigingenChecklist.replace(geopendeVestiging, true);
+		Vestiging.migratieOpenenVestiging(geopendeVestiging, Bedrijf.vestigingenSnapshot, klantenChecklist);
+		notifyObservers();
+	}
+
+	public static void validate() throws PoiException {
+		if (Bedrijf.vestigingenSnapshot == null) {
+			throw new PoiException(PoiExceptionCode.BEDRIJF_VESTIGINGEN_SNAPSHOT_NULL, null);
+		}
+	}
+
+	
+	public Map<Vestiging, Boolean> getVestigingenChecklist() {
+		return this.vestigingenChecklist;
+	}
+
+	@Override
+	public Boolean isVestigingOpen(String plaatsnaam){
+		return this.vestigingenChecklist.get(Vestiging.select(plaatsnaam, vestigingenCrrnt));
+	}
+	
+	public Map<Klant, Entry<Collection<Vestiging>, Collection<Vestiging>>> getKlantenChecklist() {
+		return this.klantenChecklist;
+	}
+
 }
