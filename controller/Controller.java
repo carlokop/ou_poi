@@ -47,12 +47,11 @@ public class Controller implements ModelBedrijf, VisualizerControllerInterface {
 
 	@Override
 	public void barClicked(String plaatsnaam, Integer aantal_klanten) {
-		System.out.println("Status voor opening:" + plaatsnaam + ", " + aantal_klanten);
 		if (!mb.isVestigingOpen(plaatsnaam)) {
+		  System.out.println("Status voor opening:" + plaatsnaam + ", " + aantal_klanten);
 			mb.openVestiging(plaatsnaam);
 		} else {
 			System.out.println("Status voor sluiting:" + plaatsnaam + ", " + aantal_klanten);
-
 			mb.sluitVestiging(plaatsnaam);
 		}
 	}

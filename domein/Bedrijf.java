@@ -38,7 +38,7 @@ public class Bedrijf extends Subject implements ModelBedrijf {
 		if(m == null) {
 			Bedrijf.m = new Mapper();
 			Bedrijf.vestigingenSnapshot = m.getVestigingen();
-			vestigingenCrrnt = vestigingenSnapshot;
+			vestigingenCrrnt = getDeepCopy();
 		}
 		
 		setupKlantenChecklist();
@@ -193,5 +193,25 @@ public class Bedrijf extends Subject implements ModelBedrijf {
 	public Map<Klant, Entry<Collection<Vestiging>, Collection<Vestiging>>> getKlantenChecklist() {
 		return this.klantenChecklist;
 	}
+	
+	/**
+     * Retourneert diepe kopie
+     * @return diepe kopie van Vestigingen collectie
+     * @throws PoiException
+     */
+    public static Collection<Vestiging> getDeepCopy() throws PoiException{
+        //return m.getVestigingen();
+        Collection<Vestiging> copyvestigingen = new ArrayList<>();
+                
+        for(Vestiging v:Bedrijf.vestigingenSnapshot) {
+          copyvestigingen.add(Vestiging.copy(v));
+        }
+        return copyvestigingen;
+    }
+	
+	
+	
+	
+	
 
 }
