@@ -132,7 +132,7 @@ public class Vestiging {
 	public static void migratieSluitenVestiging(
 			Vestiging geslotenVestiging, 
 			Collection<Vestiging> openVestigingen, 
-			Map<Klant, Entry<Collection<Vestiging>, Collection<Vestiging>>> klantenChecklist
+			Map<String, Entry<Collection<Vestiging>, Collection<Vestiging>>> klantenChecklist
 			) {
 		Collection<Klant> gvKlanten = geslotenVestiging.getKlanten();
 		Entry<Collection<Vestiging>, Collection<Vestiging>> klantEntry;
@@ -141,7 +141,7 @@ public class Vestiging {
 		if(openVestigingen.size() == 0) {
 			for (Klant k : gvKlanten) {				
 				// werk klantchecklist bij 
-				klantEntry = klantenChecklist.get(k);
+				klantEntry = klantenChecklist.get(String.valueOf(k.getKlantnr()));
 				klantEntry.getValue().remove(geslotenVestiging); //verwijder uit lijst van huidige vestigingen, wordt leeg als het goed is
 			}
 		}
@@ -150,7 +150,7 @@ public class Vestiging {
 			for (Klant k : gvKlanten) {
 				
 				// werk klantchecklist bij 
-				klantEntry = klantenChecklist.get(k);
+				klantEntry = klantenChecklist.get(String.valueOf(k.getKlantnr()));
 				klantEntry.getValue().remove(geslotenVestiging); 		//verwijder gesloten uit lijst van huidige vestigingen
 				if(!klantEntry.getValue().contains(dichtsteVestiging)) {//voeg dichtste toe aan lijst van huidige vestigingen
 					klantEntry.getValue().add(dichtsteVestiging); 
@@ -167,7 +167,7 @@ public class Vestiging {
 				// zoek naar dichtste vestiging
 				dichtsteVestiging = getKlantDichtsteVestiging(k, openVestigingen);
 				// werk klantchecklist bij 
-				klantEntry = klantenChecklist.get(k);
+				klantEntry = klantenChecklist.get(String.valueOf(k.getKlantnr()));
 				klantEntry.getValue().remove(geslotenVestiging); 		//verwijder gesloten uit lijst van huidige vestigingen
 				if(!klantEntry.getValue().contains(dichtsteVestiging)) {//voeg dichtste toe aan lijst van huidige vestigingen
 					klantEntry.getValue().add(dichtsteVestiging); 
@@ -196,7 +196,7 @@ public class Vestiging {
 	public static void migratieOpenenVestiging(
 			Vestiging geopendeVestiging, 
 			Collection<Vestiging> vestigingenSnapshot, // oorspronkelijke lijst uit non-simulatie
-			Map<Klant, Entry<Collection<Vestiging>, Collection<Vestiging>>> klantenChecklist
+			Map<String, Entry<Collection<Vestiging>, Collection<Vestiging>>> klantenChecklist
 			) {
 		Vestiging vOrigineel = Vestiging.select(geopendeVestiging.getPlaats(), vestigingenSnapshot); 
 		Collection<Klant> kOrigineel = vOrigineel.getKlanten();
@@ -208,7 +208,7 @@ public class Vestiging {
 		
 		// migreer klanten en werk gelijk checklist bij
 		for (Klant k : kOrigineel) {
-			klantEntry = klantenChecklist.get(k);
+			klantEntry = klantenChecklist.get(String.valueOf(k.getKlantnr()));
 			klantHuidigeVestigingen = klantEntry.getValue();
 			klantOrigineleVestigingen = klantEntry.getKey();
 

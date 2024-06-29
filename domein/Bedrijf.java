@@ -27,7 +27,7 @@ public class Bedrijf extends Subject implements ModelBedrijf {
 	// houdt bij of een vestiging open is; true voor open, false voor dicht. Deze lijst moet alle instanties behouden
 		private Map<Vestiging, Boolean> vestigingenChecklist;
 		// houdt de oorspronkelijke vestiging(en) bij en de huidige
-		private Map<Klant, Entry<Collection<Vestiging>, Collection<Vestiging>>> klantenChecklist;
+		private Map<String, Entry<Collection<Vestiging>, Collection<Vestiging>>> klantenChecklist;
 
 	/**
 	 * Initialiseert een bedrijf
@@ -115,10 +115,10 @@ public class Bedrijf extends Subject implements ModelBedrijf {
 		klantenChecklist = new HashMap<>();
 		Entry<Collection<Vestiging>, Collection<Vestiging>> klantEntry;
 
-		Collection<Klant> klanten;
+		Collection<String> klanten;
 		for (Vestiging v : vestigingenCrrnt) {
-			klanten = v.getKlanten();
-			for (Klant k : klanten) {
+			klanten = v.getKlantenStrings();
+			for (String k : klanten) {
 				if (!klantenChecklist.containsKey(k)) { // maak entry voor klant indien nog niet bestaand
 					klantenChecklist.put(k, Map.entry(new ArrayList<>(), new ArrayList<>()));
 				} 
@@ -129,7 +129,7 @@ public class Bedrijf extends Subject implements ModelBedrijf {
 		}
 	}
 	
-	public Map<Klant, Entry<Collection<Vestiging>, Collection<Vestiging>>> getKlantenChecklist() {
+	public Map<String, Entry<Collection<Vestiging>, Collection<Vestiging>>> getKlantenChecklist() {
 		return this.klantenChecklist;
 	}
 	
@@ -195,8 +195,7 @@ public class Bedrijf extends Subject implements ModelBedrijf {
 	    Map<String, Integer> map  = new TreeMap<>();
 	    for(Vestiging v: vestigingenCrrnt) {
 	      String plaatsnaam = v.getPlaats();
-	      int aantal_klanten = v.getKlanten().size();
-	      map.put(plaatsnaam, aantal_klanten);
+	      map.put(plaatsnaam, v.getKlantenStrings().size());
 	    }
 	    return map;
 	}

@@ -178,15 +178,15 @@ class VestigingTest {
 			assert (testVestigingen.size() > 0);
 			
 			tvIterator = testVestigingen.iterator();
-			Map<Klant, Entry<Collection<Vestiging>, Collection<Vestiging>>> kcl = bs.getKlantenChecklist();
-			Klant testKlant = null;
+			Map<String, Entry<Collection<Vestiging>, Collection<Vestiging>>> kcl = bs.getKlantenChecklist();
+			String testKlant = null;
 			Entry<Collection<Vestiging>, Collection<Vestiging>> testKlantEntry = null;
 			Vestiging vestigingTeOpenen;
 			
 			// Van alles gesloten naar 1 geopend
 			
 			// Zoek naar testklant met 1 initiele vestiging
-			for(Entry<Klant, Entry<Collection<Vestiging>, Collection<Vestiging>>> kclEntry: kcl.entrySet()) {
+			for(Entry<String, Entry<Collection<Vestiging>, Collection<Vestiging>>> kclEntry: kcl.entrySet()) {
 				if(kclEntry.getValue().getKey().size() == 1) {
 					testKlant = kclEntry.getKey();
 					testKlantEntry = kclEntry.getValue();
@@ -237,8 +237,8 @@ class VestigingTest {
 			}
 			
 			// Klant checklist
-			for(Entry<Klant, Entry<Collection<Vestiging>, Collection<Vestiging>>> kclEntry:kcl.entrySet()) {
-				if(vOrigineel.getKlanten().contains(kclEntry.getKey())) {
+			for(Entry<String, Entry<Collection<Vestiging>, Collection<Vestiging>>> kclEntry:kcl.entrySet()) {
+				if(vOrigineel.getKlantenStrings().contains(kclEntry.getKey())) {
 					// originele klant
 					assertTrue(kclEntry.getValue().getKey().contains(vestigingTeOpenen)); 	//  originele vestigingen bevat geopende vestiging
 					assertTrue(kclEntry.getValue().getValue().contains(vestigingTeOpenen));	// huidige vestiging bevat geopende vestiging
