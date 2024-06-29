@@ -80,7 +80,7 @@ public class Gui extends JFrame implements Observer {
 		pane.add(header, BorderLayout.NORTH);
 
 		footer = new Footer();
-		((Footer) footer).attachStopActivityListener(new stopActiviteitListener());
+		((Footer) footer).attachStopInzageListener(new stopInzageListener());
 		pane.add(footer, BorderLayout.SOUTH);       
         
 		// plugins
@@ -112,17 +112,14 @@ public class Gui extends JFrame implements Observer {
 	class VestigingenSimulatieMenuItemLuisteraar implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-		  stopInzage();
 		  visualizer.setVisible(true);
-//		  pane.add(visualizer, BorderLayout.CENTER);
-          footer.setVisible(true);
 		}
 	}
 
 	/**
 	 * Handler voor de sluit rapport knop
 	 */
-	class stopActiviteitListener implements ActionListener {
+	class stopInzageListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 		  stopInzage();
