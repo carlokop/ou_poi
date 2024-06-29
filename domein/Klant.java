@@ -128,4 +128,10 @@ public class Klant implements Comparable<Klant> {
 	public int compareTo(Klant o) {
 		return this.klantnr - o.getKlantnr();
 	}
+	
+	@Override 
+	public String toString(){
+		return String.valueOf(klantnr);
+	}
+	
 }

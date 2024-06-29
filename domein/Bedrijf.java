@@ -90,7 +90,6 @@ public class Bedrijf extends Subject implements ModelBedrijf {
     public Collection<String> getVestigingKlanten(String plaats) {
         Collection<String> vestigingKlantenData = null;
         Vestiging vestigingSelectie = null;
-        Collection<Klant> klantCache = null;
 
         // select from collection vestigingen
         for(Vestiging v: vestigingenCrrnt) {
@@ -102,11 +101,7 @@ public class Bedrijf extends Subject implements ModelBedrijf {
 
         if(vestigingSelectie != null) {
             vestigingKlantenData = new ArrayList<>();
-            // getKlanten, lsk
-            klantCache = vestigingSelectie.getKlanten();
-            for(Klant k: klantCache) {
-                vestigingKlantenData.add(String.valueOf(k.getKlantnr()));
-            }
+            vestigingKlantenData = vestigingSelectie.getKlantenStrings();
         }
         
         return vestigingKlantenData;

@@ -304,6 +304,14 @@ public class Vestiging {
 	public Collection<Klant> getKlanten() {
 		return klanten;
 	}
+	
+	public Collection<String> getKlantenStrings() {
+		Collection<String> klantenStrings = new ArrayList<>();
+		for(Klant k:klanten) {
+			klantenStrings.add(k.toString());
+		}
+		return klantenStrings;
+	}
 
 	public void addKlant(Klant k) {
 		this.klanten.add(k);
