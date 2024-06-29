@@ -20,7 +20,7 @@ import observer.Subject;
  * Beheert vervolgens alle vestigingen en regelt de communocatie met de mapper
  */
 public class Bedrijf extends Subject implements ModelBedrijf {
-	private static Collection<Vestiging> vestigingenSnapshot;
+	public static Collection<Vestiging> vestigingenSnapshot;
 	private Collection<Vestiging> vestigingenCrrnt;
 	private static Mapper m;
 	
@@ -38,9 +38,8 @@ public class Bedrijf extends Subject implements ModelBedrijf {
 		if(m == null) {
 			Bedrijf.m = new Mapper();
 			Bedrijf.vestigingenSnapshot = m.getVestigingen();
-			vestigingenCrrnt = Bedrijf.getDeepCopy();
 		}
-		
+		vestigingenCrrnt = Bedrijf.getDeepCopy();
 		setupKlantenChecklist();
 		setupVestigingenChecklist();
 	}
