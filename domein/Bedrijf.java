@@ -21,7 +21,7 @@ import observer.Subject;
  */
 public class Bedrijf extends Subject implements ModelBedrijf {
 	private static Collection<Vestiging> vestigingenSnapshot;
-	private static Collection<Vestiging> vestigingenCrrnt;
+	private Collection<Vestiging> vestigingenCrrnt;
 	private static Mapper m;
 	
 	// houdt bij of een vestiging open is; true voor open, false voor dicht. Deze lijst moet alle instanties behouden
@@ -38,11 +38,27 @@ public class Bedrijf extends Subject implements ModelBedrijf {
 		if(m == null) {
 			Bedrijf.m = new Mapper();
 			Bedrijf.vestigingenSnapshot = m.getVestigingen();
-			vestigingenCrrnt = vestigingenSnapshot;
+			vestigingenCrrnt = Bedrijf.getDeepCopy();
 		}
 		
 		setupKlantenChecklist();
 		setupVestigingenChecklist();
+	}
+	
+	public static Collection<Vestiging> getDeepCopy() throws PoiException{
+        //return m.getVestigingen();
+        Collection<Vestiging> copyvestigingen = new ArrayList<>();
+                
+        for(Vestiging v:Bedrijf.vestigingenSnapshot) {
+          copyvestigingen.add(Vestiging.copy(v));
+        }
+        return copyvestigingen;
+    }
+	
+	public static void validate() throws PoiException {
+		if (Bedrijf.vestigingenSnapshot == null) {
+			throw new PoiException(PoiExceptionCode.BEDRIJF_VESTIGINGEN_SNAPSHOT_NULL, null);
+		}
 	}
 	
 	//TODO: ZIE MAIN COMMENTAAR
@@ -60,7 +76,7 @@ public class Bedrijf extends Subject implements ModelBedrijf {
         Collection<String> lijstPlaatsenNamen = new ArrayList<>();
 
         // lvp, lijst vestiging plaatsen
-        for(Vestiging v: Bedrijf.vestigingenCrrnt) {
+        for(Vestiging v: vestigingenCrrnt) {
             lijstPlaatsenNamen.add(v.getPlaats());
         }
         return lijstPlaatsenNamen;
@@ -78,7 +94,7 @@ public class Bedrijf extends Subject implements ModelBedrijf {
         Collection<Klant> klantCache = null;
 
         // select from collection vestigingen
-        for(Vestiging v: Bedrijf.vestigingenCrrnt) {
+        for(Vestiging v: vestigingenCrrnt) {
             if(v.getPlaats() == plaats) {
                 vestigingSelectie = v;
                 break;
@@ -97,6 +113,10 @@ public class Bedrijf extends Subject implements ModelBedrijf {
         return vestigingKlantenData;
     }
 	
+	public Collection<Vestiging> getVestigingen(){
+		return this.vestigingenCrrnt;
+	}
+	
 	public void setupKlantenChecklist() {
 		klantenChecklist = new HashMap<>();
 		Entry<Collection<Vestiging>, Collection<Vestiging>> klantEntry;
@@ -114,7 +134,11 @@ public class Bedrijf extends Subject implements ModelBedrijf {
 			}
 		}
 	}
-
+	
+	public Map<Klant, Entry<Collection<Vestiging>, Collection<Vestiging>>> getKlantenChecklist() {
+		return this.klantenChecklist;
+	}
+	
 	public void setupVestigingenChecklist() {
 		vestigingenChecklist = new HashMap<Vestiging, Boolean>();
 		for (Vestiging v : vestigingenCrrnt) {
@@ -122,18 +146,13 @@ public class Bedrijf extends Subject implements ModelBedrijf {
 		}
 	}
 
-	/**
-	 * Geeft een map terug met de geupdate plaatsnamen en het aantal klanten in die vestiging
-	 * @return map met plaatsnaam en aantal klanten
-	 */
-	public Map<String, Integer> getVestigingenMap() {
-	    Map<String, Integer> map  = new TreeMap<>();
-	    for(Vestiging v: vestigingenCrrnt) {
-	      String plaatsnaam = v.getPlaats();
-	      int aantal_klanten = v.getKlanten().size();
-	      map.put(plaatsnaam, aantal_klanten);
-	    }
-	    return map;
+	public Map<Vestiging, Boolean> getVestigingenChecklist() {
+		return this.vestigingenChecklist;
+	}
+
+	@Override
+	public Boolean isVestigingOpen(String plaatsnaam){
+		return this.vestigingenChecklist.get(Vestiging.select(plaatsnaam, vestigingenCrrnt));
 	}
 	
 	/**
@@ -173,25 +192,18 @@ public class Bedrijf extends Subject implements ModelBedrijf {
 		Vestiging.migratieOpenenVestiging(geopendeVestiging, Bedrijf.vestigingenSnapshot, klantenChecklist);
 		notifyObservers();
 	}
-
-	public static void validate() throws PoiException {
-		if (Bedrijf.vestigingenSnapshot == null) {
-			throw new PoiException(PoiExceptionCode.BEDRIJF_VESTIGINGEN_SNAPSHOT_NULL, null);
-		}
-	}
-
 	
-	public Map<Vestiging, Boolean> getVestigingenChecklist() {
-		return this.vestigingenChecklist;
+	/**
+	 * Geeft een map terug met de geupdate plaatsnamen en het aantal klanten in die vestiging
+	 * @return map met plaatsnaam en aantal klanten
+	 */
+	public Map<String, Integer> getVestigingenMap() {
+	    Map<String, Integer> map  = new TreeMap<>();
+	    for(Vestiging v: vestigingenCrrnt) {
+	      String plaatsnaam = v.getPlaats();
+	      int aantal_klanten = v.getKlanten().size();
+	      map.put(plaatsnaam, aantal_klanten);
+	    }
+	    return map;
 	}
-
-	@Override
-	public Boolean isVestigingOpen(String plaatsnaam){
-		return this.vestigingenChecklist.get(Vestiging.select(plaatsnaam, vestigingenCrrnt));
-	}
-	
-	public Map<Klant, Entry<Collection<Vestiging>, Collection<Vestiging>>> getKlantenChecklist() {
-		return this.klantenChecklist;
-	}
-
 }

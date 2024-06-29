@@ -115,7 +115,7 @@ public class VestigingOverzicht extends JPanel implements Observer {
 
 	@Override
 	public void update(Subject s, Object arg) {
-		for( Entry<String, Component> vEntry: vestigingKlantOverzicht.entrySet()) {
+		for(Entry<String, Component> vEntry: vestigingKlantOverzicht.entrySet()) {
 			((Observer)vEntry.getValue()).update(s, fc.getVestigingKlanten(vEntry.getKey()));;
 		}
 	}

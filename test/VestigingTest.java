@@ -120,44 +120,44 @@ class VestigingTest {
 	 * sluitVestiging(...) van klasse Bedrijfssimulatie en
 	 * migratieSluitenVestiging(...) van klasse Vestiging
 	 */
-//	@Test
-//	void migratieSluiten2VestigingenOfMeerTest() {
-//		Bedrijfssimulatie bs;
-//		try {
-//			bs = new Bedrijfssimulatie();
-//
-//			Map<Vestiging, Boolean> vChecklist = bs.getVestigingenChecklist();
-//			testVestigingen = new ArrayList<Vestiging>(bs.getSimVestigingen());		// lijst met alle vestigingen
-//
-//			// Minstens 2 vestigingen nodig om de migratie binnen de functie te testen
-//			assert (testVestigingen.size() > 1);
-//
-//			// Kies vestiging om te sluiten, en verwijder deze uit de lijst met open vestigingen
-//			vestiging = testVestigingen.iterator().next();	// de te sluiten vestiging
-//			testVestigingen.remove(vestiging); 				// lijst met open vestigingen
-//
-//			// Haal lijst met klanten op van de te sluiten vestiging
-//			Collection<Klant> KlantenLijst = new ArrayList<>(vestiging.getKlanten());
-//			
-//			// Voer sluiting uit
-//			System.out.println(vestiging.getPlaats());
-//			bs.sluitVestiging(vestiging.getPlaats());
-//
-//			// Bevestig dat voor elke klant van de gesloten vestiging dat deze naar de dichtstbijzijnde vestiging is gegaan.
-//			Vestiging dichtsteVestiging;
-//			assertEquals(vestiging.getKlanten().size(), 0);
-//			for (Klant k : KlantenLijst) {
-//				dichtsteVestiging = Vestiging.getKlantDichtsteVestiging(k, testVestigingen);
-//				assert (dichtsteVestiging.getKlanten().contains(k));
-//			}
-//			
-//			assertFalse(vChecklist.get(vestiging));
-//			
-//		} catch (PoiException e) {
-//			fail("Simulatie start mislukt");
-//			e.printStackTrace();
-//		}
-//	}
+	@Test
+	void migratieSluiten2VestigingenOfMeerTest() {
+		Bedrijf b;
+		try {
+			b = new Bedrijf();
+
+			Map<Vestiging, Boolean> vChecklist = b.getVestigingenChecklist();
+			testVestigingen = new ArrayList<Vestiging>(b.getVestigingen());		// lijst met alle vestigingen
+
+			// Minstens 2 vestigingen nodig om de migratie binnen de functie te testen
+			assert (testVestigingen.size() > 1);
+
+			// Kies vestiging om te sluiten, en verwijder deze uit de lijst met open vestigingen
+			vestiging = testVestigingen.iterator().next();	// de te sluiten vestiging
+			testVestigingen.remove(vestiging); 				// lijst met open vestigingen
+
+			// Haal lijst met klanten op van de te sluiten vestiging
+			Collection<Klant> KlantenLijst = new ArrayList<>(vestiging.getKlanten());
+			
+			// Voer sluiting uit
+			System.out.println(vestiging.getPlaats());
+			b.sluitVestiging(vestiging.getPlaats());
+
+			// Bevestig dat voor elke klant van de gesloten vestiging dat deze naar de dichtstbijzijnde vestiging is gegaan.
+			Vestiging dichtsteVestiging;
+			assertEquals(vestiging.getKlanten().size(), 0);
+			for (Klant k : KlantenLijst) {
+				dichtsteVestiging = Vestiging.getKlantDichtsteVestiging(k, testVestigingen);
+				assert (dichtsteVestiging.getKlanten().contains(k));
+			}
+			
+			assertFalse(vChecklist.get(vestiging));
+			
+		} catch (PoiException e) {
+			fail("Simulatie start mislukt");
+			e.printStackTrace();
+		}
+	}
 
 	/**
 	 * 	Test implementatie corresponderende methodes;
