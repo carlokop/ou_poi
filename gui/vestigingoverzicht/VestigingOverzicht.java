@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map.Entry;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -26,7 +25,9 @@ public class VestigingOverzicht extends JPanel implements Observer {
 
 	private static final long serialVersionUID = 1L;
 	private Controller fc;
-	private HashMap<String, Component> vestigingKlantOverzicht;
+	private HashMap<String, VestigingKlantOverzicht> vestigingKlantOverzichtLijst;
+	Collection<String> vestigingPlaatsNamen;
+	Collection<String> vestigingKlantData;
 	private List<JButton> VestigingLijst = new ArrayList<>();
 
 	/**
@@ -37,7 +38,6 @@ public class VestigingOverzicht extends JPanel implements Observer {
 	public VestigingOverzicht(Controller fc) {
 		this.setLayout(new BorderLayout());
 		this.fc = fc;
-		this.vestigingKlantOverzicht = new HashMap<>();
 		init();
 	}
 
@@ -46,23 +46,21 @@ public class VestigingOverzicht extends JPanel implements Observer {
 	 * van en voegt deze toe aan het component aan de linkerkant
 	 */
 	public void init() {
+		this.vestigingKlantOverzichtLijst = new HashMap<>();
 		JPanel jpVestigingLijst = new JPanel();
 		jpVestigingLijst.setLayout(new GridLayout(0, 1));
-		Collection<String> vestigingPlaatsData = fc.getVestigingPlaatsen();
+		vestigingPlaatsNamen = fc.getVestigingPlaatsen();
 		toonVestigingKlantenListener tvkListener = new toonVestigingKlantenListener();
 
-		for (String plaats : vestigingPlaatsData) {
+		for (String plaats : vestigingPlaatsNamen) {
 			JButton knop = new JButton(plaats);
 			VestigingLijst.add(knop);
 			jpVestigingLijst.add(knop);
 			knop.addActionListener(tvkListener);
+			vestigingKlantData = fc.getVestigingKlanten(plaats);
+			vestigingKlantOverzichtLijst.put(plaats, new VestigingKlantOverzicht(vestigingKlantData));
 		}
-
-//		for (String plaats : vestigingPlaatsData) {
-//			JButton knop = new JButton(plaats);
-//			jpVestigingLijst.add(knop);
-//			knop.addActionListener(tvkListener);
-//		}
+		
 		this.add(jpVestigingLijst, BorderLayout.WEST);
 	}
 
@@ -82,10 +80,7 @@ public class VestigingOverzicht extends JPanel implements Observer {
 			VestigingOverzicht.this.remove(cCache);
 		}
 
-		if (!vestigingKlantOverzicht.containsKey(plaats)) {
-			vestigingKlantOverzicht.put(plaats, new VestigingKlantOverzicht(vestigingKlantData));
-		}
-		VestigingOverzicht.this.add(vestigingKlantOverzicht.get(plaats), BorderLayout.CENTER);
+		VestigingOverzicht.this.add(vestigingKlantOverzichtLijst.get(plaats), BorderLayout.CENTER);
 	}
 
 	/**
@@ -115,8 +110,11 @@ public class VestigingOverzicht extends JPanel implements Observer {
 
 	@Override
 	public void update(Subject s, Object arg) {
-		for(Entry<String, Component> vEntry: vestigingKlantOverzicht.entrySet()) {
-			((Observer)vEntry.getValue()).update(s, fc.getVestigingKlanten(vEntry.getKey()));;
+		VestigingKlantOverzicht crrntOverzicht;
+		for(String vestigingNaam: vestigingPlaatsNamen) {
+			vestigingKlantData = fc.getVestigingKlanten(vestigingNaam);
+			crrntOverzicht = vestigingKlantOverzichtLijst.get(vestigingNaam);
+			crrntOverzicht.updateKlantData(vestigingKlantData);
 		}
 	}
 }

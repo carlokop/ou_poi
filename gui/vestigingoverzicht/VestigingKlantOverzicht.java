@@ -17,7 +17,7 @@ import observer.Subject;
 /**
  * Klantenoverzicht component
  */
-public class VestigingKlantOverzicht extends JPanel implements Observer {
+public class VestigingKlantOverzicht extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	Collection<String> klantData;
@@ -27,6 +27,7 @@ public class VestigingKlantOverzicht extends JPanel implements Observer {
 	DefaultTableModel tableModel;
 	JTable klantTable;
 	JScrollPane vestigingKlantOverzicht;
+	JLabel labelKlantAantal;
 	
 	/**
 	 * Initialiseert een overzicht met klantdata
@@ -46,8 +47,8 @@ public class VestigingKlantOverzicht extends JPanel implements Observer {
 	public void createOverview(){
 		JPanel columnPanel = new JPanel();
 		columnPanel.setLayout(new GridLayout(1, 1, 0, 0));
-		columnPanel.add(new JLabel("Klantaantal: "  + klantData.size()));
-		
+		labelKlantAantal = new JLabel("Klantaantal: "  + klantData.size());
+		columnPanel.add(labelKlantAantal);
 		this.add(columnPanel, BorderLayout.NORTH);
 	}
 	
@@ -63,7 +64,7 @@ public class VestigingKlantOverzicht extends JPanel implements Observer {
 			tableModel.addRow(new String[]{String.valueOf(i), kIt.next()});
 		}
 		klantTable = new JTable(tableModel);
-		JScrollPane vestigingKlantOverzicht = new JScrollPane(klantTable);
+		vestigingKlantOverzicht = new JScrollPane(klantTable);
 		
 		this.add(vestigingKlantOverzicht, BorderLayout.CENTER);
 	}
@@ -76,8 +77,8 @@ public class VestigingKlantOverzicht extends JPanel implements Observer {
 		}
 	}
 	
-	@Override
-	public void update(Subject s, Object arg) {
-		updateKlantTable((Collection<String>) arg);
+	public void updateKlantData(Collection<String> klantData){
+		updateKlantTable(klantData);
+		labelKlantAantal.setText("Klantaantal: "  + klantData.size());
 	}
 }
