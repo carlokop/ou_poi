@@ -85,7 +85,7 @@ public class Gui extends JFrame implements Observer {
         
 		// plugins
 		vestigingOverzicht = new VestigingOverzicht(fc);
-		visualizer = new Visualizer(fc);
+		visualizer = new Visualizer(fc.getBarInfo(), fc);
 		
         this.pane.revalidate();
         this.pane.repaint();
@@ -113,7 +113,8 @@ public class Gui extends JFrame implements Observer {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 		  stopActiviteit();
-		  pane.add(visualizer, BorderLayout.CENTER);
+		  visualizer.setVisible(true);
+//		  pane.add(visualizer, BorderLayout.CENTER);
           footer.setVisible(true);
 		}
 	}

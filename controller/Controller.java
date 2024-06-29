@@ -2,10 +2,6 @@ package controller;
 
 import java.util.Collection;
 import java.util.Map;
-import java.util.TreeMap;
-
-import domein.Vestiging;
-import exceptions.PoiException;
 import gui.simulatie.VisualizerControllerInterface;
 
 /**

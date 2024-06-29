@@ -1,6 +1,7 @@
 package gui.simulatie;
 
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
@@ -8,73 +9,70 @@ import java.awt.event.MouseEvent;
 import java.util.Map;
 import java.util.Set;
 
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
+import javax.swing.JFrame;
 
-import controller.Controller;
 import observer.Observer;
 import observer.Subject;
 
 /**
  * 
  * Klasse die klikbare bars (staafjes) op een frame toont. Elke bar wordt
- * gekarakteriseerd door een key en een value.
+ * gekarakteriseerd door een key en een value. 
  * 
  * @author Medewerker OU
  *
  */
-public class Visualizer extends JPanel implements Observer {
+public class Visualizer extends JFrame implements Observer {
 
 	// intermediair tussen vizualizer (gui) en domein klassen
-	private Controller contr;
+	private VisualizerControllerInterface contr;
 
 	private static final long serialVersionUID = 1L;
-	private static final int MARGIN = 10;
-	private static final int HGAP = 10;
-	private int WIDTH_FRAME = 1200;
-	private int HEIGHT_FRAME = 520;
+	private static final int WIDTH_FRAME = 1200; // px was 820 // 1000
+	private static final int HEIGHT_FRAME = 520; // px was 520
+	private static final int MARGIN = 10; // px
+	private static final String TITLE = "Data visualizer";
 	private int WIDTH_PANE = WIDTH_FRAME - 2 * MARGIN;
-	private int OFFSET_HEADER_FOOTER = 80;
-	private int HEIGHT_PANE = HEIGHT_FRAME - 3 * MARGIN - OFFSET_HEADER_FOOTER;
-
-	// hulp parameter
-	private int openVestigingen;
+	private int HEIGHT_PANE = HEIGHT_FRAME - 3 * MARGIN;
+	private static final int HGAP = 10;  // Horizontale ruimte tussen de bars
+	private Container pane = null;
 
 	/**
 	 * Creeert een visualizer (staafdiagram) op grond van een map
 	 * 
-	 * @param map de map
-	 * @param vc  de controller
+	 * @param map
+	 *            de map
+	 * @param contr
+	 *            de controller
 	 */
-	public Visualizer(Controller vc) {
+	public Visualizer(Map<String, Integer> map, VisualizerControllerInterface contr) {
 		super();
-		this.contr = vc;
+		this.contr = contr;
 		initialize();
-		drawBars(contr.getBarInfo());
+		drawBars(map);
 	}
 
 	private void initialize() {
-		Map<String, Integer> map = contr.getBarInfo();
-		this.openVestigingen = map.size();
-		
-		setBounds(MARGIN, MARGIN, WIDTH_PANE, HEIGHT_PANE);
-		setBackground(Color.BLUE);
-		this.setPreferredSize(new Dimension(WIDTH_FRAME, HEIGHT_FRAME));
+		pane = this.getContentPane();
+		pane.setBounds(MARGIN, MARGIN, WIDTH_PANE, HEIGHT_PANE);
+		pane.setBackground(Color.BLUE);
+		setTitle(TITLE);
+		this.setSize(WIDTH_FRAME, HEIGHT_FRAME);
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-		this.setLocation(
-				(int) Math.round((dim.width - WIDTH_FRAME) / 2),
-				(int) Math.round((dim.height - HEIGHT_FRAME) / 2)
-				);
-		setLayout(null);
+		this.setLocation((int) Math.round((dim.width - WIDTH_FRAME) / 2)
+				        ,(int) Math.round((dim.height - HEIGHT_FRAME) / 2)
+				        );
+		pane.setLayout(null);
 	}
-	
+
 	/**
-	 * Tekent de bars op basis van de map met (key, value) paren. Bars met hoogte 0
-	 * worden getoond als bars met maximale hoogte in de achtergrondkleur.
+	 * Tekent de bars op basis van de map met (key, value) paren.
+	 * Bars met hoogte 0 worden getoond als bars met maximale hoogte in de
+	 * achtergrondkleur.
 	 * 
 	 */
 	private void drawBars(Map<String, Integer> map) {
-		removeAll();
+		pane.removeAll();
 		int size = map.size();
 		int total_hgap = (size + 1) * HGAP;
 		int width_bar = (WIDTH_PANE - total_hgap) / size;
@@ -91,7 +89,7 @@ public class Visualizer extends JPanel implements Observer {
 		this.repaint();
 		this.revalidate();
 	}
-
+	
 	private void createBar(String key, int value, int x_pos, double verticalScaleFactor, int width_bar) {
 		Bar bar;
 		if (value == 0) {
@@ -103,10 +101,10 @@ public class Visualizer extends JPanel implements Observer {
 			// // bar in kleur geel met hoogte: schaalfactor * aantal klanten.
 			int height_bar = (int) (verticalScaleFactor * value);
 			int y_pos = HEIGHT_PANE - height_bar;
-			bar = new Bar(key, value, x_pos, y_pos, width_bar, height_bar, Color.YELLOW);
+			bar = new Bar(key, value, x_pos, y_pos, width_bar, height_bar, Color.YELLOW );
 		}
 		bar.addMouseListener(new BarLuisteraar());
-		this.add(bar);
+		pane.add(bar);
 	}
 
 	/**
@@ -128,31 +126,14 @@ public class Visualizer extends JPanel implements Observer {
 	class BarLuisteraar extends MouseAdapter {
 		public void mouseClicked(MouseEvent e) {
 			Bar bar = (Bar) e.getSource();
-
-			// Waarschuw klant en handel naar diens beslissing.
-			if (contr.isVestigingOpen(bar.getName())) {
-				if(openVestigingen == 1) {
-					int warnDialogInput = JOptionPane.showConfirmDialog(
-							Visualizer.this.getParent(),
-							"Deze actie kan ervoor zorgen dat klanten uit het zicht raken.",
-			                 "U wilt de laatste vestiging sluiten.",
-			                 JOptionPane.OK_CANCEL_OPTION,
-			                 JOptionPane.WARNING_MESSAGE);
-					if (warnDialogInput != 0) {
-						return;
-					}
-				}
-				openVestigingen--;
-				contr.barClicked(bar.getName(), bar.getLabelValue()); //TODO: Semantics en wat is zinnig om te rapporteren?
-			} else {
-				openVestigingen++;
-				contr.barClicked(bar.getName(), bar.getLabelValue());
-			}
+			contr.barClicked(bar.getName(), bar.getLabelValue());
 		}
 	}
 
 	@Override
-	public void update(Subject s, Object c) {
-		drawBars(contr.getBarInfo());
+	public void update(Subject s, Object arg) {
+		drawBars(contr.getBarInfo());		
 	}
+
+	
 }
