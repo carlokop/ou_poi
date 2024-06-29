@@ -155,7 +155,7 @@ public class Gui extends JFrame implements Observer {
 	 */
 	@Override
 	public void update(Subject s, Object arg) {
-        visualizer.update(s, arg);
+		((Observer) visualizer).update(s, arg);
         ((Observer) vestigingOverzicht).update(s, arg);
 	}
 }

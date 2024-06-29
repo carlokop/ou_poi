@@ -38,7 +38,6 @@ public class Klant implements Comparable<Klant> {
 		validate(klantnr, postcode);
 		this.klantnr = klantnr;
 		this.postcode = postcode;
-
 	}
 	
 	/**
@@ -52,7 +51,6 @@ public class Klant implements Comparable<Klant> {
 	  return new Klant(klant.getKlantnr(), kloonPostcode);
 	}
 	
-
 	/**
      * Valideert of opgegeven klantnr en postcode een geldige invoer hebben
      * @param klantnr  het klantnummer

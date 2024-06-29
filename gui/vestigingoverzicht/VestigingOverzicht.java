@@ -114,7 +114,7 @@ public class VestigingOverzicht extends JPanel implements Observer {
 		for(String vestigingNaam: vestigingPlaatsNamen) {
 			vestigingKlantData = fc.getVestigingKlanten(vestigingNaam);
 			crrntOverzicht = vestigingKlantOverzichtLijst.get(vestigingNaam);
-			crrntOverzicht.updateKlantData(vestigingKlantData);
+			((Observer) crrntOverzicht).update(s, vestigingKlantData);
 		}
 	}
 }

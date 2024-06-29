@@ -144,7 +144,6 @@ public class Bedrijf extends Subject implements ModelBedrijf {
 		return this.vestigingenChecklist;
 	}
 
-	@Override
 	public Boolean isVestigingOpen(String plaatsnaam){
 		return this.vestigingenChecklist.get(Vestiging.select(plaatsnaam, vestigingenCrrnt));
 	}

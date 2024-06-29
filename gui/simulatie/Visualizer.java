@@ -36,20 +36,18 @@ public class Visualizer extends JFrame implements Observer {
 	private int HEIGHT_PANE = HEIGHT_FRAME - 3 * MARGIN;
 	private static final int HGAP = 10;  // Horizontale ruimte tussen de bars
 	private Container pane = null;
-
+	
 	/**
 	 * Creeert een visualizer (staafdiagram) op grond van een map
 	 * 
-	 * @param map
-	 *            de map
-	 * @param contr
-	 *            de controller
+	 * @param map de map
+	 * @param contr de controller
 	 */
 	public Visualizer(Map<String, Integer> map, VisualizerControllerInterface contr) {
 		super();
 		this.contr = contr;
 		initialize();
-		drawBars(map);
+		drawBars(map);		
 	}
 
 	private void initialize() {
@@ -127,13 +125,31 @@ public class Visualizer extends JFrame implements Observer {
 		public void mouseClicked(MouseEvent e) {
 			Bar bar = (Bar) e.getSource();
 			contr.barClicked(bar.getName(), bar.getLabelValue());
+
+			// Waarschuw klant en handel naar diens beslissing.
+//			if (contr.isVestigingOpen(bar.getName())) {
+//				if(openVestigingen == 1) {
+//					int warnDialogInput = JOptionPane.showConfirmDialog(
+//							Visualizer.this.getParent(),
+//							"Deze actie kan ervoor zorgen dat klanten uit het zicht raken.",
+//			                 "U wilt de laatste vestiging sluiten.",
+//			                 JOptionPane.OK_CANCEL_OPTION,
+//			                 JOptionPane.WARNING_MESSAGE);
+//					if (warnDialogInput != 0) {
+//						return;
+//					}
+//				}
+//				openVestigingen--;
+//				contr.barClicked(bar.getName(), bar.getLabelValue());
+//			} else {
+//				openVestigingen++;
+//				contr.barClicked(bar.getName(), bar.getLabelValue());
+//			}
 		}
 	}
 
 	@Override
 	public void update(Subject s, Object arg) {
 		drawBars(contr.getBarInfo());		
-	}
-
-	
+	}	
 }

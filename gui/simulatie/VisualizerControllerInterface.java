@@ -14,6 +14,7 @@ public interface VisualizerControllerInterface {
   public void barClicked(String naam, Integer aantal);
   
   public Map<String, Integer> getBarInfo();
+
   
 }
 

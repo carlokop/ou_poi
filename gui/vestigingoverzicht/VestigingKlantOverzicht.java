@@ -17,7 +17,7 @@ import observer.Subject;
 /**
  * Klantenoverzicht component
  */
-public class VestigingKlantOverzicht extends JPanel {
+public class VestigingKlantOverzicht extends JPanel implements Observer{
 
 	private static final long serialVersionUID = 1L;
 	Collection<String> klantData;
@@ -76,9 +76,11 @@ public class VestigingKlantOverzicht extends JPanel {
 			tableModel.addRow(new String[]{String.valueOf(i), kIt.next()});
 		}
 	}
-	
-	public void updateKlantData(Collection<String> klantData){
-		updateKlantTable(klantData);
-		labelKlantAantal.setText("Klantaantal: "  + klantData.size());
+
+	@Override
+	public void update(Subject s, Object arg) {
+		Collection<String> newKlantData = (Collection<String>) arg;
+		updateKlantTable(newKlantData);
+		labelKlantAantal.setText("Klantaantal: " + newKlantData.size());
 	}
 }
