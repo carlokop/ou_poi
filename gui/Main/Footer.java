@@ -14,7 +14,7 @@ public class Footer extends JPanel{
 	public Footer() {
 		this.setLayout(new FlowLayout(FlowLayout.LEFT));
 
-		stopActivityButton = new JButton("Huidige activiteit stoppen.");
+		stopActivityButton = new JButton("Huidige inzage stoppen.");
 		stopActivityButton.setBackground(Color.RED);
 		stopActivityButton.setForeground(Color.WHITE);
 
@@ -22,7 +22,7 @@ public class Footer extends JPanel{
 		this.setVisible(false);
 	}
 	
-	public void attachStopActivityListener(ActionListener l){
+	public void attachStopInzageListener(ActionListener l){
 		stopActivityButton.addActionListener(l);
 	}
 }
