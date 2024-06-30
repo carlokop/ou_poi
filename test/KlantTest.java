@@ -75,7 +75,7 @@ class KlantTest {
     
     /**
      * Test of het kopieren van een klant goed gaat
-     * @throws PoiException 
+     * @throws PoiException bij creatie fouten
      */
     @Test
     public void klantCkopieTest() throws PoiException {

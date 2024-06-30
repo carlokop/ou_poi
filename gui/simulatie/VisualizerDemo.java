@@ -11,6 +11,10 @@ import java.util.TreeMap;
  */
 public class VisualizerDemo {
 
+  /**
+   * start de deme
+   * @param args argumenten
+   */
   public static void main(String[] args) {
     // aanmaken m=van de map waarmee de bars worden geplaatst
     Map<String,Integer> map = new TreeMap<>();

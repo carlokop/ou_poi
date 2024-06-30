@@ -206,7 +206,7 @@ public class PostcodeTest {
     
     /**
      * Tests of het kopieren van het object goed gaat
-     * @throws PoiException 
+     * @throws PoiException als er fouten zijn bij het kopieren van objecten
      */
     @Test
     public void copyTest() throws PoiException {

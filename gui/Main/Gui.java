@@ -19,6 +19,7 @@ import observer.Subject;
 
 /**
  * Standaardframe van de Grafische userinterface
+ * Het standaardframe is het hoofgframe in het grotere geheel
 */
 public class Gui extends JFrame implements Observer {
 
@@ -150,8 +151,11 @@ public class Gui extends JFrame implements Observer {
 		this.pane.repaint();
 	}
 	
+
 	/**
 	 * Updates wijzigingen in de observers
+	 * @param s het subject
+	 * @param arg argumenten
 	 */
 	@Override
 	public void update(Subject s, Object arg) {

@@ -50,6 +50,9 @@ public class Visualizer extends JFrame implements Observer {
 		drawBars(map);		
 	}
 
+	/**
+	 * initialiseett de visualizer
+	 */
 	private void initialize() {
 		pane = this.getContentPane();
 		pane.setBounds(MARGIN, MARGIN, WIDTH_PANE, HEIGHT_PANE);
@@ -67,7 +70,7 @@ public class Visualizer extends JFrame implements Observer {
 	 * Tekent de bars op basis van de map met (key, value) paren.
 	 * Bars met hoogte 0 worden getoond als bars met maximale hoogte in de
 	 * achtergrondkleur.
-	 * 
+	 * @param map lijst met voor iedere bar die getoond worde de naam en het aantal
 	 */
 	private void drawBars(Map<String, Integer> map) {
 		pane.removeAll();
@@ -88,6 +91,14 @@ public class Visualizer extends JFrame implements Observer {
 		this.revalidate();
 	}
 	
+	/**
+	 * tekent een bar en voegt een barluisteraat toe aan de bar
+	 * @param key                      de naam op of boven de bar
+	 * @param value                    de numerieke waarde die de hoogte van de bar bepaald
+	 * @param x_pos                    x postie op het scherm
+	 * @param verticalScaleFactor      schaalfactor
+	 * @param width_bar                breedte van de bar
+	 */
 	private void createBar(String key, int value, int x_pos, double verticalScaleFactor, int width_bar) {
 		Bar bar;
 		if (value == 0) {
@@ -108,7 +119,7 @@ public class Visualizer extends JFrame implements Observer {
 	/**
 	 * Geeft de grootste value in de map
 	 * 
-	 * @return
+	 * @return de hoogste waarde
 	 */
 	private int maxValue(Map<String, Integer> map) {
 		int max = 0;
@@ -121,7 +132,14 @@ public class Visualizer extends JFrame implements Observer {
 		return max;
 	}
 
+	/**
+	 * luiteraar naar muisklikken op bars
+	 */
 	class BarLuisteraar extends MouseAdapter {
+	    /**
+	     * muisklik event
+	     * @param e muisklik event
+	     */
 		public void mouseClicked(MouseEvent e) {
 			Bar bar = (Bar) e.getSource();
 			contr.barClicked(bar.getName(), bar.getLabelValue());
@@ -148,6 +166,11 @@ public class Visualizer extends JFrame implements Observer {
 		}
 	}
 
+	/**
+	 * updates de bar na observer wijzigingen
+	 * @param s het subject
+	 * @param arg de argumenten
+	 */
 	@Override
 	public void update(Subject s, Object arg) {
 		drawBars(contr.getBarInfo());		

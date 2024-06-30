@@ -9,6 +9,9 @@ import gui.simulatie.VisualizerControllerInterface;
  */
 public class Controller implements ModelBedrijf, VisualizerControllerInterface {
 
+    /**
+     * Bedrijfsmodel
+     */
 	private ModelBedrijf mb;
 
 	/**
@@ -16,7 +19,6 @@ public class Controller implements ModelBedrijf, VisualizerControllerInterface {
 	 * stelt het model in
 	 * 
 	 * @param mb  ModelBedrijf
-	 * @param mbs ModelBedrijfssimulatie
 	 */
 	public Controller(ModelBedrijf mb) {
 		this.mb = mb;
@@ -41,6 +43,13 @@ public class Controller implements ModelBedrijf, VisualizerControllerInterface {
 		return mb.getVestigingKlanten(plaats);
 	}
 
+	/**
+	   * Bepaald als er op een bar in de visualizer wordt geklikt of een vestiging gesloten of heropend moet worden
+	   * Een vestiging wordt gesloten als die open is en heropend als die gesloten is
+	   * deze functie print tevens het aantal klanten in de vestiging naar het console
+	   * @param plaatsnaam naam bij de bar
+	   * @param aantal_klanten  het aantal dat de bar hoog is
+	   */
 	@Override
 	public void barClicked(String plaatsnaam, Integer aantal_klanten) {
 		System.out.println("Status voor opening:" + plaatsnaam + ", " + aantal_klanten);
@@ -57,30 +66,46 @@ public class Controller implements ModelBedrijf, VisualizerControllerInterface {
 	 * Geeft een map met key value pairs plaatsnaam en het aantal klanten in die
 	 * plaats
 	 * 
-	 * @return lijst met plaatsnamen met het aantal klanten
+	 * @return lijst met namen bij de bar en het aantal dat die hoog moet zijn
 	 */
-
 	@Override
 	public Map<String, Integer> getBarInfo() {
 		return this.getVestigingenMap();
 	}
 
+	/**
+	 * Sluit een vestiging
+	 * @param plaats de vestiging plaatsnaam
+	 */
 	@Override
 	public void sluitVestiging(String plaats) {
 		mb.sluitVestiging(plaats);
 
 	}
 
+	/**
+	 * Heropend een reeds gesloten vestiging
+	 * @param plaats de vestiging plaatsnaam
+	 */
 	@Override
 	public void openVestiging(String plaats) {
 		mb.openVestiging(plaats);
 	}
 
+	/**
+	 * Maakt een map met key value pairs van de vesttigig plaats en het klantnummer
+	 * @return lijst met key value pairs
+	 */
 	@Override
 	public Map<String, Integer> getVestigingenMap() {
 		return mb.getVestigingenMap();
 	}
 
+	/**
+	 * Geeft aan of een vestiging open is
+	 * @param plaatsnaam van een vestiging
+	 * @return true als de vestiging open is
+	 */
 	@Override
 	public Boolean isVestigingOpen(String plaatsnaam) {
 		return mb.isVestigingOpen(plaatsnaam);

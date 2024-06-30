@@ -341,7 +341,7 @@ class VestigingTest {
 	/**
 	 * Test het diep kopieren van vestigingen
 	 * 
-	 * @throws PoiException
+	 * @throws PoiException geeft fout als er fouten ontstaan bij het creeren van objecten
 	 */
 	@Test
 	public void TestCopy() throws PoiException {

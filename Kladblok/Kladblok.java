@@ -92,6 +92,9 @@ public class Kladblok {
 
 	}
 	
+	/**
+	 * test voor carlo
+	 */
 	public void taak5carlo() {
 	  Gui gui = null;
 	  try {

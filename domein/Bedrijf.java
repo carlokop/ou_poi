@@ -16,7 +16,6 @@ import observer.Subject;
 
 /**
  * Deze klasse stelt het bedrijf voor
- * Bedrijf is een singleton
  * Beheert vervolgens alle vestigingen en regelt de communocatie met de mapper
  */
 public class Bedrijf extends Subject implements ModelBedrijf {
@@ -44,6 +43,11 @@ public class Bedrijf extends Subject implements ModelBedrijf {
 		setupVestigingenChecklist();
 	}
 	
+	/**
+	 * maakt een diepe kopie van alle vestigignen en alle onderliggende objecten
+	 * @return een kopie van vestigingen
+	 * @throws PoiException als er fouten zijn
+	 */
 	public static Collection<Vestiging> getDeepCopy() throws PoiException{
         //return m.getVestigingen();
         Collection<Vestiging> copyvestigingen = new ArrayList<>();
@@ -107,10 +111,17 @@ public class Bedrijf extends Subject implements ModelBedrijf {
         return vestigingKlantenData;
     }
 	
+	/**
+	 * Geeft een lijst met alle vestigingen
+	 * @return de lijst met vestigingen
+	 */
 	public Collection<Vestiging> getVestigingen(){
 		return this.vestigingenCrrnt;
 	}
 	
+	/**
+	 * Maakt een checklist voor alle klanten bestaande uit een oude en nieuwe vestiging
+	 */
 	public void setupKlantenChecklist() {
 		klantenChecklist = new HashMap<>();
 		Entry<Collection<Vestiging>, Collection<Vestiging>> klantEntry;
@@ -129,10 +140,17 @@ public class Bedrijf extends Subject implements ModelBedrijf {
 		}
 	}
 	
+	/**
+	 * maakt een map entry voor een klantnummer met oude en nieuwe vestignign
+	 * @return een entry met klantnummer oude en nieuwe vestiging
+	 */
 	public Map<String, Entry<Collection<Vestiging>, Collection<Vestiging>>> getKlantenChecklist() {
 		return this.klantenChecklist;
 	}
 	
+	/**
+	 * Doorloopt de huidige vestigingen en maarkt een map die alle vestigingen als open bestempeld
+	 */
 	public void setupVestigingenChecklist() {
 		vestigingenChecklist = new HashMap<Vestiging, Boolean>();
 		for (Vestiging v : vestigingenCrrnt) {
@@ -140,10 +158,19 @@ public class Bedrijf extends Subject implements ModelBedrijf {
 		}
 	}
 
+	/**
+	 * Geeft de vestigingenchecklist
+	 * @return de vestigingenchecklist
+	 */
 	public Map<Vestiging, Boolean> getVestigingenChecklist() {
 		return this.vestigingenChecklist;
 	}
 
+	/**
+	 * Geeft aan of opgegeven vestiging open is
+	 * @param plaatsnaam van vestiging die opgezocht moet worden
+	 * @return true als de vestiging open is
+	 */
 	public Boolean isVestigingOpen(String plaatsnaam){
 		return this.vestigingenChecklist.get(Vestiging.select(plaatsnaam, vestigingenCrrnt));
 	}
@@ -151,6 +178,7 @@ public class Bedrijf extends Subject implements ModelBedrijf {
 	/**
 	 * Methode werkt vestiging checklist bij, de aanroep naar vestiging werkt de
 	 * klantenchecklist bij.
+	 * @param plaats de plaatsnaam van de te sluiten vestinging
 	 */
 	@Override
 	public void sluitVestiging(String plaats) {
@@ -175,6 +203,7 @@ public class Bedrijf extends Subject implements ModelBedrijf {
 	/**
 	 * Methode werkt vestiging checklist bij, de aanroep naar vestiging werkt de
 	 * klantenchecklist bij.
+	 * @param plaats de plaatsnaam van de te openen vestiging
 	 */
 	@Override
 	public void openVestiging(String plaats) {

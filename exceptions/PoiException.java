@@ -40,6 +40,7 @@ public class PoiException extends Exception{
 
 	/**
 	 * Geeft een string reprsentatie van de foutdetails
+	 * @return de foutmelding als string
 	 */
 	@Override
 	public String toString() {

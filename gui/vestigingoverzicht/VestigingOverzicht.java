@@ -87,10 +87,16 @@ public class VestigingOverzicht extends JPanel implements Observer {
 	 * rapport van klanten van de gekozen vestiging
 	 */
 	public class toonVestigingKlantenListener implements ActionListener {
+	   /**
+	    * actie als er op een button met een vestigingen is geklikt en highlights de button
+	    * haalt klantinfo voor gegeven vestiging op een toont een overzicht
+	    * @param e actionevent
+	    */
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			JButton selectedButton = (JButton) e.getSource();
 			String plaats = selectedButton.getText();
+			//updates klantenoverzicht
 			toonVestigingKlanten(plaats);
 			selectedButton.setFocusPainted(false);
 
@@ -107,6 +113,11 @@ public class VestigingOverzicht extends JPanel implements Observer {
 		}
 	}
 
+	/**
+	 * updates dit overzicht als er observerwijzigingen zijn
+	 * @param s subject
+	 * @param arg argumenten
+	 */
 	@Override
 	public void update(Subject s, Object arg) {
 		VestigingKlantOverzicht crrntOverzicht;

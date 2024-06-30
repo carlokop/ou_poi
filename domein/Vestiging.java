@@ -128,6 +128,7 @@ public class Vestiging {
 	 * 
 	 * @param geslotenVestiging Vestiging die aangemerkt wordt voor sluiting
 	 * @param openVestigingen	Open vestigingen waar klanten naar toe kunnen, kan leeg zijn.
+	 * @param klantenChecklist  een lijst met klantnummer oude en nieuwe vestiging
 	 */
 	public static void migratieSluitenVestiging(
 			Vestiging geslotenVestiging, 
@@ -189,8 +190,7 @@ public class Vestiging {
 	 * oorspronkelijke klanten van deze vestiging weer terug naar deze vestiging."
 	 * 
 	 * @param geopendeVestiging 		Vestiging aangemerkt voor opening
-	 * @param openVestigingen			Vestigingen die nog open zijn
-	 * @param vestigingenSnapshot	Oorspronkelijke lijst van vestigingen, versnelt selectie oorspronkelijke klanten
+	 * @param vestigingenSnapshot	     Oorspronkelijke lijst van vestigingen, versnelt selectie oorspronkelijke klanten
 	 * @param klantenChecklist			Hulplijst voor versnelde migratie
 	 */
 	public static void migratieOpenenVestiging(
@@ -249,15 +249,21 @@ public class Vestiging {
 		return null;
 	}
 
+	/**
+	 * Bepaald de afstand tussen twee postcodes
+	 * @param pciA postcode punt a
+	 * @param pciB postcode punt b
+	 * @return de afstand 
+	 */
 	public static double getAfstand(PostcodeInfo pciA, PostcodeInfo pciB) {
 		return Math.sqrt(Math.pow(pciA.getLat() - pciB.getLat(), 2) + Math.pow(pciA.getLng() - pciB.getLng(), 2));
 	}
 
 	/**
-	 * 
-	 * @param k
-	 * @param vestigingKeuzes
-	 * @return
+	 * geeft de dichtstbijzijnde vestiging voor een gegeven klant
+	 * @param k klant
+	 * @param vestigingKeuzes lijst met vestigingen om uit te kiezen
+	 * @return de dichtstbijzijnde vestiging
 	 */
 	public static Vestiging getKlantDichtsteVestiging(Klant k, Collection<Vestiging> vestigingKeuzes) {
 		double klantMinAfstand = PostcodeInfo.MAX_AFSTAND;
@@ -305,6 +311,10 @@ public class Vestiging {
 		return klanten;
 	}
 	
+	/**
+	 * geeft een lijst met klantnummer als string
+	 * @return lijst met klantnummers
+	 */
 	public Collection<String> getKlantenStrings() {
 		Collection<String> klantenStrings = new ArrayList<>();
 		for(Klant k:klanten) {
@@ -313,20 +323,33 @@ public class Vestiging {
 		return klantenStrings;
 	}
 
+	/**
+	 * voegt een klant toe aan de lijst met klanten
+	 * @param k een klant
+	 */
 	public void addKlant(Klant k) {
 		this.klanten.add(k);
 	}
 
+	/**
+	 * verwijderd een klant uit de lijst met klanten 
+	 * @param k de te verwijderen klant
+	 */
 	public void removeKlant(Klant k) {
 		this.klanten.remove(k);
 	}
 
+	/**
+	 * maakt de klantenlijst leeg
+	 */
 	public void clearKlanten() {
 		this.klanten.clear();
 	}
 
 	/**
 	 * In dit project is de plaatsnaam voldoende identificerend
+	 * @param obj  vestiging object 
+	 * @return true als de plaatsnaam overeeen komt
 	 */
 	@Override
 	public boolean equals(Object obj) {
@@ -339,6 +362,7 @@ public class Vestiging {
 
 	/**
 	 * Geeft de hashcode van een vestiging
+	 * @return de hashcode
 	 */
 	@Override
 	public int hashCode() {
@@ -347,6 +371,7 @@ public class Vestiging {
 
 	/**
 	 * Geeft de string representatie van de plaats en het aantal klanten
+	 * @return de string representatie van plaatsnaam en het aantal klanten in die plaats
 	 */
 	@Override
 	public String toString() {

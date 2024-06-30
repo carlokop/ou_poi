@@ -11,6 +11,9 @@ import javax.swing.JDialog;
 import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 
+/**
+ * maakt een sluitbare notificatie
+ */
 public class Notificatie extends JDialog {
 
 	private static final long serialVersionUID = 1L;

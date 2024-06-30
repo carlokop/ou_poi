@@ -44,6 +44,7 @@ public class Klant implements Comparable<Klant> {
 	 * Maakt diepe kloon van de instantie
 	 * @param klant            klant instantie om te kopieren
 	 * @throws PoiException    bij fouten bij creatie
+	 * @return een kopie van klant
 	 */
 	public Klant copy(Klant klant) throws PoiException {
 	  PostcodeInfo p = klant.getPostcodeInfo();
@@ -127,6 +128,10 @@ public class Klant implements Comparable<Klant> {
 		return this.klantnr - o.getKlantnr();
 	}
 	
+	/**
+	 * Geeft het klantnummer
+	 * @return het klantnummer
+	 */
 	@Override 
 	public String toString(){
 		return String.valueOf(klantnr);

@@ -69,6 +69,10 @@ public class VestigingKlantOverzicht extends JPanel implements Observer{
 		this.add(vestigingKlantOverzicht, BorderLayout.CENTER);
 	}
 
+	/**
+	 * updates de klanten tabel met klantdata
+	 * @param klantData lijst met klantnummers
+	 */
 	public void updateKlantTable(Collection<String> klantData){
 		Iterator<String> kIt = klantData.iterator();
 		tableModel.setRowCount(0);
@@ -77,6 +81,11 @@ public class VestigingKlantOverzicht extends JPanel implements Observer{
 		}
 	}
 
+	/**
+	 * Updates het klantenoverzicht na wijzigingen in de observer
+	 * @param s het subject
+	 * @param arg argumenten
+	 */
 	@Override
 	public void update(Subject s, Object arg) {
 		// Hoeft geen typecheck uit te voeren, kan slechts op 1 manier momenteel
