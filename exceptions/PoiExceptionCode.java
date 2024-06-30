@@ -13,16 +13,16 @@ public enum PoiExceptionCode {
 	MAPPER_DATA_BUILD_ERR("Er heeft een fout plaatsgevonden bij het opbouwen van de data voor de modellen"),
 
 	BEDRIJF_VESTIGINGEN_SNAPSHOT_NULL("Bedrijf heeft geen lijst met vestigingen"),
-	
+
 	KLANTENLIJST_NULL("Klantenlijst wijst naar null"),
 	KLANTNUMMER_NIET_POSITIEF("Klantknummer moet een positief getal zijn"),
-	
+
 	POSTCODE_NULL("Postcode is null"),
 	POSTCODE_LENGTE("Ongeldige postcode lengte"),
 	POSTCODE_VELDEN("Ongeldige Postcode velden"),
 	POSTCODE_NUL_START("Postcode begint met 0"),
 
-	PLAATSNAAM_NULL("Plaatsnaam is null"), 
+	PLAATSNAAM_NULL("Plaatsnaam is null"),
 	PLAATSNAAM_LEEG("Plaatsnaam is leeg"),
 	PLAATSNAAM_ALLEEN_SPATIES("Plaatsnaam bevat alleen spaties"),
 	PLAATSNAAM_ILLEGAL_CHAR("Karakter in plaatsnaam niet toegestaan"),

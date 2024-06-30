@@ -14,7 +14,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -78,36 +77,36 @@ class VestigingTest {
 			// Zelfde afstand naar 2 of meer vestiging, selecteert de eerste van de
 			// vestigingen die deze ziet
 			vestigingResultaat = Vestiging.getKlantDichtsteVestiging(klant4,
-					new ArrayList<Vestiging>(List.of(vestiging0, vestiging1, vestiging3, vestiging4)));
+					new ArrayList<>(List.of(vestiging0, vestiging1, vestiging3, vestiging4)));
 			assertEquals(vestigingResultaat, vestiging0);
 			vestigingResultaat = Vestiging.getKlantDichtsteVestiging(klant4,
-					new ArrayList<Vestiging>(List.of(vestiging1, vestiging3, vestiging4, vestiging0)));
+					new ArrayList<>(List.of(vestiging1, vestiging3, vestiging4, vestiging0)));
 			assertEquals(vestigingResultaat, vestiging1);
 
 			// Selecteert dichtste afstand uit selectie
 			vestigingResultaat = Vestiging.getKlantDichtsteVestiging(klant5,
-					new ArrayList<Vestiging>(List.of(vestiging2, vestiging1, vestiging0)));
+					new ArrayList<>(List.of(vestiging2, vestiging1, vestiging0)));
 			assertEquals(vestigingResultaat, vestiging2);
 
 			// Selectie uit 1 enkele vestiging moet dezelfde vestiging opleveren
 			vestigingResultaat = Vestiging.getKlantDichtsteVestiging(klant5,
-					new ArrayList<Vestiging>(List.of(vestiging0)));
+					new ArrayList<>(List.of(vestiging0)));
 			assertEquals(vestigingResultaat, vestiging0);
 
 			// Selecteert dichtste afstand uit alle vestigingen
 			vestigingResultaat = Vestiging.getKlantDichtsteVestiging(klant1,
-					new ArrayList<Vestiging>(List.of(vestiging0, vestiging1, vestiging2, vestiging3, vestiging4)));
+					new ArrayList<>(List.of(vestiging0, vestiging1, vestiging2, vestiging3, vestiging4)));
 			assertEquals(vestigingResultaat, vestiging1);
 			vestigingResultaat = Vestiging.getKlantDichtsteVestiging(klant2,
-					new ArrayList<Vestiging>(List.of(vestiging0, vestiging1, vestiging2, vestiging3, vestiging4)));
+					new ArrayList<>(List.of(vestiging0, vestiging1, vestiging2, vestiging3, vestiging4)));
 			assertEquals(vestigingResultaat, vestiging3);
 			vestigingResultaat = Vestiging.getKlantDichtsteVestiging(klant3,
-					new ArrayList<Vestiging>(List.of(vestiging0, vestiging1, vestiging2, vestiging3, vestiging4)));
+					new ArrayList<>(List.of(vestiging0, vestiging1, vestiging2, vestiging3, vestiging4)));
 			assertEquals(vestigingResultaat, vestiging4);
 
 			// Bij geen opgegeven vestiging retourneer null als gevonden dichtsbijzijnde
 			// vestiging
-			vestigingResultaat = Vestiging.getKlantDichtsteVestiging(klant1, new ArrayList<Vestiging>());
+			vestigingResultaat = Vestiging.getKlantDichtsteVestiging(klant1, new ArrayList<>());
 			assertEquals(vestigingResultaat, null);
 		} catch (PoiException e) {
 			// Aanmaak testobjecten mislukt.
@@ -127,7 +126,7 @@ class VestigingTest {
 			b = new Bedrijf();
 
 			Map<Vestiging, Boolean> vChecklist = b.getVestigingenChecklist();
-			testVestigingen = new ArrayList<Vestiging>(b.getVestigingen()); // lijst met alle vestigingen
+			testVestigingen = new ArrayList<>(b.getVestigingen()); // lijst met alle vestigingen
 
 			// Minstens 2 vestigingen nodig om de migratie binnen de functie te testen
 			assert (testVestigingen.size() > 1);
@@ -164,7 +163,7 @@ class VestigingTest {
 	/**
 	 * Test implementatie corresponderende methodes; openVestiging(...) van klasse
 	 * Bedrijfssimulatie en migratieOpenenVestiging(...) van klasse Vestiging
-	 * 
+	 *
 	 * Hierin wordt het sluiten van alle vestigingen getest en het openen van 1
 	 * vestiging
 	 */
@@ -340,14 +339,14 @@ class VestigingTest {
 
 	/**
 	 * Test het diep kopieren van vestigingen
-	 * 
+	 *
 	 * @throws PoiException
 	 */
 	@Test
 	public void TestCopy() throws PoiException {
 		PostcodeInfo postcode = new PostcodeInfo("8701GH", "Bolsward", 53.0673994187339, 5.5274963648489);
 		PostcodeInfo postcode2 = new PostcodeInfo("8771GH", "Anders", 53.067399418, 5.52749545489);
-		Vestiging vestiging = new Vestiging("Bolsward", postcode, new ArrayList<Klant>());
+		Vestiging vestiging = new Vestiging("Bolsward", postcode, new ArrayList<>());
 		Klant k1 = new Klant(1, postcode);
 		Klant k2 = new Klant(1, postcode2);
 		vestiging.addKlant(k1);
@@ -366,7 +365,7 @@ class VestigingTest {
 
 		Iterator<Klant> ckIt = kopie.getKlanten().iterator();
 		Klant cKlant;
-		
+
 		while (vkIt.hasNext() || ckIt.hasNext()) {
 			vKlant = vkIt.next();
 			cKlant =  ckIt.next();

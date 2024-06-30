@@ -1,8 +1,9 @@
 package test;
 
-import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertThrows;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,12 +17,12 @@ import exceptions.PoiExceptionCode;
  * Test de Klant classe
  */
 class KlantTest {
-  
+
   private Klant klant = null;
   private PostcodeInfo postcode = null;
   private PoiException pe;
-  
-  
+
+
     /**
      * initialiseert de postcode instantie
      */
@@ -34,7 +35,7 @@ class KlantTest {
         fail("Kan geen postcode maken: "+e.getMessage());
       }
     }
-    
+
     /**
      * Test happy path
      */
@@ -48,7 +49,7 @@ class KlantTest {
           fail("Fout in de happy test: "+e.getMessage());
       }
   }
-    
+
     /**
      * Test foutive invoer
      */
@@ -58,7 +59,7 @@ class KlantTest {
           new Klant(-1, postcode);
       });
       assertEquals(pe.getErrCode(), PoiExceptionCode.KLANTNUMMER_NIET_POSITIEF);
-      
+
       // klantnr = 0
       pe = assertThrows(PoiException.class, () -> {
           new Klant(0, postcode);
@@ -72,23 +73,23 @@ class KlantTest {
       assertEquals(pe.getErrCode(), PoiExceptionCode.POSTCODE_NULL);
 
   }
-    
+
     /**
      * Test of het kopieren van een klant goed gaat
-     * @throws PoiException 
+     * @throws PoiException
      */
     @Test
     public void klantCkopieTest() throws PoiException {
       PostcodeInfo postcode = new PostcodeInfo("1000EG", "Amsterdam", 52.377778951201, 4.9055895401203);
       Klant klant = new Klant(1,postcode);
       Klant kopie = klant.copy(klant);
-      
+
       //geen referentie
       assertNotSame(klant,kopie);
       assertNotSame(klant.getPostcodeInfo(),kopie.getPostcodeInfo());
       //zelfde klantnr
       assertEquals(1,kopie.getKlantnr());
-      
+
     }
 
 }

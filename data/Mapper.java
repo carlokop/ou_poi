@@ -2,7 +2,6 @@ package data;
 
 import java.io.PrintWriter;
 import java.sql.Connection;
-
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -15,7 +14,6 @@ import org.firebirdsql.jdbc.FBResultSet;
 import domein.Klant;
 import domein.PostcodeInfo;
 import domein.Vestiging;
-
 import exceptions.PoiException;
 import exceptions.PoiExceptionCode;
 
@@ -46,7 +44,7 @@ public class Mapper {
 	public Mapper() throws PoiException {
 		connect();
 		initPreparedStatements();
-		
+
 		//Om koppeling te verlagen bij het sluiten van de GUI
 		//Na speuren op stackoverflow
 		Runtime.getRuntime().addShutdownHook(new Thread(() -> {
@@ -61,7 +59,7 @@ public class Mapper {
 
 	/**
 	 * Geeft de DB connectie
-	 * 
+	 *
 	 * @return de connectie
 	 */
 	public Connection getConnection() {
@@ -71,7 +69,7 @@ public class Mapper {
 	/**
 	 * Maakt verbinding met de database. Eerst wordt de JDBC-driver geregistreerd
 	 * door het laden van de juiste implementatie van Driver;
-	 * 
+	 *
 	 * @throws PoiException als de driver niet geladen kan worden of het
 	 *                         verbinding maken mislukt (bv. door een fout in de
 	 *                         padnaam).
@@ -93,7 +91,7 @@ public class Mapper {
 
 	/**
 	 * Sluit de verbinding met de database.
-	 * 
+	 *
 	 * @throws PoiException als er een SQL fout ontstaat
 	 */
 	public void disconnect() throws PoiException {
@@ -109,7 +107,7 @@ public class Mapper {
 
 	/**
 	 * Initialiseer prepared statements
-	 * 
+	 *
 	 * @throws PoiException sql-query syntax bevat fouten of compilatie is
 	 *                         mislukt
 	 */
@@ -124,26 +122,26 @@ public class Mapper {
 
 	/**
      * Haalt alle vestigingen op uit de DB
-     * Maakt instanties van alle vestigingen en onderliggende objecten 
+     * Maakt instanties van alle vestigingen en onderliggende objecten
      * en geeft een lijst van alle vestigingen terug
-     * 
+     *
      * @return lijst met vestigingen inclusief alle onderliggende associaties
      * @throws PoiException als er een SQL fout of postcode exceptie ontstaat
-     */ 
+     */
      /*@
      @ @contract happy {
      @   @requires con != null
      @   @requires pselectvestigingen != null
-     @   @ensures \result is een lijst met vestigingen 
+     @   @ensures \result is een lijst met vestigingen
      @ }
      @ @contract SQLException {
      @   @requires SQLException
-     @   @signals PoiException("Fout bij het inlezen van de Vestigingen") 
+     @   @signals PoiException("Fout bij het inlezen van de Vestigingen")
      @ }
      @ @contract Ongeldige invoer {
      @   @requires postcode bevat ongeldige parameters
      @   @requires klant bevat ongeldige parameters
-     @   @signals PoiException("Fout bij het maken van domeinobjecten") 
+     @   @signals PoiException("Fout bij het maken van domeinobjecten")
      @ }
      */
 	public Collection<Vestiging> getVestigingen() throws PoiException {
@@ -152,17 +150,17 @@ public class Mapper {
 		Collection<Klant> klantCollectionCache;
 		PostcodeInfo pciCache;
 		FBResultSet result;
-		
+
 		try {
 			result = (FBResultSet) getVestigingen.executeQuery();
 			while (result.next()) {
 				pciCache = new PostcodeInfo(
-						result.getString("POSTCODE"), 
+						result.getString("POSTCODE"),
 						result.getString("PLAATS"),
-						result.getDouble("LAT"), 
+						result.getDouble("LAT"),
 						result.getDouble("LNG"));
-				vestigingen.add(new Vestiging(result.getString("PLAATS"), 
-								pciCache, 
+				vestigingen.add(new Vestiging(result.getString("PLAATS"),
+								pciCache,
 								new TreeSet<>()));
 			}
 
@@ -170,13 +168,13 @@ public class Mapper {
 			while (result.next()) {
 				vestigingCache = selectVestiging(vestigingen, result.getString("VESTIGINGPLAATS"));
 				pciCache = new PostcodeInfo(
-						result.getString("KLANTPOSTCODE"), 
+						result.getString("KLANTPOSTCODE"),
 						result.getString("KLANTPLAATS"),
-						result.getDouble("KLANTLAT"), 
+						result.getDouble("KLANTLAT"),
 						result.getDouble("KLANTLNG"));
 				klantCollectionCache = vestigingCache.getKlanten();
 				klantCollectionCache.add(
-						new Klant(result.getInt("KLANTNR"), 
+						new Klant(result.getInt("KLANTNR"),
 						pciCache));
 			}
 		} catch (SQLException e) {
@@ -189,7 +187,7 @@ public class Mapper {
 
 	/**
 	 * Zoekt vestiging op met plaatsnaam
-	 * 
+	 *
 	 * @param vestigingen Verzameling waarin gezocht wordt
 	 * @param vSelect     selectiecriteria
 	 * @return gevonden vestiging
@@ -203,6 +201,6 @@ public class Mapper {
 		}
 		throw new PoiException(PoiExceptionCode.MAPPER_DATA_BUILD_ERR, "Vestiging niet gevonden");
 	}
-	
-	
+
+
 }

@@ -24,7 +24,7 @@ public class PoiException extends Exception{
 
 	/**
 	 * Geeft de errorcode
-	 * @return  de PoiExceptionCode 
+	 * @return  de PoiExceptionCode
 	 */
 	public PoiExceptionCode getErrCode() {
 		return this.pec;

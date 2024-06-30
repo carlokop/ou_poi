@@ -17,10 +17,10 @@ import observer.Observer;
 import observer.Subject;
 
 /**
- * 
+ *
  * Klasse die klikbare bars (staafjes) op een frame toont. Elke bar wordt
- * gekarakteriseerd door een key en een value. 
- * 
+ * gekarakteriseerd door een key en een value.
+ *
  * @author Medewerker OU
  *
  */
@@ -38,13 +38,13 @@ public class Visualizer extends JFrame implements Observer {
 	private int HEIGHT_PANE = HEIGHT_FRAME - 3 * MARGIN;
 	private static final int HGAP = 10;  // Horizontale ruimte tussen de bars
 	private Container pane = null;
-	
+
 	// hulp parameter
 	int openVestigingen;
-	
+
 	/**
 	 * Creeert een visualizer (staafdiagram) op grond van een map
-	 * 
+	 *
 	 * @param map de map
 	 * @param contr de controller
 	 */
@@ -52,7 +52,7 @@ public class Visualizer extends JFrame implements Observer {
 		super();
 		this.contr = contr;
 		initialize();
-		drawBars(contr.getVestigingenMap());		
+		drawBars(contr.getVestigingenMap());
 	}
 
 	private void initialize() {
@@ -62,11 +62,11 @@ public class Visualizer extends JFrame implements Observer {
 		setTitle(TITLE);
 		this.setSize(WIDTH_FRAME, HEIGHT_FRAME);
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-		this.setLocation((int) Math.round((dim.width - WIDTH_FRAME) / 2)
-				        ,(int) Math.round((dim.height - HEIGHT_FRAME) / 2)
+		this.setLocation(Math.round((dim.width - WIDTH_FRAME) / 2)
+				        ,Math.round((dim.height - HEIGHT_FRAME) / 2)
 				        );
 		pane.setLayout(null);
-		
+
 		// init hulp param
 		openVestigingen = contr.getVestigingenMap().size();
 	}
@@ -75,7 +75,7 @@ public class Visualizer extends JFrame implements Observer {
 	 * Tekent de bars op basis van de map met (key, value) paren.
 	 * Bars met hoogte 0 worden getoond als bars met maximale hoogte in de
 	 * achtergrondkleur.
-	 * 
+	 *
 	 */
 	private void drawBars(Map<String, Integer> map) {
 		pane.removeAll();
@@ -95,7 +95,7 @@ public class Visualizer extends JFrame implements Observer {
 		this.repaint();
 		this.revalidate();
 	}
-	
+
 	private void createBar(String key, int value, int x_pos, double verticalScaleFactor, int width_bar) {
 		Bar bar;
 		if (value == 0) {
@@ -115,7 +115,7 @@ public class Visualizer extends JFrame implements Observer {
 
 	/**
 	 * Geeft de grootste value in de map
-	 * 
+	 *
 	 * @return
 	 */
 	private int maxValue(Map<String, Integer> map) {
@@ -130,6 +130,7 @@ public class Visualizer extends JFrame implements Observer {
 	}
 
 	class BarLuisteraar extends MouseAdapter {
+		@Override
 		public void mouseClicked(MouseEvent e) {
 			Bar bar = (Bar) e.getSource();
 
@@ -153,13 +154,13 @@ public class Visualizer extends JFrame implements Observer {
 				openVestigingen++;
 				contr.openVestiging(bar.getName());
 				System.out.println("Status voor opening:" + bar.getName() + ", " + bar.getLabelValue());
-				
+
 			}
 		}
 	}
 
 	@Override
 	public void update(Subject s, Object arg) {
-		drawBars(contr.getVestigingenMap());		
-	}	
+		drawBars(contr.getVestigingenMap());
+	}
 }

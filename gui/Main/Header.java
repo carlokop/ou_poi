@@ -1,7 +1,6 @@
 package gui.Main;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
 
@@ -15,7 +14,7 @@ public class Header extends JMenuBar {
 	JMenu mainMenu;
 	JMenuItem jmiVestigingenInzage;
 	JMenuItem jmiVestigingenSimulatie;
-	
+
 	public Header() {
 		this.setLayout(new FlowLayout(FlowLayout.LEFT));
 		this.setBackground(new Color(163, 175, 192));
@@ -28,12 +27,12 @@ public class Header extends JMenuBar {
 
 		this.add(mainMenu);
 	}
-	
+
 	public void attachJMIVestigingenInzageListener(ActionListener l){
 		jmiVestigingenInzage.addActionListener(l);
 
 	}
-	
+
 	public void attachJMIVestigingenSimulatieListener(ActionListener l){
 		jmiVestigingenSimulatie.addActionListener(l);
 	}

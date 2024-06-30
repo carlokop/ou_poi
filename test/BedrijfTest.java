@@ -2,21 +2,15 @@ package test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import domein.Bedrijf;
-import domein.Klant;
-import domein.PostcodeInfo;
-import domein.Vestiging;
 import exceptions.PoiException;
 
 /**
@@ -48,15 +42,15 @@ class BedrijfTest {
       Collection<String> klanten;
       // test of er 12 plaatsnamen zijn
       assertEquals(12, plaatsnamen.size());
-  
+
       for (String plaats : plaatsnamen) {
           assertFalse(plaats.isBlank());
-          
+
           klanten = b.getVestigingKlanten(plaats);
           assertTrue(klanten.size()>0);
       }
   }
-  
+
   /**
    * Tests onjuiste invoer
    */
@@ -66,16 +60,16 @@ class BedrijfTest {
       klanten = b.getVestigingKlanten("Disneyland");
       assertNull(klanten);
   }
-  
+
   /**
    * Tests diepe kopie van vestigingen
-   * @throws PoiException 
+   * @throws PoiException
    */
 //  @Test
 //  public void testCopy() throws PoiException {
 //    ArrayList<Vestiging> vestigingen = (ArrayList<Vestiging>) Bedrijf.getVestigingenSnapshot();
 //    ArrayList<Vestiging> kopie_vestigingen = (ArrayList<Vestiging>) Bedrijf.getDeepCopy();
-//    
+//
 //    for(int i=0; i<vestigingen.size(); i++ ) {
 //      //geen referentie
 //      assertNotSame(vestigingen.get(i), kopie_vestigingen.get(i));
@@ -85,7 +79,7 @@ class BedrijfTest {
 //      assertEquals(vestigingen.get(i).getPlaats(), kopie_vestigingen.get(i).getPlaats());
 //      assertEquals(vestigingen.get(i).getPostcodeInfo().getPostcode(), kopie_vestigingen.get(i).getPostcodeInfo().getPostcode());
 //    }
-//    
+//
 //  }
 
 

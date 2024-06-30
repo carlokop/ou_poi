@@ -7,14 +7,10 @@ import java.util.Collection;
 
 import org.firebirdsql.jdbc.FBResultSet;
 
-import controller.Controller;
 import data.Mapper;
 import data.Queries;
-import domein.Bedrijf;
 import domein.Vestiging;
 import exceptions.PoiException;
-import gui.Main.ViewManager;
-import gui.simulatie.Visualizer;
 
 /**
  * Deze klasse is geen onderdeel van het op te leveren systeem en dient slechts voor het testen van output
@@ -91,11 +87,11 @@ public class Kladblok {
 	  }
 
 	}
-	
+
 	public void taak5carlo() {
 //	  ViewManager gui = null;
 //	  try {
-//	    
+//
 //	    Bedrijf b = new Bedrijf(); // bedrijf propageert PoiException naar boven naar main
 //        Controller facade = new Controller(b);
 //        gui = new ViewManager(facade);
@@ -104,7 +100,7 @@ public class Kladblok {
 //        gui = new ViewManager(e.getMessage());
 //        System.out.println("Ging iets fout: "+e.getMessage());
 //      }
-//	  
+//
 	}
 
 	/**

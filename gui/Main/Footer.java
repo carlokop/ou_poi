@@ -10,7 +10,7 @@ import javax.swing.JPanel;
 public class Footer extends JPanel{
 	private static final long serialVersionUID = 1L;
 	JButton stopActivityButton;
-	
+
 	public Footer() {
 		this.setLayout(new FlowLayout(FlowLayout.LEFT));
 
@@ -21,7 +21,7 @@ public class Footer extends JPanel{
 		this.add(stopActivityButton);
 		this.setVisible(false);
 	}
-	
+
 	public void attachStopInzageListener(ActionListener l){
 		stopActivityButton.addActionListener(l);
 	}

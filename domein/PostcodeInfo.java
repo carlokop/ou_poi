@@ -8,13 +8,13 @@ import exceptions.PoiExceptionCode;
  * Bevat informatie over een postcode en regelt en valideert postcode informatie
  */
 public class PostcodeInfo {
-	
+
 	public static final double LAT_MAX = 90;
 	public static final double LAT_MIN = -90;
 	public static final double LNG_MAX = 180;
 	public static final double LNG_MIN = -180;
 	public static final double MAX_AFSTAND = Math.sqrt(Math.pow(PostcodeInfo.LAT_MAX - PostcodeInfo.LAT_MIN, 2) + Math.pow(PostcodeInfo.LNG_MAX - PostcodeInfo.LNG_MIN, 2));
-	
+
 	private String postcode;
 	private String plaatsnaam;
 	private double lat;
@@ -22,7 +22,7 @@ public class PostcodeInfo {
 
 	/**
      * Maakt postcode instantie
-     * 
+     *
      * @param postcode      de postcode
      * @param plaatsnaam    de plaatsnaam
      * @param lat           latitude
@@ -36,7 +36,7 @@ public class PostcodeInfo {
      @   @requires plaats is not null en trim(plaats) != ""
      @   @requires -90 > lat > 90
      @   @requires -180 > lng > 180
-     @   @ensures /result 
+     @   @ensures /result
      @ }
      @ @contract null waarden {
      @   @requires postcode == null of plaats == null
@@ -49,7 +49,7 @@ public class PostcodeInfo {
      @ @contract lat of lng out of range {
      @   @requires lat < -90 || lat > 90
      @   @requires lng < -180 || lat > 180
-     @   @signals PoiException, PoiExceptionCode.GGCOORDS_LAT_OVERSCHRIJDING 
+     @   @signals PoiException, PoiExceptionCode.GGCOORDS_LAT_OVERSCHRIJDING
      @ }
      */
 	public PostcodeInfo(String postcode, String plaatsnaam, double lat, double lng) throws PoiException {
@@ -64,7 +64,7 @@ public class PostcodeInfo {
 		this.lng = lng;
 		this.lat = lat;
 	}
-	
+
 	/**
 	 * Maakt een kopie van dit object
 	 * @param p   instantie van postcodeinfo die gekopieerd moet worden
@@ -76,13 +76,13 @@ public class PostcodeInfo {
 
 	/*
 	 * DEZE METHODE HEBBEN WE WEL GESCHREVEN MAAR WORDT NIET MEER GEBRUIKT
-     * WE VOLGEN HET FORMAAT ZOALS IN DE DATABASE STAAT> 
+     * WE VOLGEN HET FORMAAT ZOALS IN DE DATABASE STAAT>
      * VOOR DE VOLLEDIGHEID HIER WEL LATEN STAAN
 	 */
 	/**
      * Helper die controleert of de postcode string in een geldig formaat is
      * gooit een postcode exceptie op als dat niet het geval is
-     * 
+     *
      * @param postcode string
      * @throws PoiException als een ongeldige postcode opgegeven wordt
      * @see PostcodeInfo(String, String, double, double )
@@ -214,7 +214,7 @@ public class PostcodeInfo {
 	public double getLng() {
 		return lng;
 	}
-	
+
 	/**
 	 * Geeft de string representatie van postcode, plaatsnaam en latitude en longditude
 	 * @return de string

@@ -27,11 +27,11 @@ public class ViewManager extends JFrame {
 	private Component footer;
 	private static final int PANE_WIDTH = 600;
 	private static final int PANE_HEIGHT = 600;
-	
+
 	// Domeingui
 	private VestigingOverzicht vestigingOverzicht;	// vest gui
 	private Visualizer visualizer; 			// simulatie gui
-	
+
 	/**
 	 * Initialiseert en stelt de contentpane in
 	 * @param fc facade controller
@@ -43,10 +43,10 @@ public class ViewManager extends JFrame {
 		this.vestigingOverzicht = vestigingOverzicht;
 		this.visualizer = visualizer;
 	}
-	
+
 	/**
 	 * Toont gui met kritische foutmelding die het systeem afsluit
-	 * Deze constructor aanroepen als er in main exepties ontstaan 
+	 * Deze constructor aanroepen als er in main exepties ontstaan
 	 * @param error de foutmelding
 	 */
 	public ViewManager(String error) {
@@ -71,15 +71,15 @@ public class ViewManager extends JFrame {
 		pane.setLayout(new BorderLayout());
 
 		header = new Header();
-		
+
 		((Header) header).attachJMIVestigingenInzageListener(new VestigingenInzageMenuItemLuisteraar());
 		((Header) header).attachJMIVestigingenSimulatieListener(new VestigingenSimulatieMenuItemLuisteraar());
 		pane.add(header, BorderLayout.NORTH);
 
 		footer = new Footer();
 		((Footer) footer).attachStopInzageListener(new stopInzageListener());
-		pane.add(footer, BorderLayout.SOUTH);       
-		
+		pane.add(footer, BorderLayout.SOUTH);
+
         this.pane.revalidate();
         this.pane.repaint();
 
@@ -120,7 +120,7 @@ public class ViewManager extends JFrame {
 	}
 
 	/***
-	 * Maakt de layout m.u.v. de header en footer leeg 
+	 * Maakt de layout m.u.v. de header en footer leeg
 	 * Dit sluit alle actieve use cases en brengt de GUI terug naar de begintoestand
 	 */
 	public void stopInzage() {

@@ -31,7 +31,7 @@ public class VestigingOverzicht extends JPanel implements Observer {
 
 	/**
 	 * Initialiseert het overzicht met vestigingen
-	 * 
+	 *
 	 * @param fc de facade controller
 	 */
 	public VestigingOverzicht(Controller fc) {
@@ -60,14 +60,14 @@ public class VestigingOverzicht extends JPanel implements Observer {
 			vestigingKlantData = fc.getVestigingKlanten(plaats);
 			vestigingKlantOverzichtLijst.put(plaats, new VestigingKlantOverzicht(vestigingKlantData));
 		}
-		
+
 		this.add(jpVestigingLijst, BorderLayout.WEST);
 	}
 
 	/**
 	 * Toont in een lijst alle klanten van opgegeven vestiging maakt overzicht van
 	 * klanten en voegt deze in het midden van het component toe
-	 * 
+	 *
 	 * @param plaats plaatsnaam van gekozen vestiging
 	 */
 	public void toonVestigingKlanten(String plaats) {

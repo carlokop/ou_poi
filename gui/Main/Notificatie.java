@@ -17,7 +17,7 @@ public class Notificatie extends JDialog {
 
 	/**
 	 * Toont een sluitbare notificatie
-	 * 
+	 *
 	 * @param bericht het bericht wat getoond moet worden
 	 */
 	public Notificatie(String bericht) {
@@ -26,7 +26,7 @@ public class Notificatie extends JDialog {
 
 	/**
 	 * Toont een sluitbare notificatie niet eventueel de applicatie afsluit
-	 * 
+	 *
 	 * @param bericht het te tonen bericht
 	 * @param sluitAf true om de applicatie af te sluiten
 	 * @param btnText de text in de sluit button
@@ -51,7 +51,7 @@ public class Notificatie extends JDialog {
 	/**
 	 * Toont een foutmelding op het scherm Er wordt om bevestiging gevraagd en sluit
 	 * daarna de applicatie af
-	 * 
+	 *
 	 * @param bericht de string met de foutmelding
 	 * @param sluitAf true sluits de applicatie af
 	 * @param btnText de tekst in de button

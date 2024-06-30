@@ -54,7 +54,7 @@ public class MapperTest {
         	Collection<Klant> vestigingKlanten = null;
         	Iterator<Klant> vkIt;
         	Klant prevK, crrntK;
-    
+
         	for(Vestiging v: vestigingen) {
         		vestigingKlanten = v.getKlanten();
         		if(vestigingKlanten.size() > 1) {
@@ -132,7 +132,7 @@ public class MapperTest {
     	    kGron = k;
     	  }
     	}
-    	
+
     	for(Klant k: zuidhorn.getKlanten()) {
           if(k.getKlantnr() == 794) {
             kZuidh = k;
@@ -142,7 +142,7 @@ public class MapperTest {
     	assertNotNull(kZuidh);
     	assertEquals(kGron, kZuidh);
     	assertEquals(kGron.getKlantnr(), 794);
-    	
+
       } catch(PoiException e) {
         fail(e.getMessage());
       }

@@ -14,7 +14,7 @@ public class Klant implements Comparable<Klant> {
 
 	/**
      * Maakt nieuwe klant
-     * 
+     *
      * @param klantnr      het klantnummer
      * @param postcode     object
      * @throws PoiException als foutive waarde wordt meegegeven
@@ -23,7 +23,7 @@ public class Klant implements Comparable<Klant> {
      @ @contract happy {
      @   @requires klantnr > 0
      @   @requires postcodeinfo != null
-     @   @ensures /result is een nieuwe klant 
+     @   @ensures /result is een nieuwe klant
      @ }
      @ @contract postcode null {
      @   @requires postcode == null
@@ -39,7 +39,7 @@ public class Klant implements Comparable<Klant> {
 		this.klantnr = klantnr;
 		this.postcode = postcode;
 	}
-	
+
 	/**
 	 * Maakt diepe kloon van de instantie
 	 * @param klant            klant instantie om te kopieren
@@ -50,7 +50,7 @@ public class Klant implements Comparable<Klant> {
 	  PostcodeInfo kloonPostcode = p.copy(p);
 	  return new Klant(klant.getKlantnr(), kloonPostcode);
 	}
-	
+
 	/**
      * Valideert of opgegeven klantnr en postcode een geldige invoer hebben
      * @param klantnr  het klantnummer
@@ -126,10 +126,10 @@ public class Klant implements Comparable<Klant> {
 	public int compareTo(Klant o) {
 		return this.klantnr - o.getKlantnr();
 	}
-	
-	@Override 
+
+	@Override
 	public String toString(){
 		return String.valueOf(klantnr);
 	}
-	
+
 }

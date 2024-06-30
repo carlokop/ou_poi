@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 
 /**
  * Klasse die een Bar (staafje) representeert. Een bar krijgr een label (label name - value).
- * 
+ *
  * @author Medewerker OU
  *
  */
@@ -28,8 +28,9 @@ public class Bar extends JPanel {
 		this.add(label);
 		this.setBounds(x, y, width, height);
 		this.setBackground(color);
-	}	
-	
+	}
+
+	@Override
 	public String getName() {
 		return labelName;
 	}
