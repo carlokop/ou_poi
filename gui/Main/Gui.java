@@ -29,8 +29,8 @@ public class Gui extends JFrame implements Observer {
 	private Container pane;
 	private JMenuBar header;
 	private Component footer;
-	private static final int PANE_WIDTH = 1200;
-	private static final int PANE_HEIGHT = 520;
+	private static final int PANE_WIDTH = 600;
+	private static final int PANE_HEIGHT = 600;
 	
 	// Domeingui
 	private Component vestigingOverzicht;	// vest gui
