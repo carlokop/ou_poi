@@ -79,6 +79,7 @@ public class VestigingKlantOverzicht extends JPanel implements Observer{
 
 	@Override
 	public void update(Subject s, Object arg) {
+		// Hoeft geen typecheck uit te voeren, kan slechts op 1 manier momenteel
 		Collection<String> newKlantData = (Collection<String>) arg;
 		updateKlantTable(newKlantData);
 		labelKlantAantal.setText("Klantaantal: " + newKlantData.size());

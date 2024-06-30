@@ -71,7 +71,6 @@ public class VestigingOverzicht extends JPanel implements Observer {
 	 * @param plaats plaatsnaam van gekozen vestiging
 	 */
 	public void toonVestigingKlanten(String plaats) {
-		Collection<String> vestigingKlantData = fc.getVestigingKlanten(plaats);
 		BorderLayout bLayout = (BorderLayout) VestigingOverzicht.this.getLayout();
 		Component cCache;
 
