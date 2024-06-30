@@ -10,7 +10,9 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
+import controller.Controller;
 import observer.Observer;
 import observer.Subject;
 
@@ -25,7 +27,7 @@ import observer.Subject;
 public class Visualizer extends JFrame implements Observer {
 
 	// intermediair tussen vizualizer (gui) en domein klassen
-	private VisualizerControllerInterface contr;
+	private Controller contr;
 
 	private static final long serialVersionUID = 1L;
 	private static final int WIDTH_FRAME = 1200; // px was 820 // 1000
@@ -37,17 +39,20 @@ public class Visualizer extends JFrame implements Observer {
 	private static final int HGAP = 10;  // Horizontale ruimte tussen de bars
 	private Container pane = null;
 	
+	// hulp parameter
+	int openVestigingen;
+	
 	/**
 	 * Creeert een visualizer (staafdiagram) op grond van een map
 	 * 
 	 * @param map de map
 	 * @param contr de controller
 	 */
-	public Visualizer(Map<String, Integer> map, VisualizerControllerInterface contr) {
+	public Visualizer(Controller contr) {
 		super();
 		this.contr = contr;
 		initialize();
-		drawBars(map);		
+		drawBars(contr.getVestigingenMap());		
 	}
 
 	private void initialize() {
@@ -61,6 +66,9 @@ public class Visualizer extends JFrame implements Observer {
 				        ,(int) Math.round((dim.height - HEIGHT_FRAME) / 2)
 				        );
 		pane.setLayout(null);
+		
+		// init hulp param
+		openVestigingen = contr.getVestigingenMap().size();
 	}
 
 	/**
@@ -124,32 +132,34 @@ public class Visualizer extends JFrame implements Observer {
 	class BarLuisteraar extends MouseAdapter {
 		public void mouseClicked(MouseEvent e) {
 			Bar bar = (Bar) e.getSource();
-			contr.barClicked(bar.getName(), bar.getLabelValue());
 
 			// Waarschuw klant en handel naar diens beslissing.
-//			if (contr.isVestigingOpen(bar.getName())) {
-//				if(openVestigingen == 1) {
-//					int warnDialogInput = JOptionPane.showConfirmDialog(
-//							Visualizer.this.getParent(),
-//							"Deze actie kan ervoor zorgen dat klanten uit het zicht raken.",
-//			                 "U wilt de laatste vestiging sluiten.",
-//			                 JOptionPane.OK_CANCEL_OPTION,
-//			                 JOptionPane.WARNING_MESSAGE);
-//					if (warnDialogInput != 0) {
-//						return;
-//					}
-//				}
-//				openVestigingen--;
-//				contr.barClicked(bar.getName(), bar.getLabelValue());
-//			} else {
-//				openVestigingen++;
-//				contr.barClicked(bar.getName(), bar.getLabelValue());
-//			}
+			if (contr.isVestigingOpen(bar.getName())) {
+				if(openVestigingen == 1) {
+					int warnDialogInput = JOptionPane.showConfirmDialog(
+							Visualizer.this.getParent(),
+							"Deze actie kan ervoor zorgen dat klanten uit het zicht raken.",
+			                 "U wilt de laatste vestiging sluiten.",
+			                 JOptionPane.OK_CANCEL_OPTION,
+			                 JOptionPane.WARNING_MESSAGE);
+					if (warnDialogInput != 0) {
+						return;
+					}
+				}
+				openVestigingen--;
+				contr.sluitVestiging(bar.getName());
+				System.out.println("Status voor opening:" + bar.getName() + ", " + bar.getLabelValue());
+			} else {
+				openVestigingen++;
+				contr.openVestiging(bar.getName());
+				System.out.println("Status voor opening:" + bar.getName() + ", " + bar.getLabelValue());
+				
+			}
 		}
 	}
 
 	@Override
 	public void update(Subject s, Object arg) {
-		drawBars(contr.getBarInfo());		
+		drawBars(contr.getVestigingenMap());		
 	}	
 }

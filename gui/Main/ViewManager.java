@@ -20,12 +20,11 @@ import observer.Subject;
 /**
  * Standaardframe van de Grafische userinterface
 */
-public class Gui extends JFrame implements Observer {
+public class ViewManager extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 
 	// Hoofdgui
-	private Controller fc = null;
 	private Container pane;
 	private JMenuBar header;
 	private Component footer;
@@ -33,18 +32,19 @@ public class Gui extends JFrame implements Observer {
 	private static final int PANE_HEIGHT = 600;
 	
 	// Domeingui
-	private Component vestigingOverzicht;	// vest gui
+	private VestigingOverzicht vestigingOverzicht;	// vest gui
 	private Visualizer visualizer; 			// simulatie gui
 	
 	/**
 	 * Initialiseert en stelt de contentpane in
 	 * @param fc facade controller
 	 */
-	public Gui(Controller fc) {
+	public ViewManager(VestigingOverzicht vestigingOverzicht, Visualizer visualizer) {
 		super();
-		this.fc = fc;
 		pane = getContentPane();
 		init();
+		this.vestigingOverzicht = vestigingOverzicht;
+		this.visualizer = visualizer;
 	}
 	
 	/**
@@ -52,14 +52,14 @@ public class Gui extends JFrame implements Observer {
 	 * Deze constructor aanroepen als er in main exepties ontstaan 
 	 * @param error de foutmelding
 	 */
-	public Gui(String error) {
+	public ViewManager(String error) {
       super();
       pane = getContentPane();
       init();
       JDialog notificatie = new Notificatie(error, true, "Applicatie afsluiten");
       notificatie.setLocationRelativeTo(pane);
   }
-    
+
 	/**
 	 * Initialiseert de contentpane met een header, footer en een gedeelte in het midden
 	 * In het middelste stuk wordt een vestiging onverzicht geplaatst
@@ -82,10 +82,6 @@ public class Gui extends JFrame implements Observer {
 		footer = new Footer();
 		((Footer) footer).attachStopInzageListener(new stopInzageListener());
 		pane.add(footer, BorderLayout.SOUTH);       
-        
-		// plugins
-		vestigingOverzicht = new VestigingOverzicht(fc);
-		visualizer = new Visualizer(fc.getBarInfo(), fc);
 		
         this.pane.revalidate();
         this.pane.repaint();
@@ -101,8 +97,8 @@ public class Gui extends JFrame implements Observer {
 		    stopInzage();
 			pane.add(vestigingOverzicht, BorderLayout.WEST);
 			footer.setVisible(true);
-			Gui.this.pane.revalidate();
-			Gui.this.pane.repaint();
+			ViewManager.this.pane.revalidate();
+			ViewManager.this.pane.repaint();
 		}
 	}
 
@@ -148,14 +144,5 @@ public class Gui extends JFrame implements Observer {
 		footer.setVisible(false);
 		this.pane.revalidate();
 		this.pane.repaint();
-	}
-	
-	/**
-	 * Updates wijzigingen in de observers
-	 */
-	@Override
-	public void update(Subject s, Object arg) {
-		((Observer) visualizer).update(s, arg);
-        ((Observer) vestigingOverzicht).update(s, arg);
 	}
 }

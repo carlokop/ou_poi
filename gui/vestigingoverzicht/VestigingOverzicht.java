@@ -27,7 +27,6 @@ public class VestigingOverzicht extends JPanel implements Observer {
 	private Controller fc;
 	private HashMap<String, VestigingKlantOverzicht> vestigingKlantOverzichtLijst;
 	Collection<String> vestigingPlaatsNamen;
-	Collection<String> vestigingKlantData;
 	private List<JButton> VestigingLijst = new ArrayList<>();
 
 	/**
@@ -46,6 +45,7 @@ public class VestigingOverzicht extends JPanel implements Observer {
 	 * van en voegt deze toe aan het component aan de linkerkant
 	 */
 	public void init() {
+		Collection<String> vestigingKlantData;
 		this.vestigingKlantOverzichtLijst = new HashMap<>();
 		JPanel jpVestigingLijst = new JPanel();
 		jpVestigingLijst.setLayout(new GridLayout(0, 1));
@@ -110,10 +110,11 @@ public class VestigingOverzicht extends JPanel implements Observer {
 	@Override
 	public void update(Subject s, Object arg) {
 		VestigingKlantOverzicht crrntOverzicht;
+		Collection<String> vestigingKlantData;
 		for(String vestigingNaam: vestigingPlaatsNamen) {
 			vestigingKlantData = fc.getVestigingKlanten(vestigingNaam);
 			crrntOverzicht = vestigingKlantOverzichtLijst.get(vestigingNaam);
-			((Observer) crrntOverzicht).update(s, vestigingKlantData);
+			crrntOverzicht.updateKlantTable(vestigingKlantData);
 		}
 	}
 }

@@ -2,24 +2,22 @@ package controller;
 
 import java.util.Collection;
 import java.util.Map;
-import gui.simulatie.VisualizerControllerInterface;
+
+import domein.Bedrijf;
 
 /**
  * Controller regelt communicatie tussen de GUI en de domeinlaag
  */
-public class Controller implements ModelBedrijf, VisualizerControllerInterface {
+public class Controller {
 
-	private ModelBedrijf mb;
+	private Bedrijf b;
 
 	/**
-	 * TODO: Aanpassen voor het model van de simulatie Instantieert de controller en
-	 * stelt het model in
 	 * 
-	 * @param mb  ModelBedrijf
-	 * @param mbs ModelBedrijfssimulatie
+	 * @param b
 	 */
-	public Controller(ModelBedrijf mb) {
-		this.mb = mb;
+	public Controller(Bedrijf b) {
+		this.b = b;
 	}
 
 	/**
@@ -28,7 +26,7 @@ public class Controller implements ModelBedrijf, VisualizerControllerInterface {
 	 * @return lijst met plaatsnamen
 	 */
 	public Collection<String> getVestigingPlaatsen() {
-		return mb.getVestigingPlaatsen();
+		return b.getVestigingPlaatsen();
 	}
 
 	/**
@@ -38,52 +36,30 @@ public class Controller implements ModelBedrijf, VisualizerControllerInterface {
 	 * @return lijst met klant id's
 	 */
 	public Collection<String> getVestigingKlanten(String plaats) {
-		return mb.getVestigingKlanten(plaats);
+		return b.getVestigingKlanten(plaats);
 	}
 
-	@Override
-	public void barClicked(String plaatsnaam, Integer aantal_klanten) {
-		System.out.println("Status voor opening:" + plaatsnaam + ", " + aantal_klanten);
-		if (!mb.isVestigingOpen(plaatsnaam)) {
-			mb.openVestiging(plaatsnaam);
-		} else {
-			System.out.println("Status voor sluiting:" + plaatsnaam + ", " + aantal_klanten);
-
-			mb.sluitVestiging(plaatsnaam);
-		}
+	public void openVestiging(String plaats) {
+		b.openVestiging(plaats);
 	}
-
+	
+	public void sluitVestiging(String plaats) {
+		b.sluitVestiging(plaats);
+	}
+	
 	/**
 	 * Geeft een map met key value pairs plaatsnaam en het aantal klanten in die
 	 * plaats
 	 * 
 	 * @return lijst met plaatsnamen met het aantal klanten
 	 */
-
-	@Override
-	public Map<String, Integer> getBarInfo() {
-		return this.getVestigingenMap();
+	public Map<String, Integer> getVestigingenMap(){
+		return b.getVestigingenMap();
 	}
 
-	@Override
-	public void sluitVestiging(String plaats) {
-		mb.sluitVestiging(plaats);
-
-	}
-
-	@Override
-	public void openVestiging(String plaats) {
-		mb.openVestiging(plaats);
-	}
-
-	@Override
-	public Map<String, Integer> getVestigingenMap() {
-		return mb.getVestigingenMap();
-	}
-
-	@Override
 	public Boolean isVestigingOpen(String plaatsnaam) {
-		return mb.isVestigingOpen(plaatsnaam);
+		return b.isVestigingOpen(plaatsnaam);
 	}
 
+	
 }

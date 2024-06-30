@@ -13,7 +13,7 @@ import data.Queries;
 import domein.Bedrijf;
 import domein.Vestiging;
 import exceptions.PoiException;
-import gui.Main.Gui;
+import gui.Main.ViewManager;
 import gui.simulatie.Visualizer;
 
 /**
@@ -93,18 +93,18 @@ public class Kladblok {
 	}
 	
 	public void taak5carlo() {
-	  Gui gui = null;
-	  try {
-	    
-	    Bedrijf b = new Bedrijf(); // bedrijf propageert PoiException naar boven naar main
-        Controller facade = new Controller(b);
-        gui = new Gui(facade);
-//        b.attach(gui);
-      } catch(Exception e) {
-        gui = new Gui(e.getMessage());
-        System.out.println("Ging iets fout: "+e.getMessage());
-      }
-	  
+//	  ViewManager gui = null;
+//	  try {
+//	    
+//	    Bedrijf b = new Bedrijf(); // bedrijf propageert PoiException naar boven naar main
+//        Controller facade = new Controller(b);
+//        gui = new ViewManager(facade);
+////        b.attach(gui);
+//      } catch(Exception e) {
+//        gui = new ViewManager(e.getMessage());
+//        System.out.println("Ging iets fout: "+e.getMessage());
+//      }
+//	  
 	}
 
 	/**

@@ -1,4 +1,4 @@
-package controller;
+package domein;
 
 import java.util.Collection;
 import java.util.Map;
@@ -26,8 +26,4 @@ public interface ModelBedrijf {
 	public abstract void sluitVestiging(String plaats);
 
 	public abstract void openVestiging(String plaats);
-
-	public abstract Map<String, Integer> getVestigingenMap();
-
-	public abstract Boolean isVestigingOpen(String plaatsnaam);
 }

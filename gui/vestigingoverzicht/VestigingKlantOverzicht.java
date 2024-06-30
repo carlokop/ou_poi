@@ -17,7 +17,7 @@ import observer.Subject;
 /**
  * Klantenoverzicht component
  */
-public class VestigingKlantOverzicht extends JPanel implements Observer{
+public class VestigingKlantOverzicht extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	Collection<String> klantData;
@@ -69,19 +69,12 @@ public class VestigingKlantOverzicht extends JPanel implements Observer{
 		this.add(vestigingKlantOverzicht, BorderLayout.CENTER);
 	}
 
-	public void updateKlantTable(Collection<String> klantData){
-		Iterator<String> kIt = klantData.iterator();
+	public void updateKlantTable(Collection<String> newKlantData){
+		Iterator<String> kIt = newKlantData.iterator();
 		tableModel.setRowCount(0);
-		for(int i=0;i<klantData.size();i++) {
+		for(int i=0;i<newKlantData.size();i++) {
 			tableModel.addRow(new String[]{String.valueOf(i), kIt.next()});
 		}
-	}
-
-	@Override
-	public void update(Subject s, Object arg) {
-		// Hoeft geen typecheck uit te voeren, kan slechts op 1 manier momenteel
-		Collection<String> newKlantData = (Collection<String>) arg;
-		updateKlantTable(newKlantData);
 		labelKlantAantal.setText("Klantaantal: " + newKlantData.size());
 	}
 }

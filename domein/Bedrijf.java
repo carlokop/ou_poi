@@ -8,7 +8,6 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.Map.Entry;
 
-import controller.ModelBedrijf;
 import data.Mapper;
 import exceptions.PoiException;
 import exceptions.PoiExceptionCode;
@@ -107,6 +106,44 @@ public class Bedrijf extends Subject implements ModelBedrijf {
         return vestigingKlantenData;
     }
 	
+	/**
+	 * Methode werkt vestiging checklist bij, de aanroep naar vestiging werkt de
+	 * klantenchecklist bij.
+	 */
+	@Override
+	public void sluitVestiging(String plaats) {
+		Vestiging geslotenVestiging = Vestiging.select(plaats, vestigingenCrrnt);
+		
+		// Zet status vestiging op gesloten
+		vestigingenChecklist.replace(geslotenVestiging, false);
+
+		// Compileer lijst van open vestigingen waarmee gerekend wordt
+		Collection<Vestiging> openVestigingen = new ArrayList<Vestiging>();
+		Set<Entry<Vestiging, Boolean>> cleSet = vestigingenChecklist.entrySet();
+		for (Entry<Vestiging, Boolean> cle : cleSet) {
+			if (cle.getValue()) {
+				openVestigingen.add(cle.getKey());
+			}
+		}
+
+		Vestiging.migratieSluitenVestiging(geslotenVestiging, openVestigingen, klantenChecklist);
+		notifyObservers();
+	}
+	
+	/**
+	 * Methode werkt vestiging checklist bij, de aanroep naar vestiging werkt de
+	 * klantenchecklist bij.
+	 */
+	@Override
+	public void openVestiging(String plaats) {
+		Vestiging geopendeVestiging = Vestiging.select(plaats, vestigingenCrrnt);
+
+		// Zet status vestiging op open
+		vestigingenChecklist.replace(geopendeVestiging, true);
+		Vestiging.migratieOpenenVestiging(geopendeVestiging, Bedrijf.vestigingenSnapshot, klantenChecklist);
+		notifyObservers();
+	}
+	
 	public Collection<Vestiging> getVestigingen(){
 		return this.vestigingenCrrnt;
 	}
@@ -146,44 +183,6 @@ public class Bedrijf extends Subject implements ModelBedrijf {
 
 	public Boolean isVestigingOpen(String plaatsnaam){
 		return this.vestigingenChecklist.get(Vestiging.select(plaatsnaam, vestigingenCrrnt));
-	}
-	
-	/**
-	 * Methode werkt vestiging checklist bij, de aanroep naar vestiging werkt de
-	 * klantenchecklist bij.
-	 */
-	@Override
-	public void sluitVestiging(String plaats) {
-		Vestiging geslotenVestiging = Vestiging.select(plaats, vestigingenCrrnt);
-		
-		// Zet status vestiging op gesloten
-		vestigingenChecklist.replace(geslotenVestiging, false);
-
-		// Compileer lijst van open vestigingen waarmee gerekend wordt
-		Collection<Vestiging> openVestigingen = new ArrayList<Vestiging>();
-		Set<Entry<Vestiging, Boolean>> cleSet = vestigingenChecklist.entrySet();
-		for (Entry<Vestiging, Boolean> cle : cleSet) {
-			if (cle.getValue()) {
-				openVestigingen.add(cle.getKey());
-			}
-		}
-
-		Vestiging.migratieSluitenVestiging(geslotenVestiging, openVestigingen, klantenChecklist);
-		notifyObservers();
-	}
-	
-	/**
-	 * Methode werkt vestiging checklist bij, de aanroep naar vestiging werkt de
-	 * klantenchecklist bij.
-	 */
-	@Override
-	public void openVestiging(String plaats) {
-		Vestiging geopendeVestiging = Vestiging.select(plaats, vestigingenCrrnt);
-
-		// Zet status vestiging op open
-		vestigingenChecklist.replace(geopendeVestiging, true);
-		Vestiging.migratieOpenenVestiging(geopendeVestiging, Bedrijf.vestigingenSnapshot, klantenChecklist);
-		notifyObservers();
 	}
 	
 	/**
