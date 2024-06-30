@@ -11,11 +11,8 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 
-import controller.Controller;
 import gui.simulatie.Visualizer;
 import gui.vestigingoverzicht.VestigingOverzicht;
-import observer.Observer;
-import observer.Subject;
 
 /**
  * Standaardframe van de Grafische userinterface

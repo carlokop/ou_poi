@@ -4,18 +4,15 @@ import java.util.Collection;
 import java.util.Map;
 
 import domein.Bedrijf;
+import domein.ModelBedrijf;
 
 /**
  * Controller regelt communicatie tussen de GUI en de domeinlaag
  */
-public class Controller {
+public class Controller implements ModelBedrijf {
 
 	private Bedrijf b;
 
-	/**
-	 * 
-	 * @param b
-	 */
 	public Controller(Bedrijf b) {
 		this.b = b;
 	}
@@ -60,6 +57,4 @@ public class Controller {
 	public Boolean isVestigingOpen(String plaatsnaam) {
 		return b.isVestigingOpen(plaatsnaam);
 	}
-
-	
 }
