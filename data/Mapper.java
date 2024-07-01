@@ -176,7 +176,6 @@ public class Mapper {
 				//voorkom dubbele klanten in dezelfde vestiging
 				Klant nieuweKlant = new Klant(result.getInt("KLANTNR"), pciCache);
 
-	            // Controleer of de klant al bestaat
 	            boolean klantBestaat = false;
 	            for (Klant klant : vestigingCache.getKlanten()) {
 	                if (klant.equals(nieuweKlant)) {
