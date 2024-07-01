@@ -66,6 +66,10 @@ public class VestigingKlantOverzicht extends JPanel {
 		this.add(vestigingKlantOverzicht, BorderLayout.CENTER);
 	}
 
+	/**
+	 * updates de klanten tabel met een nieuwe klanten tabel
+	 * @param newKlantData de nieuwe klantentabel
+	 */
 	public void updateKlantTable(Collection<String> newKlantData){
 		Iterator<String> kIt = newKlantData.iterator();
 		tableModel.setRowCount(0);

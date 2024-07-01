@@ -87,6 +87,9 @@ public class VestigingOverzicht extends JPanel implements Observer {
 	 * rapport van klanten van de gekozen vestiging
 	 */
 	public class toonVestigingKlantenListener implements ActionListener {
+	    /**
+	     * eventlistener naar acties op de vestiging button
+	     */
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			JButton selectedButton = (JButton) e.getSource();
@@ -107,6 +110,9 @@ public class VestigingOverzicht extends JPanel implements Observer {
 		}
 	}
 
+	/**
+	 * updates dit object als er wijzigingen in de observer zijn
+	 */
 	@Override
 	public void update(Subject s, Object arg) {
 		VestigingKlantOverzicht crrntOverzicht;

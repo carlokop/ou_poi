@@ -13,6 +13,10 @@ public class Controller implements ModelBedrijf {
 
 	private Bedrijf b;
 
+	/**
+	 * Instantieert de controller
+	 * @param b  een bedrijf
+	 */
 	public Controller(Bedrijf b) {
 		this.b = b;
 	}
@@ -38,11 +42,19 @@ public class Controller implements ModelBedrijf {
 		return b.getVestigingKlanten(plaats);
 	}
 
+	/**
+	 * Open een vestiging
+	 * @param plaats  vestiging plaats
+	 */
 	@Override
 	public void openVestiging(String plaats) {
 		b.openVestiging(plaats);
 	}
 
+	/**
+	 * sluit vestiging
+	 * @param plaats de vestiging
+	 */
 	@Override
 	public void sluitVestiging(String plaats) {
 		b.sluitVestiging(plaats);
@@ -58,6 +70,11 @@ public class Controller implements ModelBedrijf {
 		return b.getVestigingenMap();
 	}
 
+	/**
+	 * geeft aan of een vestiging open is
+	 * @param plaatsnaam vestiging plaats
+	 * @return true als de vestiging open is
+	 */
 	public Boolean isVestigingOpen(String plaatsnaam) {
 		return b.isVestigingOpen(plaatsnaam);
 	}

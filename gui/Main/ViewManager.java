@@ -34,7 +34,8 @@ public class ViewManager extends JFrame {
 
 	/**
 	 * Initialiseert en stelt de contentpane in
-	 * @param fc facade controller
+	 * @param vestigingOverzicht   het panel met vestigingoverzicht
+	 * @param visualizer           het frame met de visualizer
 	 */
 	public ViewManager(VestigingOverzicht vestigingOverzicht, Visualizer visualizer) {
 		super();
@@ -89,6 +90,9 @@ public class ViewManager extends JFrame {
 	 * Handler voor tonen van kiesvestiging taak
 	 */
 	class VestigingenInzageMenuItemLuisteraar implements ActionListener {
+	    /**
+	     * regelt het tonen van het vestigingenoverzicht
+	     */
 		@Override
 		public void actionPerformed(ActionEvent e) {
 		    stopInzage();
@@ -103,6 +107,9 @@ public class ViewManager extends JFrame {
 	 * Zorgt dat het frame voor het simuleren om vestigingen te sluiten en heropenen getoond wordt
 	 */
 	class VestigingenSimulatieMenuItemLuisteraar implements ActionListener {
+	    /**
+	     * maakt de visualizer actief 
+	     */
 		@Override
 		public void actionPerformed(ActionEvent e) {
 		  visualizer.setVisible(true);
@@ -113,6 +120,9 @@ public class ViewManager extends JFrame {
 	 * Handler voor de sluit rapport knop
 	 */
 	class stopInzageListener implements ActionListener {
+	    /**
+	     * sluit de het scherm binnen deze gui 
+	     */
 		@Override
 		public void actionPerformed(ActionEvent e) {
 		  stopInzage();

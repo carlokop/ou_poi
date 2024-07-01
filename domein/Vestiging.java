@@ -128,6 +128,7 @@ public class Vestiging {
 	 *
 	 * @param geslotenVestiging Vestiging die aangemerkt wordt voor sluiting
 	 * @param openVestigingen	Open vestigingen waar klanten naar toe kunnen, kan leeg zijn.
+	 * @param klantenChecklist Hulplijst voor versnelde migratie
 	 */
 	public static void migratieSluitenVestiging(
 			Vestiging geslotenVestiging,
@@ -189,8 +190,7 @@ public class Vestiging {
 	 * oorspronkelijke klanten van deze vestiging weer terug naar deze vestiging."
 	 *
 	 * @param geopendeVestiging 		Vestiging aangemerkt voor opening
-	 * @param openVestigingen			Vestigingen die nog open zijn
-	 * @param vestigingenSnapshot	Oorspronkelijke lijst van vestigingen, versnelt selectie oorspronkelijke klanten
+	 * @param vestigingenSnapshot	    Oorspronkelijke lijst van vestigingen, versnelt selectie oorspronkelijke klanten
 	 * @param klantenChecklist			Hulplijst voor versnelde migratie
 	 */
 	public static void migratieOpenenVestiging(
@@ -249,15 +249,21 @@ public class Vestiging {
 		return null;
 	}
 
+	/**
+	 * berekend de afstand tussen tween postcodes 
+	 * @param pciA postcodeinfo a
+	 * @param pciB postcodeinfo b
+	 * @return de afstand
+	 */
 	public static double getAfstand(PostcodeInfo pciA, PostcodeInfo pciB) {
 		return Math.sqrt(Math.pow(pciA.getLat() - pciB.getLat(), 2) + Math.pow(pciA.getLng() - pciB.getLng(), 2));
 	}
 
 	/**
-	 *
-	 * @param k
-	 * @param vestigingKeuzes
-	 * @return
+	 * berekend de dichtsbijzijde vestiging voor een gegeven klant
+	 * @param k                    een klant
+	 * @param vestigingKeuzes      de lijst met vestigingen om te controleren
+	 * @return                     de dichtstbijzijnde vestiging
 	 */
 	public static Vestiging getKlantDichtsteVestiging(Klant k, Collection<Vestiging> vestigingKeuzes) {
 		double klantMinAfstand = PostcodeInfo.MAX_AFSTAND;
@@ -305,6 +311,10 @@ public class Vestiging {
 		return klanten;
 	}
 
+	/**
+	 * geeft lijst met klantnummers als strings
+	 * @return lijst met string klantnummers
+	 */
 	public Collection<String> getKlantenStrings() {
 		Collection<String> klantenStrings = new ArrayList<>();
 		for(Klant k:klanten) {
@@ -313,14 +323,25 @@ public class Vestiging {
 		return klantenStrings;
 	}
 
+	/**
+	 * voegt een klant toe
+	 * @param k  een klant
+	 */
 	public void addKlant(Klant k) {
 		this.klanten.add(k);
 	}
 
+	/**
+	 * verwijderd een klant
+	 * @param k de klant
+	 */
 	public void removeKlant(Klant k) {
 		this.klanten.remove(k);
 	}
 
+	/**
+	 * maakt klantenlijst helemaal leeg
+	 */
 	public void clearKlanten() {
 		this.klanten.clear();
 	}

@@ -88,6 +88,9 @@ public class Kladblok {
 
 	}
 
+	/**
+	 * voert test startup code uit
+	 */
 	public void taak5carlo() {
 //	  ViewManager gui = null;
 //	  try {

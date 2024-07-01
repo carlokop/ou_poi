@@ -45,7 +45,6 @@ public class Visualizer extends JFrame implements Observer {
 	/**
 	 * Creeert een visualizer (staafdiagram) op grond van een map
 	 *
-	 * @param map de map
 	 * @param contr de controller
 	 */
 	public Visualizer(Controller contr) {
@@ -55,6 +54,9 @@ public class Visualizer extends JFrame implements Observer {
 		drawBars(contr.getVestigingenMap());
 	}
 
+	/**
+	 * inits de visualizer
+	 */
 	private void initialize() {
 		pane = this.getContentPane();
 		pane.setBounds(MARGIN, MARGIN, WIDTH_PANE, HEIGHT_PANE);
@@ -96,6 +98,14 @@ public class Visualizer extends JFrame implements Observer {
 		this.revalidate();
 	}
 
+	/**
+	 * tekend de bar op het scherm
+	 * @param key          de naam
+	 * @param value        de nummerieke waarde
+	 * @param x_pos        x pos op het scherm
+	 * @param verticalScaleFactor  schalingsfactor
+	 * @param width_bar    breedte van de bar
+	 */
 	private void createBar(String key, int value, int x_pos, double verticalScaleFactor, int width_bar) {
 		Bar bar;
 		if (value == 0) {
@@ -129,7 +139,14 @@ public class Visualizer extends JFrame implements Observer {
 		return max;
 	}
 
+	/**
+	 * luistert naar events
+	 */
 	class BarLuisteraar extends MouseAdapter {
+	    /**
+	     * luisterd naar muisklikken op de bar
+	     * @param e het muisevent
+	     */
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			Bar bar = (Bar) e.getSource();
@@ -159,6 +176,9 @@ public class Visualizer extends JFrame implements Observer {
 		}
 	}
 
+	/**
+	 * updates de visualizer op als er wijzigingen zijn in de observer
+	 */
 	@Override
 	public void update(Subject s, Object arg) {
 		drawBars(contr.getVestigingenMap());

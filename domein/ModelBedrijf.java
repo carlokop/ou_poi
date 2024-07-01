@@ -22,7 +22,15 @@ public interface ModelBedrijf {
 	 */
 	public Collection<String> getVestigingKlanten(String plaats);
 
+	/**
+	 * sluit een vestiging
+	 * @param plaats plaatsnaam van de vestiging
+	 */
 	public abstract void sluitVestiging(String plaats);
 
+	/**
+	 * opend een vestiging
+	 * @param plaats plaatsnaam van de vestiging
+	 */
 	public abstract void openVestiging(String plaats);
 }

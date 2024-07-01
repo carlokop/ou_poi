@@ -15,7 +15,6 @@ import observer.Subject;
 
 /**
  * Deze klasse stelt het bedrijf voor
- * Bedrijf is een singleton
  * Beheert vervolgens alle vestigingen en regelt de communocatie met de mapper
  */
 public class Bedrijf extends Subject implements ModelBedrijf {
@@ -23,10 +22,15 @@ public class Bedrijf extends Subject implements ModelBedrijf {
 	private Collection<Vestiging> vestigingenCrrnt;
 	private static Mapper m;
 
-	// houdt bij of een vestiging open is; true voor open, false voor dicht. Deze lijst moet alle instanties behouden
-		private Map<Vestiging, Boolean> vestigingenChecklist;
-		// houdt de oorspronkelijke vestiging(en) bij en de huidige
-		private Map<String, Entry<Collection<Vestiging>, Collection<Vestiging>>> klantenChecklist;
+	/**
+	 * houdt bij of een vestiging open is; true voor open, false voor dicht. Deze lijst moet alle instanties behouden
+	 */
+	private Map<Vestiging, Boolean> vestigingenChecklist;
+	
+	/**
+	 *  houdt de oorspronkelijke vestiging(en) bij en de huidige
+	 */
+	private Map<String, Entry<Collection<Vestiging>, Collection<Vestiging>>> klantenChecklist;
 
 	/**
 	 * Initialiseert een bedrijf
@@ -38,11 +42,17 @@ public class Bedrijf extends Subject implements ModelBedrijf {
 			Bedrijf.m = new Mapper();
 			Bedrijf.vestigingenSnapshot = m.getVestigingen();
 		}
+		//startSimulatie
 		vestigingenCrrnt = Bedrijf.getDeepCopy();
 		setupKlantenChecklist();
 		setupVestigingenChecklist();
 	}
 
+	/**
+	 * Maakt een diepe kloon van alle vestigingen 
+	 * @return een lijst met kopien van alle vestigingen
+	 * @throws PoiException geeft een fout als er fouten blijken bij creatie
+	 */
 	public static Collection<Vestiging> getDeepCopy() throws PoiException{
         //return m.getVestigingen();
         Collection<Vestiging> copyvestigingen = new ArrayList<>();
@@ -53,17 +63,16 @@ public class Bedrijf extends Subject implements ModelBedrijf {
         return copyvestigingen;
     }
 
+	/**
+	 * Valideert of het vestigingsnapshot niet null is
+	 * @throws PoiException exceptie als vestigingsnapshot null is
+	 */
 	public static void validate() throws PoiException {
 		if (Bedrijf.vestigingenSnapshot == null) {
 			throw new PoiException(PoiExceptionCode.BEDRIJF_VESTIGINGEN_SNAPSHOT_NULL, null);
 		}
 	}
 
-	//TODO: ZIE MAIN COMMENTAAR
-//	public Bedrijf(Mapper m) throws PoiException {
-//		Bedrijf.m = m;
-//		Bedrijf.vestigingenSnapshot = m.getVestigingen();
-//	}
 
 	/**
 	 * Haalt een lijst van de locatienamen op van vestigingen
@@ -144,10 +153,17 @@ public class Bedrijf extends Subject implements ModelBedrijf {
 		notifyObservers();
 	}
 
+	/**
+	 * geeft de lijst met vestigingen 
+	 * @return de lijst met vestigingen
+	 */
 	public Collection<Vestiging> getVestigingen(){
 		return this.vestigingenCrrnt;
 	}
 
+	/**
+	 * maakt klanten checklist
+	 */
 	public void setupKlantenChecklist() {
 		klantenChecklist = new HashMap<>();
 		Entry<Collection<Vestiging>, Collection<Vestiging>> klantEntry;
@@ -166,10 +182,17 @@ public class Bedrijf extends Subject implements ModelBedrijf {
 		}
 	}
 
+	/**
+	 * geeft klantenchecklist
+	 * @return de klantenchecklist
+	 */
 	public Map<String, Entry<Collection<Vestiging>, Collection<Vestiging>>> getKlantenChecklist() {
 		return this.klantenChecklist;
 	}
 
+	/**
+	 * maakt vestigingchecklist
+	 */
 	public void setupVestigingenChecklist() {
 		vestigingenChecklist = new HashMap<>();
 		for (Vestiging v : vestigingenCrrnt) {
@@ -177,10 +200,19 @@ public class Bedrijf extends Subject implements ModelBedrijf {
 		}
 	}
 
+	/**
+	 * geeft vestiging checklist. dit bestaat uit een vestiging en bool waarde of deze open is
+	 * @return vestigingchecklist
+	 */
 	public Map<Vestiging, Boolean> getVestigingenChecklist() {
 		return this.vestigingenChecklist;
 	}
 
+	/**
+	 * geeft bool waarde weer of een vestiging open is
+	 * @param plaatsnaam de plaats van de vestiging
+	 * @return true als de vestiging open is
+	 */
 	public Boolean isVestigingOpen(String plaatsnaam){
 		return this.vestigingenChecklist.get(Vestiging.select(plaatsnaam, vestigingenCrrnt));
 	}

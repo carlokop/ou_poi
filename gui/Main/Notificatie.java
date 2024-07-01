@@ -11,6 +11,9 @@ import javax.swing.JDialog;
 import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 
+/**
+ * laat een notificatie zien aan de gebruiker
+ */
 public class Notificatie extends JDialog {
 
 	private static final long serialVersionUID = 1L;
