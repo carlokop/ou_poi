@@ -161,7 +161,7 @@ public class Mapper {
 						result.getDouble("LNG"));
 				vestigingen.add(new Vestiging(result.getString("PLAATS"),
 								pciCache,
-								new Treeset<>()));  //dit zorgt voor een fout
+								new ArrayList<>()));  
 			}
 
 			result = (FBResultSet) getKlantenV.executeQuery();
@@ -172,16 +172,36 @@ public class Mapper {
 						result.getString("KLANTPLAATS"),
 						result.getDouble("KLANTLAT"),
 						result.getDouble("KLANTLNG"));
-				klantCollectionCache = vestigingCache.getKlanten();
-				klantCollectionCache.add(
-						new Klant(result.getInt("KLANTNR"),
-						pciCache));
+				
+				//voorkom dubbele klanten in dezelfde vestiging
+				Klant nieuweKlant = new Klant(result.getInt("KLANTNR"), pciCache);
+
+	            // Controleer of de klant al bestaat
+	            boolean klantBestaat = false;
+	            for (Klant klant : vestigingCache.getKlanten()) {
+	                if (klant.equals(nieuweKlant)) {
+	                    klantBestaat = true;
+	                    break;
+	                }
+	            }
+
+	            // Voeg de klant toe als deze nog niet bestaat
+	            if (!klantBestaat) {
+	                vestigingCache.getKlanten().add(nieuweKlant);
+	            }
+				
+				
+//				klantCollectionCache = vestigingCache.getKlanten();
+//				klantCollectionCache.add(
+//						new Klant(result.getInt("KLANTNR"),
+//						pciCache));
 			}
 		} catch (SQLException e) {
 			throw new PoiException(PoiExceptionCode.MAPPER_DATA_BUILD_ERR, e.getMessage());
 		} catch (PoiException e) {
 			throw new PoiException(PoiExceptionCode.MAPPER_DATA_BUILD_ERR, e.getMessage());
 		}
+	
 		return vestigingen;
 	}
 
