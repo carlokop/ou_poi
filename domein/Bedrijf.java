@@ -1,8 +1,8 @@
 package domein;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -18,8 +18,8 @@ import observer.Subject;
  * Beheert vervolgens alle vestigingen en regelt de communocatie met de mapper
  */
 public class Bedrijf extends Subject implements ModelBedrijf {
-	public static Collection<Vestiging> vestigingenSnapshot;
-	private Collection<Vestiging> vestigingenCrrnt;
+	public static List<Vestiging> vestigingenSnapshot;
+	private List<Vestiging> vestigingenCrrnt;
 	private static Mapper m;
 
 	/**
@@ -30,7 +30,7 @@ public class Bedrijf extends Subject implements ModelBedrijf {
 	/**
 	 *  houdt de oorspronkelijke vestiging(en) bij en de huidige
 	 */
-	private Map<String, Entry<Collection<Vestiging>, Collection<Vestiging>>> klantenChecklist;
+	private Map<String, Entry<List<Vestiging>, List<Vestiging>>> klantenChecklist;
 
 	/**
 	 * Initialiseert een bedrijf
@@ -53,9 +53,9 @@ public class Bedrijf extends Subject implements ModelBedrijf {
 	 * @return een lijst met kopien van alle vestigingen
 	 * @throws PoiException geeft een fout als er fouten blijken bij creatie
 	 */
-	public static Collection<Vestiging> getDeepCopy() throws PoiException{
+	public static List<Vestiging> getDeepCopy() throws PoiException{
         //return m.getVestigingen();
-        Collection<Vestiging> copyvestigingen = new ArrayList<>();
+        List<Vestiging> copyvestigingen = new ArrayList<>();
 
         for(Vestiging v:Bedrijf.vestigingenSnapshot) {
           copyvestigingen.add(Vestiging.copy(v));
@@ -79,8 +79,8 @@ public class Bedrijf extends Subject implements ModelBedrijf {
 	 * @return lijst van vestiginglocaties als string
 	 */
 	@Override
-    public Collection<String> getVestigingPlaatsen(){
-        Collection<String> lijstPlaatsenNamen = new ArrayList<>();
+    public List<String> getVestigingPlaatsen(){
+        List<String> lijstPlaatsenNamen = new ArrayList<>();
 
         // lvp, lijst vestiging plaatsen
         for(Vestiging v: vestigingenCrrnt) {
@@ -95,8 +95,8 @@ public class Bedrijf extends Subject implements ModelBedrijf {
 	 * @return lijst van id's als string
 	 */
 	@Override
-    public Collection<String> getVestigingKlanten(String plaats) {
-        Collection<String> vestigingKlantenData = null;
+    public List<String> getVestigingKlanten(String plaats) {
+        List<String> vestigingKlantenData = null;
         Vestiging vestigingSelectie = null;
 
         // select from collection vestigingen
@@ -127,7 +127,7 @@ public class Bedrijf extends Subject implements ModelBedrijf {
 		vestigingenChecklist.replace(geslotenVestiging, false);
 
 		// Compileer lijst van open vestigingen waarmee gerekend wordt
-		Collection<Vestiging> openVestigingen = new ArrayList<>();
+		List<Vestiging> openVestigingen = new ArrayList<>();
 		Set<Entry<Vestiging, Boolean>> cleSet = vestigingenChecklist.entrySet();
 		for (Entry<Vestiging, Boolean> cle : cleSet) {
 			if (cle.getValue()) {
@@ -157,7 +157,7 @@ public class Bedrijf extends Subject implements ModelBedrijf {
 	 * geeft de lijst met vestigingen 
 	 * @return de lijst met vestigingen
 	 */
-	public Collection<Vestiging> getVestigingen(){
+	public List<Vestiging> getVestigingen(){
 		return this.vestigingenCrrnt;
 	}
 
@@ -166,9 +166,9 @@ public class Bedrijf extends Subject implements ModelBedrijf {
 	 */
 	public void setupKlantenChecklist() {
 		klantenChecklist = new HashMap<>();
-		Entry<Collection<Vestiging>, Collection<Vestiging>> klantEntry;
+		Entry<List<Vestiging>, List<Vestiging>> klantEntry;
 
-		Collection<String> klanten;
+		List<String> klanten;
 		for (Vestiging v : vestigingenCrrnt) {
 			klanten = v.getKlantenStrings();
 			for (String k : klanten) {
@@ -186,7 +186,7 @@ public class Bedrijf extends Subject implements ModelBedrijf {
 	 * geeft klantenchecklist
 	 * @return de klantenchecklist
 	 */
-	public Map<String, Entry<Collection<Vestiging>, Collection<Vestiging>>> getKlantenChecklist() {
+	public Map<String, Entry<List<Vestiging>, List<Vestiging>>> getKlantenChecklist() {
 		return this.klantenChecklist;
 	}
 

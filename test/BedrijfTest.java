@@ -5,7 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import java.util.Collection;
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -38,8 +38,8 @@ class BedrijfTest {
    */
   @Test
   void happy() {
-      Collection<String> plaatsnamen = b.getVestigingPlaatsen();
-      Collection<String> klanten;
+      List<String> plaatsnamen = b.getVestigingPlaatsen();
+      List<String> klanten;
       // test of er 12 plaatsnamen zijn
       assertEquals(12, plaatsnamen.size());
 
@@ -56,7 +56,7 @@ class BedrijfTest {
    */
   @Test
   void foutieveInvoer() {
-      Collection<String> klanten;
+      List<String> klanten;
       klanten = b.getVestigingKlanten("Disneyland");
       assertNull(klanten);
   }

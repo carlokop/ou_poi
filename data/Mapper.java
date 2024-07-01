@@ -6,7 +6,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import java.util.TreeSet;
 
 import org.firebirdsql.jdbc.FBResultSet;
@@ -144,10 +144,10 @@ public class Mapper {
      @   @signals PoiException("Fout bij het maken van domeinobjecten")
      @ }
      */
-	public Collection<Vestiging> getVestigingen() throws PoiException {
-		Collection<Vestiging> vestigingen = new ArrayList<>();
+	public List<Vestiging> getVestigingen() throws PoiException {
+		List<Vestiging> vestigingen = new ArrayList<>();
 		Vestiging vestigingCache;
-		Collection<Klant> klantCollectionCache;
+		List<Klant> klantCollectionCache;
 		PostcodeInfo pciCache;
 		FBResultSet result;
 
@@ -161,7 +161,7 @@ public class Mapper {
 						result.getDouble("LNG"));
 				vestigingen.add(new Vestiging(result.getString("PLAATS"),
 								pciCache,
-								new TreeSet<>()));
+								new Treeset<>()));  //dit zorgt voor een fout
 			}
 
 			result = (FBResultSet) getKlantenV.executeQuery();
@@ -193,7 +193,7 @@ public class Mapper {
 	 * @return gevonden vestiging
 	 * @throws PoiException Als de vestiging niet in de verzameling zit
 	 */
-	private Vestiging selectVestiging(Collection<Vestiging> vestigingen, String vSelect) throws PoiException {
+	private Vestiging selectVestiging(List<Vestiging> vestigingen, String vSelect) throws PoiException {
 		for (Vestiging vi : vestigingen) {
 			if (vi.getPlaats().equalsIgnoreCase(vSelect)) {
 				return vi;
@@ -201,6 +201,7 @@ public class Mapper {
 		}
 		throw new PoiException(PoiExceptionCode.MAPPER_DATA_BUILD_ERR, "Vestiging niet gevonden");
 	}
+
 
 
 }

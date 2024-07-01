@@ -7,7 +7,6 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -26,7 +25,7 @@ public class VestigingOverzicht extends JPanel implements Observer {
 	private static final long serialVersionUID = 1L;
 	private Controller fc;
 	private HashMap<String, VestigingKlantOverzicht> vestigingKlantOverzichtLijst;
-	Collection<String> vestigingPlaatsNamen;
+	List<String> vestigingPlaatsNamen;
 	private List<JButton> VestigingLijst = new ArrayList<>();
 
 	/**
@@ -45,7 +44,7 @@ public class VestigingOverzicht extends JPanel implements Observer {
 	 * van en voegt deze toe aan het component aan de linkerkant
 	 */
 	public void init() {
-		Collection<String> vestigingKlantData;
+		List<String> vestigingKlantData;
 		this.vestigingKlantOverzichtLijst = new HashMap<>();
 		JPanel jpVestigingLijst = new JPanel();
 		jpVestigingLijst.setLayout(new GridLayout(0, 1));
@@ -116,7 +115,7 @@ public class VestigingOverzicht extends JPanel implements Observer {
 	@Override
 	public void update(Subject s, Object arg) {
 		VestigingKlantOverzicht crrntOverzicht;
-		Collection<String> vestigingKlantData;
+		List<String> vestigingKlantData;
 		for(String vestigingNaam: vestigingPlaatsNamen) {
 			vestigingKlantData = fc.getVestigingKlanten(vestigingNaam);
 			crrntOverzicht = vestigingKlantOverzichtLijst.get(vestigingNaam);

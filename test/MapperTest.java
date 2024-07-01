@@ -7,8 +7,8 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -50,8 +50,8 @@ public class MapperTest {
     @Test
     public void testCorrecteSortering() {
       try {
-        	Collection<Vestiging> vestigingen = m.getVestigingen();
-        	Collection<Klant> vestigingKlanten = null;
+        	List<Vestiging> vestigingen = m.getVestigingen();
+        	List<Klant> vestigingKlanten = null;
         	Iterator<Klant> vkIt;
         	Klant prevK, crrntK;
 
@@ -85,12 +85,12 @@ public class MapperTest {
     @Test
     public void getVestigingen() {
       try {
-    	Collection<Vestiging> vestigingen = m.getVestigingen();
+    	List<Vestiging> vestigingen = m.getVestigingen();
     	assertEquals(12,vestigingen.size());
 
     	//alle vestigingen bevatten klanten
     	for(Vestiging v: vestigingen) {
-    	  Collection<Klant> klanten = v.getKlanten();
+    	  List<Klant> klanten = v.getKlanten();
     	  assertTrue(klanten.size() > 0);
     	}
 

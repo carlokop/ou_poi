@@ -2,8 +2,8 @@ package gui.vestigingoverzicht;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
-import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -17,7 +17,7 @@ import javax.swing.table.DefaultTableModel;
 public class VestigingKlantOverzicht extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	Collection<String> klantData;
+	List<String> klantData;
 
 	String[] COLUMN_NAMES = {"Rij", "Klantnr"};
 
@@ -30,7 +30,7 @@ public class VestigingKlantOverzicht extends JPanel {
 	 * Initialiseert een overzicht met klantdata
 	 * @param klantData lijst met klant id's
 	 */
-	VestigingKlantOverzicht(Collection<String> klantData){
+	VestigingKlantOverzicht(List<String> klantData){
 		this.setLayout(new BorderLayout());
 		this.klantData = klantData;
 		createOverview();
@@ -70,7 +70,7 @@ public class VestigingKlantOverzicht extends JPanel {
 	 * updates de klanten tabel met een nieuwe klanten tabel
 	 * @param newKlantData de nieuwe klantentabel
 	 */
-	public void updateKlantTable(Collection<String> newKlantData){
+	public void updateKlantTable(List<String> newKlantData){
 		Iterator<String> kIt = newKlantData.iterator();
 		tableModel.setRowCount(0);
 		for(int i=0;i<newKlantData.size();i++) {

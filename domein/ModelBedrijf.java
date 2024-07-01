@@ -1,6 +1,6 @@
 package domein;
 
-import java.util.Collection;
+import java.util.List;
 
 /**
  * Markeer interface
@@ -12,7 +12,7 @@ public interface ModelBedrijf {
 	 *
 	 * @return lijst met plaatsnamen
 	 */
-	public Collection<String> getVestigingPlaatsen();
+	public List<String> getVestigingPlaatsen();
 
 	/**
 	 * Geeft de klanten voor de opgegeven vestiging
@@ -20,7 +20,7 @@ public interface ModelBedrijf {
 	 * @param plaats vestiging plaatsnaam
 	 * @return lijst met klant id's
 	 */
-	public Collection<String> getVestigingKlanten(String plaats);
+	public List<String> getVestigingKlanten(String plaats);
 
 	/**
 	 * sluit een vestiging

@@ -9,7 +9,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -30,7 +29,7 @@ import exceptions.PoiExceptionCode;
  */
 class VestigingTest {
 
-	private static Collection<Vestiging> testVestigingen;
+	private static List<Vestiging> testVestigingen;
 	private static Iterator<Vestiging> tvIterator;
 	private static Vestiging vestiging = null;
 	private static PostcodeInfo postcode = null;
@@ -137,7 +136,7 @@ class VestigingTest {
 			testVestigingen.remove(vestiging); // lijst met open vestigingen
 
 			// Haal lijst met klanten op van de te sluiten vestiging
-			Collection<Klant> KlantenLijst = new ArrayList<>(vestiging.getKlanten());
+			List<Klant> KlantenLijst = new ArrayList<>(vestiging.getKlanten());
 
 			// Voer sluiting uit
 			System.out.println(vestiging.getPlaats());
@@ -179,15 +178,15 @@ class VestigingTest {
 			assert (testVestigingen.size() > 0);
 
 			tvIterator = testVestigingen.iterator();
-			Map<String, Entry<Collection<Vestiging>, Collection<Vestiging>>> kcl = bs.getKlantenChecklist();
+			Map<String, Entry<List<Vestiging>, List<Vestiging>>> kcl = bs.getKlantenChecklist();
 			String testKlant = null;
-			Entry<Collection<Vestiging>, Collection<Vestiging>> testKlantEntry = null;
+			Entry<List<Vestiging>, List<Vestiging>> testKlantEntry = null;
 			Vestiging vestigingTeOpenen;
 
 			// Van alles gesloten naar 1 geopend
 
 			// Zoek naar testklant met 1 initiele vestiging
-			for (Entry<String, Entry<Collection<Vestiging>, Collection<Vestiging>>> kclEntry : kcl.entrySet()) {
+			for (Entry<String, Entry<List<Vestiging>, List<Vestiging>>> kclEntry : kcl.entrySet()) {
 				if (kclEntry.getValue().getKey().size() == 1) {
 					testKlant = kclEntry.getKey();
 					testKlantEntry = kclEntry.getValue();
@@ -238,7 +237,7 @@ class VestigingTest {
 			}
 
 			// Klant checklist
-			for (Entry<String, Entry<Collection<Vestiging>, Collection<Vestiging>>> kclEntry : kcl.entrySet()) {
+			for (Entry<String, Entry<List<Vestiging>, List<Vestiging>>> kclEntry : kcl.entrySet()) {
 				if (vOrigineel.getKlantenStrings().contains(kclEntry.getKey())) {
 					// originele klant
 					assertTrue(kclEntry.getValue().getKey().contains(vestigingTeOpenen)); // originele vestigingen bevat

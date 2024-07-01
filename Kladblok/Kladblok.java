@@ -3,7 +3,7 @@ package Kladblok;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.Collection;
+import java.util.List;
 
 import org.firebirdsql.jdbc.FBResultSet;
 
@@ -76,7 +76,7 @@ public class Kladblok {
      */
 	public void printVestigingen() {
 	  try {
-	    Collection<Vestiging> vestigingen = m.getVestigingen();
+	    List<Vestiging> vestigingen = m.getVestigingen();
 
 	    for(Vestiging v: vestigingen) {
 	      System.out.println(v.toString());

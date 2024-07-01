@@ -1,6 +1,5 @@
 package controller;
-
-import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import domein.Bedrijf;
@@ -27,7 +26,7 @@ public class Controller implements ModelBedrijf {
 	 * @return lijst met plaatsnamen
 	 */
 	@Override
-	public Collection<String> getVestigingPlaatsen() {
+	public List<String> getVestigingPlaatsen() {
 		return b.getVestigingPlaatsen();
 	}
 
@@ -38,7 +37,7 @@ public class Controller implements ModelBedrijf {
 	 * @return lijst met klant id's
 	 */
 	@Override
-	public Collection<String> getVestigingKlanten(String plaats) {
+	public List<String> getVestigingKlanten(String plaats) {
 		return b.getVestigingKlanten(plaats);
 	}
 

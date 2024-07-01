@@ -1,8 +1,8 @@
 package domein;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
@@ -17,7 +17,7 @@ import exceptions.PoiExceptionCode;
  */
 public class Vestiging {
 
-	private Collection<Klant> klanten;
+	private List<Klant> klanten;
 	private PostcodeInfo postcodeInfo;
 	private String plaats;
 
@@ -57,7 +57,7 @@ public class Vestiging {
 	 * @signals PoiException, PoiExceptionCode.KLANTENLIJST_NULL
 	 * }
 	 */
-	public Vestiging(String plaats, PostcodeInfo postcode, Collection<Klant> klanten) throws PoiException {
+	public Vestiging(String plaats, PostcodeInfo postcode, List<Klant> klanten) throws PoiException {
 		validate(plaats, postcode, klanten);
 		this.plaats = plaats;
 		this.postcodeInfo = postcode;
@@ -73,11 +73,11 @@ public class Vestiging {
 	public static Vestiging copy(Vestiging vestiging) throws PoiException {
 	  //originele objecten
 	  PostcodeInfo p = vestiging.getPostcodeInfo();
-	  Collection<Klant> klantenlijst = vestiging.getKlanten();
+	  List<Klant> klantenlijst = vestiging.getKlanten();
 
 	  //kopieen
 	  PostcodeInfo postcodeInfoCopy = p.copy(p);
-	  Collection<Klant> klantenlijstCopy = new ArrayList<>();
+	  List<Klant> klantenlijstCopy = new ArrayList<>();
 
 	  for(Klant k: klantenlijst) {
 	    //maak kopie klant
@@ -97,7 +97,7 @@ public class Vestiging {
 	 * @param klanten  klantenlijst (mag leeg zijn)
 	 * @throws PoiException als een ongeldige string is opgegeven
 	 */
-	public static void validate(String plaats, PostcodeInfo postcode, Collection<Klant> klanten) throws PoiException {
+	public static void validate(String plaats, PostcodeInfo postcode, List<Klant> klanten) throws PoiException {
 		// test plaats is niet null
 		if (plaats == null) {
 			throw new PoiException(PoiExceptionCode.PLAATSNAAM_NULL, plaats);
@@ -132,11 +132,11 @@ public class Vestiging {
 	 */
 	public static void migratieSluitenVestiging(
 			Vestiging geslotenVestiging,
-			Collection<Vestiging> openVestigingen,
-			Map<String, Entry<Collection<Vestiging>, Collection<Vestiging>>> klantenChecklist
+			List<Vestiging> openVestigingen,
+			Map<String, Entry<List<Vestiging>, List<Vestiging>>> klantenChecklist
 			) {
-		Collection<Klant> gvKlanten = geslotenVestiging.getKlanten();
-		Entry<Collection<Vestiging>, Collection<Vestiging>> klantEntry;
+		List<Klant> gvKlanten = geslotenVestiging.getKlanten();
+		Entry<List<Vestiging>, List<Vestiging>> klantEntry;
 		Vestiging dichtsteVestiging;
 
 		if(openVestigingen.size() == 0) {
@@ -195,14 +195,14 @@ public class Vestiging {
 	 */
 	public static void migratieOpenenVestiging(
 			Vestiging geopendeVestiging,
-			Collection<Vestiging> vestigingenSnapshot, // oorspronkelijke lijst uit non-simulatie
-			Map<String, Entry<Collection<Vestiging>, Collection<Vestiging>>> klantenChecklist
+			List<Vestiging> vestigingenSnapshot, // oorspronkelijke lijst uit non-simulatie
+			Map<String, Entry<List<Vestiging>, List<Vestiging>>> klantenChecklist
 			) {
 		Vestiging vOrigineel = Vestiging.select(geopendeVestiging.getPlaats(), vestigingenSnapshot);
-		Collection<Klant> kOrigineel = vOrigineel.getKlanten();
-		Entry<Collection<Vestiging>, Collection<Vestiging>> klantEntry;
-		Collection<Vestiging> klantHuidigeVestigingen, klantOrigineleVestigingen; // vestigingen die de klant nu bezoekt, oorspronkelijk bezocht
-		Collection<Vestiging> removeList;
+		List<Klant> kOrigineel = vOrigineel.getKlanten();
+		Entry<List<Vestiging>, List<Vestiging>> klantEntry;
+		List<Vestiging> klantHuidigeVestigingen, klantOrigineleVestigingen; // vestigingen die de klant nu bezoekt, oorspronkelijk bezocht
+		List<Vestiging> removeList;
 		Iterator<Vestiging> removeListIt;
 		Vestiging removeListVestiging;
 
@@ -240,7 +240,7 @@ public class Vestiging {
 	 * @param vestigingen	Lijst van instanties waarin een vestiging met zelfde plaatsnaam
 	 * @return 				Gevonden instantie met zelfde plaatsnaam
 	 */
-	public static Vestiging select(String vestKeuze, Collection<Vestiging> vestigingen) {
+	public static Vestiging select(String vestKeuze, List<Vestiging> vestigingen) {
 		for (Vestiging v : vestigingen) {
 			if (v.getPlaats().equals(vestKeuze) ) {
 				return v;
@@ -265,7 +265,7 @@ public class Vestiging {
 	 * @param vestigingKeuzes      de lijst met vestigingen om te controleren
 	 * @return                     de dichtstbijzijnde vestiging
 	 */
-	public static Vestiging getKlantDichtsteVestiging(Klant k, Collection<Vestiging> vestigingKeuzes) {
+	public static Vestiging getKlantDichtsteVestiging(Klant k, List<Vestiging> vestigingKeuzes) {
 		double klantMinAfstand = PostcodeInfo.MAX_AFSTAND;
 		PostcodeInfo klantPci = k.getPostcodeInfo();
 
@@ -307,7 +307,7 @@ public class Vestiging {
 	 *
 	 * @return collectie met klanten
 	 */
-	public Collection<Klant> getKlanten() {
+	public List<Klant> getKlanten() {
 		return klanten;
 	}
 
@@ -315,8 +315,8 @@ public class Vestiging {
 	 * geeft lijst met klantnummers als strings
 	 * @return lijst met string klantnummers
 	 */
-	public Collection<String> getKlantenStrings() {
-		Collection<String> klantenStrings = new ArrayList<>();
+	public List<String> getKlantenStrings() {
+		List<String> klantenStrings = new ArrayList<>();
 		for(Klant k:klanten) {
 			klantenStrings.add(k.toString());
 		}
