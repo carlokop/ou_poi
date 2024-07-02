@@ -41,7 +41,7 @@ public class Visualizer extends JFrame implements Observer {
 
 	// hulp parameter
 	int openVestigingen;
-
+	Map<String, Integer> vestDataMap;
 	/**
 	 * Creeert een visualizer (staafdiagram) op grond van een map
 	 *
@@ -51,7 +51,7 @@ public class Visualizer extends JFrame implements Observer {
 		super();
 		this.contr = contr;
 		initialize();
-		drawBars(contr.getVestigingenMap());
+		drawBars(vestDataMap);
 	}
 
 	/**
@@ -70,7 +70,8 @@ public class Visualizer extends JFrame implements Observer {
 		pane.setLayout(null);
 
 		// init hulp param
-		openVestigingen = contr.getVestigingenMap().size();
+		vestDataMap = contr.getVestigingenMap();
+		openVestigingen = vestDataMap.size();
 	}
 
 	/**

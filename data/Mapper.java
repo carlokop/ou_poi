@@ -7,7 +7,6 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.TreeSet;
 
 import org.firebirdsql.jdbc.FBResultSet;
 
@@ -34,7 +33,7 @@ public class Mapper {
 
 	private PreparedStatement getVestigingen = null;
 	private PreparedStatement getKlantenV = null;
-	private Connection con = null; // verbinding met gegevensbank
+	private Connection con = null; // verbinding met de db
 
 	/**
 	 * Initialiseert de mapper en zet een DB verbinding op

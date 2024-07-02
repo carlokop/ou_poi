@@ -77,7 +77,6 @@ public class VestigingOverzicht extends JPanel implements Observer {
 		if (cCache != null) {
 			VestigingOverzicht.this.remove(cCache);
 		}
-
 		VestigingOverzicht.this.add(vestigingKlantOverzichtLijst.get(plaats), BorderLayout.CENTER);
 	}
 
