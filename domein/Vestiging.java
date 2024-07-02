@@ -251,16 +251,6 @@ public class Vestiging {
 	}
 
 	/**
-	 * berekend de afstand tussen tween postcodes 
-	 * @param pciA postcodeinfo a
-	 * @param pciB postcodeinfo b
-	 * @return de afstand
-	 */
-	public static double getAfstand(PostcodeInfo pciA, PostcodeInfo pciB) {
-		return Math.sqrt(Math.pow(pciA.getLat() - pciB.getLat(), 2) + Math.pow(pciA.getLng() - pciB.getLng(), 2));
-	}
-
-	/**
 	 * berekend de dichtsbijzijde vestiging voor een gegeven klant
 	 * @param k                    een klant
 	 * @param vestigingKeuzes      de lijst met vestigingen om te controleren
@@ -276,7 +266,7 @@ public class Vestiging {
 
 		for (Vestiging v : vestigingKeuzes) {
 			vestigingPCI = v.getPostcodeInfo();
-			vestigingAfstand = getAfstand(klantPci, vestigingPCI);
+			vestigingAfstand = PostcodeInfo.getAfstand(klantPci, vestigingPCI);
 			if (klantMinAfstand > vestigingAfstand) {
 				klantMinAfstand = vestigingAfstand;
 				dichtsteVestiging = v;

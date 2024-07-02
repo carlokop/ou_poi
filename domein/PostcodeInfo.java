@@ -182,6 +182,16 @@ public class PostcodeInfo {
         }
     }
 
+    /**
+	 * Berekent de afstand tussen twee postcodes 
+	 * @param pciA postcodeinfo a
+	 * @param pciB postcodeinfo b
+	 * @return de afstand
+	 */
+    public static double getAfstand(PostcodeInfo pciA, PostcodeInfo pciB) {
+		return Math.sqrt(Math.pow(pciA.getLat() - pciB.getLat(), 2) + Math.pow(pciA.getLng() - pciB.getLng(), 2));
+	}
+    
 	/**
 	 * Geeft de postcode
 	 *
