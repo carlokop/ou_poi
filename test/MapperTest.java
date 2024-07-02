@@ -26,7 +26,7 @@ public class MapperTest {
 
 	private static Connection c;
 	private static Mapper m;
-	PoiException me;
+	//private PoiException me;
 
 	/**
 	 * Setup van de db connectie voor de test

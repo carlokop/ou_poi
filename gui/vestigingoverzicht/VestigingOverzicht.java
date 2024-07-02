@@ -25,7 +25,7 @@ public class VestigingOverzicht extends JPanel implements Observer {
 	private static final long serialVersionUID = 1L;
 	private Controller fc;
 	private HashMap<String, VestigingKlantOverzicht> vestigingKlantOverzichtLijst;
-	List<String> vestigingPlaatsNamen;
+	private List<String> vestigingPlaatsNamen;
 	private List<JButton> VestigingLijst = new ArrayList<>();
 
 	/**

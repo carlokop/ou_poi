@@ -14,9 +14,9 @@ import javax.swing.JMenuItem;
 public class Header extends JMenuBar {
 
 	private static final long serialVersionUID = 1L;
-	JMenu mainMenu;
-	JMenuItem jmiVestigingenInzage;
-	JMenuItem jmiVestigingenSimulatie;
+	private JMenu mainMenu;
+	private JMenuItem jmiVestigingenInzage;
+	private JMenuItem jmiVestigingenSimulatie;
 
 	/**
 	 * instantieert de header

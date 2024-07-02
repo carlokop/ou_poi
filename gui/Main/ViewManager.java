@@ -95,11 +95,7 @@ public class ViewManager extends JFrame {
 	     */
 		@Override
 		public void actionPerformed(ActionEvent e) {
-		    stopInzage();
-			pane.add(vestigingOverzicht, BorderLayout.WEST);
-			footer.setVisible(true);
-			ViewManager.this.pane.revalidate();
-			ViewManager.this.pane.repaint();
+		    startInzage();
 		}
 	}
 
@@ -112,7 +108,7 @@ public class ViewManager extends JFrame {
 	     */
 		@Override
 		public void actionPerformed(ActionEvent e) {
-		  visualizer.setVisible(true);
+		  startSimulatie();
 		}
 	}
 
@@ -127,6 +123,24 @@ public class ViewManager extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 		  stopInzage();
 		}
+	}
+	
+	/**
+	 * Start de inzage
+	 */
+	private void startInzage() {
+	  stopInzage();
+      pane.add(vestigingOverzicht, BorderLayout.WEST);
+      footer.setVisible(true);
+      ViewManager.this.pane.revalidate();
+      ViewManager.this.pane.repaint();
+	}
+	
+	/**
+	 * Start de simulatie en toont de visualizer
+	 */
+	private void startSimulatie() {
+	  visualizer.setVisible(true);
 	}
 
 	/***

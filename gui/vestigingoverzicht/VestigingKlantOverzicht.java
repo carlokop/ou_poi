@@ -17,14 +17,14 @@ import javax.swing.table.DefaultTableModel;
 public class VestigingKlantOverzicht extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	List<String> klantData;
+	private List<String> klantData;
 
-	String[] COLUMN_NAMES = {"Rij", "Klantnr"};
+	private String[] COLUMN_NAMES = {"Rij", "Klantnr"};
 
-	DefaultTableModel tableModel;
-	JTable klantTable;
-	JScrollPane vestigingKlantOverzicht;
-	JLabel labelKlantAantal;
+	private DefaultTableModel tableModel;
+	private JTable klantTable;
+	private JScrollPane vestigingKlantOverzicht;
+	private JLabel labelKlantAantal;
 
 	/**
 	 * Initialiseert een overzicht met klantdata
