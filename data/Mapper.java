@@ -150,7 +150,8 @@ public class Mapper {
 		List<Klant> klantCollectionCache;
 		PostcodeInfo pciCache;
 		FBResultSet result;
-
+		Klant nieuweKlant;
+		
 		try {
 			result = (FBResultSet) getVestigingen.executeQuery();
 			while (result.next()) {
@@ -172,28 +173,13 @@ public class Mapper {
 						result.getString("KLANTPLAATS"),
 						result.getDouble("KLANTLAT"),
 						result.getDouble("KLANTLNG"));
-				
+				klantCollectionCache = vestigingCache.getKlanten();
+
 				//voorkom dubbele klanten in dezelfde vestiging
-				Klant nieuweKlant = new Klant(result.getInt("KLANTNR"), pciCache);
-
-	            boolean klantBestaat = false;
-	            for (Klant klant : vestigingCache.getKlanten()) {
-	                if (klant.equals(nieuweKlant)) {
-	                    klantBestaat = true;
-	                    break;
-	                }
-	            }
-
-	            // Voeg de klant toe als deze nog niet bestaat
-	            if (!klantBestaat) {
-	                vestigingCache.getKlanten().add(nieuweKlant);
-	            }
-				
-				
-//				klantCollectionCache = vestigingCache.getKlanten();
-//				klantCollectionCache.add(
-//						new Klant(result.getInt("KLANTNR"),
-//						pciCache));
+				nieuweKlant = new Klant(result.getInt("KLANTNR"), pciCache);
+				if (!klantCollectionCache.contains(nieuweKlant)) {
+					klantCollectionCache.add(nieuweKlant);
+                }
 			}
 		} catch (SQLException e) {
 			throw new PoiException(PoiExceptionCode.MAPPER_DATA_BUILD_ERR, e.getMessage());
