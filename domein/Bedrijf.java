@@ -42,7 +42,6 @@ public class Bedrijf extends Subject implements ModelBedrijf {
 			Bedrijf.m = new Mapper();
 			Bedrijf.vestigingenSnapshot = m.getVestigingen();
 		}
-		//startSimulatie
 		vestigingenCrrnt = Bedrijf.getDeepCopy();
 		setupKlantenChecklist();
 		setupVestigingenChecklist();
