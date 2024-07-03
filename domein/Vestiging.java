@@ -204,8 +204,6 @@ public class Vestiging {
 		Entry<List<Vestiging>, List<Vestiging>> klantEntry;
 		List<Vestiging> klantHuidigeVestigingen, klantOrigineleVestigingen; // vestigingen die de klant nu bezoekt, oorspronkelijk bezocht
 		List<Vestiging> removeList;
-		Iterator<Vestiging> removeListIt;
-		Vestiging removeListVestiging;
 
 		// migreer klanten en werk gelijk checklist bij
 		for (Klant k : kOrigineel) {
@@ -225,11 +223,10 @@ public class Vestiging {
 					removeList.add(hv);
 				}
 			}
-			removeListIt = removeList.iterator();
-			while(removeListIt.hasNext()) {
-				removeListVestiging = removeListIt.next();
-				klantHuidigeVestigingen.remove(removeListVestiging);
-				removeListVestiging.removeKlant(k);
+			
+			for(Vestiging el: removeList) {
+				klantHuidigeVestigingen.remove(el);
+				el.removeKlant(k);
 			}
 		}
 	}
