@@ -166,16 +166,32 @@ public class Visualizer extends JFrame implements Observer {
 					}
 				}
 				openVestigingen--;
-				contr.sluitVestiging(bar.getName());
+				sluitVestiging(bar.getName());
 				System.out.println("Status voor opening:" + bar.getName() + ", " + bar.getLabelValue());
 			} else {
 				openVestigingen++;
-				contr.openVestiging(bar.getName());
+				openVestiging(bar.getName());
 				System.out.println("Status voor opening:" + bar.getName() + ", " + bar.getLabelValue());
 
 			}
 		}
 	}
+	
+	/**
+	 * sluit een vestiging
+	 * @param plaats plaatsnaam van de vestiging
+	 */
+	private void sluitVestiging(String plaats) {
+	  contr.sluitVestiging(plaats);
+	}
+	
+	/**
+     * open een vestiging
+     * @param plaats plaatsnaam van de vestiging
+     */
+    private void openVestiging(String plaats) {
+      contr.openVestiging(plaats);
+    }
 
 	/**
 	 * updates de visualizer op als er wijzigingen zijn in de observer
